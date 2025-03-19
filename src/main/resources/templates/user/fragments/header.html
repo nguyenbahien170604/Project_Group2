@@ -1,0 +1,165 @@
+<header th:fragment="header">
+    <!-- header-top start -->
+    <div class="header-top bg-black">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-4">
+                    <!-- welcome-msg start-->
+                    <div class="welcome-msg">
+                        <p>Default welcome msg !</p>
+                    </div>
+                    <!-- welcome-msg end-->
+                </div>
+                <div class="col-lg-6 col-md-8">
+                    <!-- full-setting-area start -->
+                    <div class="full-setting-area">
+                        <div class="top-dropdown">
+                            <ul>
+                                <li class="drodown-show"><a href="#"> Setting <i class="fa fa-angle-down"></i></a>
+                                    <ul class="open-dropdown setting">
+                                        <li><a href="my-account.html">My account</a></li>
+                                        <li><a href="checkout.html">Checkout</a></li>
+                                        <li><a href="login-register.html">Sign in</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- full-setting-area end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-top end -->
+
+    <!-- header-mid-area start -->
+    <div class="header-mid-area">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col md-custom-12">
+                    <!-- logo start -->
+                    <div class="logo">
+                        <a th:href="@{/}"><img th:src="@{assets/img/logo/logo.png}" alt=""></a>
+                    </div>
+                    <!-- logo end -->
+                </div>
+                <div class="col-lg-9 md-custom-12">
+                    <!-- shopping-cart-box start -->
+                    <div class="shopping-cart-box">
+                        <ul>
+                            <li>
+                                <a th:href="@{/cart}">
+                                                <span class="item-cart-inner">
+                                                    <span class="item-cont">2</span>
+                                                    My Cart
+                                                </span>
+                                    <div class="item-total">$237.00</div>
+                                </a>
+                                <ul class="shopping-cart-wrapper">
+                                    <li>
+                                        <div class="shoping-cart-image">
+                                            <a >
+                                                <img th:src="@{assets/img/small-product/1.jpg}" alt="">
+                                                <span class="product-quantity">1x</span>
+                                            </a>
+                                        </div>
+                                        <div class="shoping-product-details">
+                                            <h3><a href="#">brand Free RN 2018</a></h3>
+                                            <div class="price-box">
+                                                <span>$230.00</span>
+                                            </div>
+                                            <div class="sizeandcolor">
+                                                <span>Size: S</span>
+                                                <span>Color: Orange</span>
+                                            </div>
+                                            <div class="remove">
+                                                <button title="Remove"><i class="ion-android-delete"></i></button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="shoping-cart-image">
+                                            <a href="#">
+                                                <img th:src="@{assets/img/small-product/2.jpg}" alt="">
+                                                <span class="product-quantity">1x</span>
+                                            </a>
+                                        </div>
+                                        <div class="shoping-product-details">
+                                            <h3><a href="#">Product Free RN 2018</a></h3>
+                                            <div class="price-box">
+                                                <span>$230.00</span>
+                                            </div>
+                                            <div class="sizeandcolor">
+                                                <span>Size: S</span>
+                                                <span>Color: Orange</span>
+                                            </div>
+                                            <div class="remove">
+                                                <button title="Remove"><i class="ion-android-delete"></i></button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="cart-subtotals">
+                                            <h5>Subtotal<span class="float-right">$698.00</span></h5>
+                                            <h5>Shipping<span class="float-right"> $7.00 </span></h5>
+                                            <h5>Taxes<span class="float-right">$0.00</span></h5>
+                                            <h5> Total<span class="float-right">$705.00</span></h5>
+                                        </div>
+                                    </li>
+                                    <li class="shoping-cart-btn">
+                                        <a class="checkout-btn" th:href="@{/checkout}">checkout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- shopping-cart-box end -->
+
+                    <!-- searchbox start -->
+                    <!-- searchbox end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-mid-area end -->
+
+    <!-- header-bottom-area start -->
+    <div class="header-bottom-area bg-black sticky-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 d-none d-lg-block">
+                    <!-- main-menu-area start -->
+                    <div class="main-menu-area">
+                        <nav>
+                            <ul>
+                                <li><a th:href="@{/}">Home</a></li>
+                                <li><a th:href="@{/shop}">Shop</a></li>
+                                <li><a th:href="@{/blog}">Blog</a></li>
+                                <li><a th:href="@{/contact}">Contact</a></li>
+                                <li><a th:href="@{/policy}">Policy</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- main-menu-area end -->
+                </div>
+                <div class="col-lg-4">
+                    <!-- social-follow-box start -->
+                    <div class="social-follow-box">
+                        <div class="follow-title">
+                            <h2>Follow us:</h2>
+                        </div>
+                        <ul class="social-follow-list">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- social-follow-box end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-bottom-area end -->
+</header>

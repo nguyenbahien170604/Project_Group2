@@ -1,0 +1,160 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="en">
+
+<!-- Mirrored from htmldemo.net/juta/juta-v1/blog.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:50 GMT -->
+<div th:replace="user/fragments/head :: head"></div>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience. Thanks</p>
+<![endif]-->
+<!-- Add your application content here -->
+
+<div class="wrapper blog-page">
+  <div th:replace="user/fragments/header"></div>
+
+  <!-- breadcrumb-area start -->
+  <div class="breadcrumb-area bg-gray">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="breadcrumb-list">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item active">Blog</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- breadcrumb-area end -->
+
+  <!-- content-wraper start -->
+  <div class="content-wraper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 order-2 order-lg-1">
+          <div class="single-categories-1 blog-search mt-95">
+            <h3 class="blog-categorie-title">Search</h3>
+            <form class="blog-search-form" action="#">
+              <div class="form-input">
+                <input type="text" placeholder="Search..." class="input-text">
+                <button class="blog-search-button" type="submit"><i class="fa fa-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <div class="single-categories-1 recent-post">
+            <h3 class="blog-categorie-title">recent posts</h3>
+            <div class="all-recent-post">
+              <div class="single-recent-post">
+                <div class="recent-img">
+                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-1.jpg}"></a>
+                </div>
+                <div class="recent-desc">
+                  <h6><a href="#">kult Furniture Blog</a></h6>
+                  <span>20 April, 2018</span>
+                </div>
+              </div>
+              <div class="single-recent-post">
+                <div class="recent-img">
+                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-2.jpg}"></a>
+                </div>
+                <div class="recent-desc">
+                  <h6><a href="#">top  modern Furniture Blog</a></h6>
+                  <span>18 April, 2018</span>
+                </div>
+              </div>
+              <div class="single-recent-post">
+                <div class="recent-img">
+                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-3.jpg}"></a>
+                </div>
+                <div class="recent-desc">
+                  <h6><a href="#">Painted Furniture Ideas </a></h6>
+                  <span>15 April, 2018</span>
+                </div>
+              </div>
+              <div class="single-recent-post">
+                <div class="recent-img">
+                  <a href="#"><img alt="blog-img"th:src="@{assets/img/blog/home-4.jpg}"></a>
+                </div>
+                <div class="recent-desc">
+                  <h6><a href="#">Painted Furniture Ideas </a></h6>
+                  <span>15 April, 2018</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single-categories-1 start -->
+          <!-- single-categories-1 end -->
+        </div>
+        <div class="col-lg-9 order-1 order-lg-2">
+          <div class="blog-content-wrap mt-95">
+            <div class="row">
+              <div th:each="blog : ${blogDTOList}" class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                <!-- blog-wrapper start -->
+                <div class="blog-wrapper mb-30 main-blog">
+                  <div class="blog-img mb-20">
+                    <a th:href="@{/blog-details(id=${blog.getId()})}">
+                      <img  alt="" th:src="${blog.getBlogImage()}">
+                    </a>
+                  </div>
+                  <h3><a th:href="@{/blog-details(id=${blog.getId()})}" th:text="${blog.getBlogTitle()}">Blog took a galley type.</a></h3>
+                  <ul class="meta-box">
+                    <li class="meta-date"><span><i aria-hidden="true" class="fa fa-calendar" th:text="${blog.getCreatedAt()}"></i></span></li>
+                    <li><i aria-hidden="true" class="fa fa-user"></i>By <a href="#" th:text="${blog.getBlogUserName()}"> Pander</a></li>
+                  </ul>
+                  <p th:text="${blog.getBlogShortDescription()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas dicta numquam deleniti doloremque illum vero, quidem voluptates!</p>
+                  <div class="blog-meta-bundle">
+                    <div class="blog-readmore">
+                      <a th:href="@{/blog-details(id=${blog.getId()})}">Read more <i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <!-- blog-wrapper end -->
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <ul class="pagination-box mt-10">
+                <li><a class="Previous" href="#"><i class="fa fa-chevron-left"></i> Previous</a>
+                </li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li>
+                  <a class="Next" href="#"> Next <i class="fa fa-chevron-right"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- content-wraper end -->
+
+  <!-- footer-area start -->
+  <div th:replace="user/fragments/footer"></div>
+  <!-- footer-area start -->
+
+  <!-- Modal start-->
+
+  <!-- Modal end-->
+</div>
+
+
+<!-- jQuery JS -->
+<script th:src="@{assets/js/vendor/jquery-3.5.1.min.js}"></script>
+<script th:src="@{assets/js/vendor/jquery-migrate-3.3.0.min.js}"></script>
+<!-- all plugins JS hear -->
+<script th:src="@{assets/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{assets/js/jquery.mainmenu.js}"></script>
+<script th:src="@{assets/js/ajax-email.js}"></script>
+<script th:src="@{assets/js/plugins.js}"></script>
+<!-- main JS -->
+<script th:src="@{assets/js/main.js}"></script>
+</body>
+
+<!-- Mirrored from htmldemo.net/juta/juta-v1/blog.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:50 GMT -->
+</html>

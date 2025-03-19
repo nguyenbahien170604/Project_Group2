@@ -1,0 +1,508 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="en">
+
+<!-- Mirrored from htmldemo.net/juta/juta-v1/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:49 GMT -->
+<div th:replace="user/fragments/head :: head"></div>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience. Thanks</p>
+<![endif]-->
+<!-- Add your application content here -->
+
+<div class="wrapper">
+    <div th:replace="user/fragments/header"></div>
+    <!-- breadcrumb-area start -->
+    <div class="breadcrumb-area bg-gray">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="breadcrumb-list">
+                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                        <li class="breadcrumb-item active">Shop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area end -->
+
+    <!-- content-wraper start -->
+    <div class="content-wraper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 order-2 order-lg-1">
+                    <!--sidebar-categores-box start  -->
+                    <div class="sidebar-categores-box mt-95">
+                        <!-- category-sub-menu start -->
+                        <div class="category-sub-menu">
+                            <ul>
+                                <li class="has-sub"><a href="# ">Sport shoes</a>
+                                </li>
+                                <li class="has-sub"><a href="#">Running shoes</a>
+                                </li>
+                                <li class="has-sub"><a href="#">Fashion shoes</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- category-sub-menu end -->
+                    </div>
+                    <!--sidebar-categores-box end  -->
+                    <!--sidebar-categores-box start  -->
+                    <div class="sidebar-categores-box">
+                        <div class="sidebar-title">
+                            <h2>Filter By</h2>
+                        </div>
+                        <!-- btn-clear-all start -->
+                        <button class="btn-clear-all">Clear all</button>
+                        <!-- btn-clear-all end -->
+                        <!-- filter-sub-area start -->
+                        <div class="filter-sub-area">
+                            <h5 class="filter-sub-titel">Price</h5>
+                            <div class="price-checkbox">
+                                <form action="#">
+                                    <ul>
+                                        <li><input type="radio" name="price-filter" checked=""><a href="#">$10.00 -
+                                            $11.00 (1)</a></li>
+                                        <li><input type="radio" name="price-filter"><a href="#">$14.00 - $15.00 (2)</a>
+                                        </li>
+                                        <li><input type="radio" name="price-filter"><a href="#">$16.00 - $17.00 (2)</a>
+                                        </li>
+                                        <li><input type="radio" name="price-filter"><a href="#">$18.00 - $19.00 (1)</a>
+                                        </li>
+                                        <li><input type="radio" name="price-filter"><a href="#"> $24.00 - $28.00 (5)</a>
+                                        </li>
+                                        <li><input type="radio" name="price-filter"><a href="#"> $30.00 - $32.00 (1)</a>
+                                        </li>
+                                        <li><input type="radio" name="price-filter"><a href="#"> $50.00 - $53.00
+                                            (2) </a></li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- filter-sub-area end -->
+                        <!-- filter-sub-area start -->
+                        <div class="filter-sub-area">
+                            <h5 class="filter-sub-titel">Size</h5>
+                            <div class="size-checkbox">
+                                <form action="#">
+                                    <ul>
+                                        <li><input type="checkbox" name="product-size"><a href="#">S (1)</a></li>
+                                        <li><input type="checkbox" name="product-size"><a href="#">M (4)</a></li>
+                                        <li><input type="checkbox" name="product-size"><a href="#">L (2)</a></li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- filter-sub-area end -->
+                        <!-- filter-sub-area start -->
+                        <div class="filter-sub-area">
+                            <h5 class="filter-sub-titel">Color</h5>
+                            <div class="color-categoriy">
+                                <form action="#">
+                                    <ul>
+                                        <li><span class="white"></span><a href="#">White (1)</a></li>
+                                        <li><span class="black"></span><a href="#">Black (1)</a></li>
+                                        <li><span class="Orange"></span><a href="#">Orange (3) </a></li>
+                                        <li><span class="Blue"></span><a href="#">Blue (2) </a></li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- filter-sub-area end -->
+                        <!-- filter-sub-area start -->
+                        <!-- filter-sub-area end -->
+                    </div>
+                    <!--sidebar-categores-box end  -->
+
+                    <!-- shop-banner start -->
+                    <div class="shop-banner">
+                        <div class="single-banner">
+                            <a href="#"><img src="img/banner/shop-banner.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <!-- shop-banner end -->
+                </div>
+                <div class="col-lg-9 order-1 order-lg-2">
+                    <!-- shop-top-bar start -->
+                    <div class="shop-top-bar mt-95">
+                        <div class="shop-bar-inner">
+                            <div class="product-view-mode">
+                                <!-- shop-item-filter-list start -->
+                                <ul class="nav shop-item-filter-list" role="tablist">
+                                    <li class="active" role="presentation"><a aria-selected="true" class="active show"
+                                                                              data-bs-toggle="tab" role="tab"
+                                                                              aria-controls="grid-view"
+                                                                              href="#grid-view"><i class="fa fa-th"></i></a>
+                                    </li>
+                                    <li role="presentation"><a data-bs-toggle="tab" role="tab" aria-controls="list-view"
+                                                               href="#list-view"><i class="fa fa-th-list"></i></a></li>
+                                </ul>
+                                <!-- shop-item-filter-list end -->
+                            </div>
+                            <div class="toolbar-amount">
+                                <span>Showing 1 to 9 of 15</span>
+                            </div>
+                        </div>
+                        <!-- product-select-box start -->
+                        <div class="product-select-box">
+                            <div class="product-short">
+                                <p>Sort By:</p>
+                                <select class="nice-select">
+                                    <option value="trending">Relevance</option>
+                                    <option value="sales">Name (A - Z)</option>
+                                    <option value="sales">Name (Z - A)</option>
+                                    <option value="rating">Price (Low &gt; High)</option>
+                                    <option value="rating">Price (High &gt; Low)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- product-select-box end -->
+                    </div>
+                    <!-- shop-top-bar end -->
+                    <!-- shop-products-wrapper start -->
+                    <div class="shop-products-wrapper">
+                        <div class="tab-content">
+                            <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
+                                <div class="shop-product-area">
+                                    <div class="row">
+                                        <div th:each="product : ${listProducts}" th:style="'margin-top: 100px;'"
+                                             class="col-xl-3 col-lg-4 col-md-4 col-sm-6 mt-40">
+                                            <!-- single-product-wrap start -->
+                                            <div  class="single-product-wrap">
+                                                <div class="product-image">
+                                                    <a th:href="@{/product-details(id=${product.getId()})}">
+                                                        <!-- Kiểm tra nếu có ảnh thì hiển thị ảnh đầu tiên -->
+                                                        <img class="primary-image" th:if="${not #lists.isEmpty(product.productImage)}"
+                                                             th:src="${product.productImage[0]}" alt="Product Image">
+
+                                                        <!-- Kiểm tra nếu có ít nhất 2 ảnh thì hiển thị ảnh thứ hai -->
+                                                        <img class="secondary-image" th:if="${not #lists.isEmpty(product.productImage) and product.productImage.size() > 1}"
+                                                             th:src="${product.productImage[1]}" alt="Secondary Image">
+                                                    </a>
+                                                    <div class="label-product" th:text="'-' + ${product.productDiscount} + '%'"></div>
+                                                </div>
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a class="product_name" th:href="@{/product-details(id=${product.getId()})}" th:text="${product.getProductName()}"></a></h4>
+                                                        <div class="manufacturer"><a th:href="@{/product-details(id=${product.getId()})}" th:text="${product.getProductShortDescription()}"></a></div>
+                                                        <div class="price-box">
+                                                            <span class="new-price" th:text="${product.getProductPrice()}"></span>
+                                                            <span class="old-price" th:text="${product.getProductPrice()}"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-actions">
+                                                        <ul class="add-actions-link">
+                                                            <li class="add-cart"><a href="#"><i
+                                                                    class="ion-android-cart"></i> Add to cart</a>
+                                                            </li>
+                                                            <li><a class="quick-view" data-bs-toggle="modal"
+                                                                   data-bs-target="#exampleModalCenter" href="#"><i
+                                                                    class="ion-android-open"></i></a></li>
+                                                            <li><a class="links-details" href="single-product.html"><i
+                                                                    class="ion-clipboard"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- single-product-wrap end -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="list-view" class="tab-pane fade" role="tabpanel">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row product-layout-list">
+                                            <div class="col-lg-4 col-md-5 ">
+                                                <div class="product-image">
+                                                    <a href="single-product.html">
+                                                        <img alt="" src="img/product/7.jpg" class="primary-image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-7">
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a href="single-product.html" class="product_name">Brand
+                                                            FREE RN FLYKNIT</a></h4>
+                                                        <div class="manufacturer"><a href="single-product.html">Fashion
+                                                            Manufacturer</a></div>
+                                                        <div class="price-box">
+                                                            <span class="new-price">$150.00</span>
+                                                            <span class="old-price">$180.00</span>
+                                                        </div>
+                                                        <p>Long printed dress with thin adjustable straps. V-neckline
+                                                            and wiring under the bust with ruffles at the bottom of the
+                                                            dress.</p>
+                                                        <div class="list-add-actions">
+                                                            <ul>
+                                                                <li class="add-cart"><a href="#">Add to cart</a></li>
+                                                                <li><a href="#" data-bs-target="#exampleModalCenter"
+                                                                       data-bs-toggle="modal" class="quick-view"><i
+                                                                        class="ion-android-open"></i></a></li>
+                                                                <li><a href="single-product.html" class="links-details"><i
+                                                                        class="ion-clipboard"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row product-layout-list">
+                                            <div class="col-lg-4 col-md-5 ">
+                                                <div class="product-image">
+                                                    <a href="single-product.html">
+                                                        <img alt="" src="img/product/7.jpg" class="primary-image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-7">
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a href="single-product.html" class="product_name">Brand
+                                                            FREE RN FLYKNIT</a></h4>
+                                                        <div class="manufacturer"><a href="single-product.html">Fashion
+                                                            Manufacturer</a></div>
+                                                        <div class="price-box">
+                                                            <span class="new-price">$150.00</span>
+                                                            <span class="old-price">$180.00</span>
+                                                        </div>
+                                                        <p>Long printed dress with thin adjustable straps. V-neckline
+                                                            and wiring under the bust with ruffles at the bottom of the
+                                                            dress.</p>
+                                                        <div class="list-add-actions">
+                                                            <ul>
+                                                                <li class="add-cart"><a href="#">Add to cart</a></li>
+                                                                <li><a href="#" data-bs-target="#exampleModalCenter"
+                                                                       data-bs-toggle="modal" class="quick-view"><i
+                                                                        class="ion-android-open"></i></a></li>
+                                                                <li><a href="single-product.html" class="links-details"><i
+                                                                        class="ion-clipboard"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row product-layout-list">
+                                            <div class="col-lg-4 col-md-5 ">
+                                                <div class="product-image">
+                                                    <a href="single-product.html">
+                                                        <img alt="" src="img/product/7.jpg" class="primary-image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-7">
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a href="single-product.html" class="product_name">Brand
+                                                            FREE RN FLYKNIT</a></h4>
+                                                        <div class="manufacturer"><a href="single-product.html">Fashion
+                                                            Manufacturer</a></div>
+                                                        <div class="price-box">
+                                                            <span class="new-price">$150.00</span>
+                                                            <span class="old-price">$180.00</span>
+                                                        </div>
+                                                        <p>Long printed dress with thin adjustable straps. V-neckline
+                                                            and wiring under the bust with ruffles at the bottom of the
+                                                            dress.</p>
+                                                        <div class="list-add-actions">
+                                                            <ul>
+                                                                <li class="add-cart"><a href="#">Add to cart</a></li>
+                                                                <li><a href="#" data-bs-target="#exampleModalCenter"
+                                                                       data-bs-toggle="modal" class="quick-view"><i
+                                                                        class="ion-android-open"></i></a></li>
+                                                                <li><a href="single-product.html" class="links-details"><i
+                                                                        class="ion-clipboard"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row product-layout-list">
+                                            <div class="col-lg-4 col-md-5 ">
+                                                <div class="product-image">
+                                                    <a href="single-product.html">
+                                                        <img alt="" src="img/product/7.jpg" class="primary-image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-7">
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a href="single-product.html" class="product_name">Brand
+                                                            FREE RN FLYKNIT</a></h4>
+                                                        <div class="manufacturer"><a href="single-product.html">Fashion
+                                                            Manufacturer</a></div>
+                                                        <div class="price-box">
+                                                            <span class="new-price">$150.00</span>
+                                                            <span class="old-price">$180.00</span>
+                                                        </div>
+                                                        <p>Long printed dress with thin adjustable straps. V-neckline
+                                                            and wiring under the bust with ruffles at the bottom of the
+                                                            dress.</p>
+                                                        <div class="list-add-actions">
+                                                            <ul>
+                                                                <li class="add-cart"><a href="#">Add to cart</a></li>
+                                                                <li><a href="#" data-bs-target="#exampleModalCenter"
+                                                                       data-bs-toggle="modal" class="quick-view"><i
+                                                                        class="ion-android-open"></i></a></li>
+                                                                <li><a href="single-product.html" class="links-details"><i
+                                                                        class="ion-clipboard"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row product-layout-list">
+                                            <div class="col-lg-4 col-md-5 ">
+                                                <div class="product-image">
+                                                    <a href="single-product.html">
+                                                        <img alt="" src="img/product/7.jpg" class="primary-image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-7">
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <h4><a href="single-product.html" class="product_name">Brand
+                                                            FREE RN FLYKNIT</a></h4>
+                                                        <div class="manufacturer"><a href="single-product.html">Fashion
+                                                            Manufacturer</a></div>
+                                                        <div class="price-box">
+                                                            <span class="new-price">$150.00</span>
+                                                            <span class="old-price">$180.00</span>
+                                                        </div>
+                                                        <p>Long printed dress with thin adjustable straps. V-neckline
+                                                            and wiring under the bust with ruffles at the bottom of the
+                                                            dress.</p>
+                                                        <div class="list-add-actions">
+                                                            <ul>
+                                                                <li class="add-cart"><a href="#">Add to cart</a></li>
+                                                                <li><a href="#" data-bs-target="#exampleModalCenter"
+                                                                       data-bs-toggle="modal" class="quick-view"><i
+                                                                        class="ion-android-open"></i></a></li>
+                                                                <li><a href="single-product.html" class="links-details"><i
+                                                                        class="ion-clipboard"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="paginatoin-area">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>Showing 1-12 of 13 item(s)</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <ul class="pagination-box">
+                                            <li><a href="#" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a>
+                                            </li>
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li>
+                                                <a href="#" class="Next"> Next <i class="fa fa-chevron-right"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- shop-products-wrapper end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content-wraper end -->
+
+
+    <!-- footer-area start -->
+    <div th:replace="user/fragments/footer"></div>
+    <!-- footer-area start -->
+
+    <!-- Modal start-->
+
+    <!-- Modal end-->
+</div>
+
+
+<!-- jQuery JS -->
+<script th:src="@{/assets/js/vendor/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/assets/js/vendor/jquery-migrate-3.3.0.min.js}"></script>
+
+
+<!-- all plugins JS hear -->
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{/assets/js/jquery.mainmenu.js}"></script>
+<script th:src="@{/assets/js/ajax-email.js}"></script>
+<script th:src="@{/assets/js/plugins.js}"></script>
+<!-- main JS -->
+<script th:src="@{/assets/js/main.js}"></script>
+</body>
+
+<!-- Mirrored from htmldemo.net/juta/juta-v1/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:49 GMT -->
+</html>
