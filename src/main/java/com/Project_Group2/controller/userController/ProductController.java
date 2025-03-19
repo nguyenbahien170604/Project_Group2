@@ -31,9 +31,6 @@ public class ProductController {
 
         for (ProductImage productImage : listProductImages) {
             System.out.println(productImage.getImageUrl());
-            System.out.println(" ");
-            System.out.println(" ");
-            System.out.println("abc");
         }
         ProductImage productImage1 = listProductImages.get(0);
         ProductImage productImage2 = listProductImages.get(1);
