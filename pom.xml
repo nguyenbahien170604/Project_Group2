@@ -74,7 +74,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+<!--			<plugin>-->
+<!--				<groupId>org.mockito</groupId>-->
+<!--				<artifactId>mockito-inline</artifactId>-->
+<!--				<version>5.2.0</version>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
+
+
+
 
 </project>
