@@ -18,11 +18,11 @@ public class Carts {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
+    @Column(name = "total_amount", precision = 10, scale = 2 )
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Date createdAt;
 
     @PrePersist
@@ -30,7 +30,7 @@ public class Carts {
         createdAt = new Date();
     }
 
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "BIT DEFAULT 0")
+    @Column(name = "is_deleted", columnDefinition = "BIT DEFAULT 0")
     private Boolean isDeleted;
 
     public Carts() {
@@ -95,7 +95,7 @@ public class Carts {
     public String toString() {
         return "Carts{" +
                 "cartId=" + cartId +
-                ", user=" + user +
+                ", user=" + user.getUsername() +
                 ", totalAmount=" + totalAmount +
                 ", createdAt=" + createdAt +
                 ", isDeleted=" + isDeleted +

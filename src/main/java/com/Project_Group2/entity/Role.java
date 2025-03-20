@@ -84,13 +84,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", roleName='" + roleName + '\'' +
-                ", createdAt=" + createdAt +
-                ", isDeleted=" + isDeleted +
-                ", users=" + users +
-                '}';
+        return "Role{id=" + id + ", name='" + roleName + "'}";
     }
 
     // Getters và Setters

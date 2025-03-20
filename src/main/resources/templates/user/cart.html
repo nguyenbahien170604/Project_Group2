@@ -2,6 +2,14 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="en">
 
+<style>
+    .plantmore-product-thumbnail img {
+        max-width: 80px;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+</style>
 <!-- Mirrored from htmldemo.net/juta/juta-v1/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:20 GMT -->
 <div th:replace="user/fragments/head :: head"></div>
 <body>
@@ -47,35 +55,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{assets/img/cart/1.jpg}" alt=""></a></td>
-                                    <td class="plantmore-product-name"><a href="#">Air Jordan XI Retro</a></td>
-                                    <td class="plantmore-product-price"><span class="amount">$70.00</span></td>
-                                    <td class="plantmore-product-quantity">
-                                        <input value="1" type="number">
+                                <tr th:each="cartItem : ${cartItems}">
+                                    <td class="plantmore-product-remove">
+                                        <a th:href="@{/cart/remove(id=${cartItem.getCartDetailId()})}"><i class="fa fa-times"></i></a>
                                     </td>
-                                    <td class="product-subtotal"><span class="amount">$70.00</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{assets/img/cart/2.jpg}" alt=""></a></td>
-                                    <td class="plantmore-product-name"><a href="#">Brand Zoom KDX EP</a></td>
-                                    <td class="plantmore-product-price"><span class="amount">$60.50</span></td>
-                                    <td class="plantmore-product-quantity">
-                                        <input value="1" type="number">
+                                    <td class="plantmore-product-thumbnail">
+                                        <a href="#">
+                                            <img th:src="${cartItem.productVariant.product.images[0].getImageUrl()}" alt="Product Image" class="product-thumbnail">
+                                        </a>
                                     </td>
-                                    <td class="product-subtotal"><span class="amount">$60.50</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="plantmore-product-thumbnail"><a href="#"><img th:src="@{assets/img/cart/3.jpg}" alt=""></a></td>
-                                    <td class="plantmore-product-name"><a href="#">Brand FREE RN 2018</a></td>
-                                    <td class="plantmore-product-price"><span class="amount">$40.50</span></td>
-                                    <td class="plantmore-product-quantity">
-                                        <input value="1" type="number">
+                                    <td class="plantmore-product-name">
+                                        <a th:href="@{/product-details(id=${cartItem.productVariant.product.productId})}"
+                                           th:text="${cartItem.productVariant.product.productName}"></a>
                                     </td>
-                                    <td class="product-subtotal"><span class="amount">$40.50</span></td>
+                                    <td class="plantmore-product-price">
+                                        <span class="amount" th:text="'$' + ${cartItem.productVariant.product.price}"></span>
+                                    </td>
+                                    <td class="plantmore-product-quantity">
+                                        <input type="number" th:value="${cartItem.quantity}" min="1">
+                                    </td>
+                                    <td class="product-subtotal">
+                                        <span class="amount" th:text="'$' + ${cartItem.quantity * cartItem.productVariant.product.price}"></span>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

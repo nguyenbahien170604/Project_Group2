@@ -2,6 +2,7 @@ package com.Project_Group2.controller.userController;
 
 import ch.qos.logback.core.model.Model;
 import com.Project_Group2.service.CartService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,18 @@ public class CartController {
         return "user/checkout";
     }
 
-    @PostMapping("cart/add")
-    public String addToCart(@RequestParam("productId") int productId,
+    @PostMapping("/cart/add")
+    public String addToCart(HttpSession session,
+                            @RequestParam("productId") int productId,
                             @RequestParam("size") String size,
                             @RequestParam("color") String color,
                             @RequestParam("quantity") int quantity) {
-        int userId = 1;
-
-        cartService.addToCart(userId, productId, size, color, quantity);
-        return "redirect:/cart";
+        try {
+            cartService.addToCart(session, productId, size, color, quantity);
+            return "redirect:/cart";
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", e.getMessage());
+            return "redirect:/cart";
+        }
     }
 }

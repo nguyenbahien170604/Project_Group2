@@ -32,9 +32,6 @@ public class ProductController {
         List<ProductVariant> listProductVariants = product.getVariants();
         //List<Product> listSameCategory = productRepository.findByCategoryAndProductIdNot(product.getCategory(), productId);
         List<ProductDTO> listSameCategory = productService.getSameCategoryProducts(product.getCategory().getCategoryId(), productId);
-        for (ProductDTO productDTO : listSameCategory) {
-            System.out.println(productDTO);
-        }
         ProductImage productImage1 = listProductImages.get(0);
         ProductImage productImage2 = listProductImages.get(1);
         model.addAttribute("product", product);

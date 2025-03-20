@@ -2,8 +2,10 @@ package com.Project_Group2.controller.userController;
 
 import com.Project_Group2.dto.BlogDTO;
 import com.Project_Group2.dto.ProductDTO;
+import com.Project_Group2.entity.CartDetails;
 import com.Project_Group2.entity.User;
 import com.Project_Group2.service.BlogService;
+import com.Project_Group2.service.CartService;
 import com.Project_Group2.service.ProductService;
 import com.Project_Group2.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -21,11 +23,13 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private final BlogService blogService;
+    private final CartService cartService;
 
-    public HomePageController(ProductService productService, UserService userService, BlogService blogService) {
+    public HomePageController(ProductService productService, UserService userService, BlogService blogService, CartService cartService) {
         this.productService = productService;
         this.userService = userService;
         this.blogService = blogService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")
@@ -86,6 +90,11 @@ public class HomePageController {
 
     @GetMapping("/cart")
     public String getCartPage(Model model) {
+        List<CartDetails> cartItems = cartService.getCartItems();
+        for (CartDetails cartItem : cartItems) {
+            System.out.println(cartItem);
+        }
+        model.addAttribute("cartItems", cartItems);
         return "user/cart";
     }
 
