@@ -48,11 +48,10 @@
                         <ul>
                             <li>
                                 <a th:href="@{/cart}">
-                                                <span class="item-cart-inner">
-                                                    <span class="item-cont">2</span>
-                                                    My Cart
-                                                </span>
-                                    <div class="item-total">$237.00</div>
+                <span class="item-cart-inner">
+                    <span class="item-cont" th:text="${session.cartSize == null ? 0 : session.cartSize}">0</span>
+                    My Cart
+                </span>
                                 </a>
                             </li>
                         </ul>
@@ -80,7 +79,8 @@
                                 <li><a th:href="@{/shop}">Shop</a></li>
                                 <li><a th:href="@{/blog}">Blog</a></li>
                                 <li><a th:href="@{/contact}">Contact</a></li>
-                                <li><a href="javascript:void(0);" onclick="openPolicyModal()">Policy</a></li>                            </ul>
+                                <li><a href="javascript:void(0);" onclick="openPolicyModal()">Policy</a></li>
+                            </ul>
                         </nav>
                     </div>
                     <!-- main-menu-area end -->
@@ -92,7 +92,8 @@
                             <h2>Follow us:</h2>
                         </div>
                         <ul class="social-follow-list">
-                            <li><a th:href="'https://www.facebook.com/hien.nguyenba.7311/?locale=vi_VN'"><i class="fa fa-facebook"></i></a></li>
+                            <li><a th:href="'https://www.facebook.com/hien.nguyenba.7311/?locale=vi_VN'"><i
+                                    class="fa fa-facebook"></i></a></li>
                         </ul>
                     </div>
                     <!-- social-follow-box end -->

@@ -79,9 +79,6 @@ public class OrderStatuses {
     public String toString() {
         return "OrderStatuses{" +
                 "statusId=" + statusId +
-                ", statusName='" + statusName + '\'' +
-                ", createdAt=" + createdAt +
-                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

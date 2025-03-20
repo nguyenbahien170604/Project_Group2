@@ -89,10 +89,6 @@ public class OrderDetails {
     public String toString() {
         return "OrderDetails{" +
                 "orderDetailId=" + orderDetailId +
-                ", order=" + order +
-                ", product=" + product +
-                ", quantity=" + quantity +
-                ", priceProduct=" + priceProduct +
                 '}';
     }
 }

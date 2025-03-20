@@ -148,14 +148,6 @@ public class Orders {
     public String toString() {
         return "Orders{" +
                 "orderId=" + orderId +
-                ", user=" + user +
-                ", receivedName='" + receivedName + '\'' +
-                ", receivedPhone='" + receivedPhone + '\'' +
-                ", receivedAddress='" + receivedAddress + '\'' +
-                ", status=" + status +
-                ", totalPrice=" + totalPrice +
-                ", createdAt=" + createdAt +
-                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

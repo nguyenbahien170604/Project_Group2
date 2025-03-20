@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -91,10 +92,14 @@ public class HomePageController {
     @GetMapping("/cart")
     public String getCartPage(Model model) {
         List<CartDetails> cartItems = cartService.getCartItems();
+        BigDecimal total = BigDecimal.ZERO;
         for (CartDetails cartItem : cartItems) {
-            System.out.println(cartItem);
+            BigDecimal itemTotal = cartItem.getProductVariant().getProduct().getPrice()
+                    .multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+            total = total.add(itemTotal);
         }
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("total", total);
         return "user/cart";
     }
 

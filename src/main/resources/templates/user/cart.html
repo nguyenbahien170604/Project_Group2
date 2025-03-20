@@ -9,6 +9,52 @@
         display: block;
         margin: auto;
     }
+    .shipping-form {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background: #f9f9f9;
+    }
+
+    .shipping-form h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .shipping-form label {
+        font-weight: bold;
+        display: block;
+        margin: 10px 0 5px;
+    }
+
+    .shipping-form input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .shipping-form button {
+        width: 100%;
+        padding: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background: #28a745;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .shipping-form button:hover {
+        background: #218838;
+    }
 </style>
 <!-- Mirrored from htmldemo.net/juta/juta-v1/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:20 GMT -->
 <div th:replace="user/fragments/head :: head"></div>
@@ -41,7 +87,6 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <form action="#" class="cart-table">
                         <div class="table-content table-responsive">
                             <table class="table">
                                 <thead>
@@ -86,14 +131,25 @@
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        <li>Subtotal <span>$170.00</span></li>
-                                        <li>Total <span>$170.00</span></li>
+                                        <li>Total <span th:text="${total}">$170.00</span></li>
                                     </ul>
-                                    <a href="#">Proceed to checkout</a>
+                                    <form th:action="@{/checkout}" method="post" class="shipping-form">
+                                        <h3>Shipping Information</h3>
+
+                                        <label for="name">Name:</label>
+                                        <input type="text" id="name" name="receivedName" required placeholder="Enter your full name">
+                                        </br>
+                                        <label for="phone">Phone:</label>
+                                        <input type="text" id="phone" name="receivedPhone" required placeholder="Enter your phone number">
+                                        </br>
+                                        <label for="address">Address:</label>
+                                        <input type="text" id="address" name="receivedAddress" required placeholder="Enter your delivery address">
+                                        </br>
+                                        <button type="submit">Proceed to checkout</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
