@@ -6,7 +6,6 @@
                 <div class="col-lg-6 col-md-4">
                     <!-- welcome-msg start-->
                     <div class="welcome-msg">
-                        <p>Default welcome msg !</p>
                     </div>
                     <!-- welcome-msg end-->
                 </div>
@@ -55,61 +54,6 @@
                                                 </span>
                                     <div class="item-total">$237.00</div>
                                 </a>
-                                <ul class="shopping-cart-wrapper">
-                                    <li>
-                                        <div class="shoping-cart-image">
-                                            <a >
-                                                <img th:src="@{assets/img/small-product/1.jpg}" alt="">
-                                                <span class="product-quantity">1x</span>
-                                            </a>
-                                        </div>
-                                        <div class="shoping-product-details">
-                                            <h3><a href="#">brand Free RN 2018</a></h3>
-                                            <div class="price-box">
-                                                <span>$230.00</span>
-                                            </div>
-                                            <div class="sizeandcolor">
-                                                <span>Size: S</span>
-                                                <span>Color: Orange</span>
-                                            </div>
-                                            <div class="remove">
-                                                <button title="Remove"><i class="ion-android-delete"></i></button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="shoping-cart-image">
-                                            <a href="#">
-                                                <img th:src="@{assets/img/small-product/2.jpg}" alt="">
-                                                <span class="product-quantity">1x</span>
-                                            </a>
-                                        </div>
-                                        <div class="shoping-product-details">
-                                            <h3><a href="#">Product Free RN 2018</a></h3>
-                                            <div class="price-box">
-                                                <span>$230.00</span>
-                                            </div>
-                                            <div class="sizeandcolor">
-                                                <span>Size: S</span>
-                                                <span>Color: Orange</span>
-                                            </div>
-                                            <div class="remove">
-                                                <button title="Remove"><i class="ion-android-delete"></i></button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="cart-subtotals">
-                                            <h5>Subtotal<span class="float-right">$698.00</span></h5>
-                                            <h5>Shipping<span class="float-right"> $7.00 </span></h5>
-                                            <h5>Taxes<span class="float-right">$0.00</span></h5>
-                                            <h5> Total<span class="float-right">$705.00</span></h5>
-                                        </div>
-                                    </li>
-                                    <li class="shoping-cart-btn">
-                                        <a class="checkout-btn" th:href="@{/checkout}">checkout</a>
-                                    </li>
-                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -136,8 +80,7 @@
                                 <li><a th:href="@{/shop}">Shop</a></li>
                                 <li><a th:href="@{/blog}">Blog</a></li>
                                 <li><a th:href="@{/contact}">Contact</a></li>
-                                <li><a th:href="@{/policy}">Policy</a></li>
-                            </ul>
+                                <li><a href="javascript:void(0);" onclick="openPolicyModal()">Policy</a></li>                            </ul>
                         </nav>
                     </div>
                     <!-- main-menu-area end -->
@@ -149,11 +92,7 @@
                             <h2>Follow us:</h2>
                         </div>
                         <ul class="social-follow-list">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a th:href="'https://www.facebook.com/hien.nguyenba.7311/?locale=vi_VN'"><i class="fa fa-facebook"></i></a></li>
                         </ul>
                     </div>
                     <!-- social-follow-box end -->

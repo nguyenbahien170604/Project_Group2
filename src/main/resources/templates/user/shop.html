@@ -184,14 +184,14 @@
                                                         <h4><a class="product_name" th:href="@{/product-details(id=${product.getId()})}" th:text="${product.getProductName()}"></a></h4>
                                                         <div class="manufacturer"><a th:href="@{/product-details(id=${product.getId()})}" th:text="${product.getProductShortDescription()}"></a></div>
                                                         <div class="price-box">
-                                                            <span class="new-price" th:text="${product.getProductPrice()}"></span>
+                                                            <span class="new-price" th:text="${product.getProductPrice()*(100 - product.getProductDiscount())/100}"></span>
                                                             <span class="old-price" th:text="${product.getProductPrice()}"></span>
                                                         </div>
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
-                                                            <li class="add-cart"><a href="#"><i
-                                                                    class="ion-android-cart"></i> Add to cart</a>
+                                                            <li class="add-cart"><a th:href="@{/product-details(id=${product.id})}"><i
+                                                                    class="ion-android-cart"></i> View detail</a>
                                                             </li>
                                                             <li><a class="quick-view" data-bs-toggle="modal"
                                                                    data-bs-target="#exampleModalCenter" href="#"><i

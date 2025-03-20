@@ -156,7 +156,7 @@
                                             <img class="secondary-image" th:if="${not #lists.isEmpty(product.productImage) and product.productImage.size() > 1}"
                                                  th:src="${product.productImage[1]}" alt="Secondary Image">
                                         </a>
-                                        <div class="label-product">-10% off</div>
+                                        <div class="label-product" th:text="'-'+${product.getProductDiscount()}+'% off'">-10% off</div>
                                     </div>
                                     <div class="product_desc">
                                         <div class="product_desc_info">
@@ -172,13 +172,13 @@
                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}">Air Jordan XI Retro</a></h4>
                                             <div class="manufacturer"><a th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductPrice()}" >Fashion Manufacturer</a></div>
                                             <div class="price-box">
-                                                <span class="new-price" th:text="${product.getProductPrice()}">$225.00</span>
+                                                <span class="new-price" th:text="${product.getProductPrice()*(100 - product.getProductDiscount())/100}">$225.00</span>
                                                 <span class="old-price" th:text="${product.getProductPrice()}">$250.00</span>
                                             </div>
                                         </div>
                                         <div class="add-actions">
                                             <ul class="add-actions-link">
-                                                <li class="add-cart"><a href="#"><i class="ion-android-cart"></i> Add to cart</a></li>
+                                                <li class="add-cart"><a th:href="@{/product-details(id=${product.id})}"><i class="ion-android-cart"></i> View detail</a></li>
                                                 <li><a class="quick-view" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" href="#"><i class="ion-android-open"></i></a></li>
                                                 <li><a class="links-details" href="single-product.html"><i class="ion-clipboard"></i></a></li>
                                             </ul>
@@ -245,7 +245,7 @@
                                                             <img class="secondary-image" th:if="${not #lists.isEmpty(product.productImage) and product.productImage.size() > 1}"
                                                                  th:src="${product.productImage[1]}" alt="Secondary Image">
                                                         </a>
-                                                        <div class="label-product">-10% off</div>
+                                                        <div class="label-product" th:text="'-'+${product.getProductDiscount()}+'% off'">-10% off</div>
                                                     </div>
                                                     <div class="product_desc">
                                                         <div class="product_desc_info">
@@ -261,13 +261,13 @@
                                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}" >Air Jordan XI Retro</a></h4>
                                                             <div class="manufacturer"><a th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductShortDescription()}">Fashion Manufacturer</a></div>
                                                             <div class="price-box">
-                                                                <span class="new-price" th:text="${product.getProductPrice()}" >$225.00</span>
+                                                                <span class="new-price" th:text="${product.getProductPrice()*(100 - product.getProductDiscount())/100}" >$225.00</span>
                                                                 <span class="old-price" th:text="${product.getProductPrice()}" >$250.00</span>
                                                             </div>
                                                         </div>
                                                         <div class="add-actions">
                                                             <ul class="add-actions-link">
-                                                                <li class="add-cart"><a href="#"><i class="ion-android-cart"></i> Add to cart</a></li>
+                                                                <li class="add-cart"><a th:href="@{/product-details(id=${product.id})}"><i class="ion-android-cart"></i> View detail</a></li>
                                                                 <li><a class="quick-view" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" href="#"><i class="ion-android-open"></i></a></li>
                                                                 <li><a class="links-details" href="single-product.html"><i class="ion-clipboard"></i></a></li>
                                                             </ul>
@@ -331,7 +331,7 @@
                                                                             <img class="secondary-image" th:if="${not #lists.isEmpty(product.productImage) and product.productImage.size() > 1}"
                                                                                  th:src="${product.productImage[1]}" alt="Secondary Image">
                                                                         </a>
-                                                                        <div class="label-product">-10% off</div>
+                                                                        <div class="label-product" th:text="'-'+${product.getProductDiscount()}+'% off'">-10% off</div>
                                                                     </div>
                                                                     <div class="product_desc">
                                                                         <div class="product_desc_info">
@@ -347,13 +347,13 @@
                                                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}" >Air Jordan XI Retro</a></h4>
                                                                             <div class="manufacturer"><a th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductShortDescription()}">Fashion Manufacturer</a></div>
                                                                             <div class="price-box">
-                                                                                <span class="new-price" th:text="${product.getProductPrice()}" >$225.00</span>
+                                                                                <span class="new-price" th:text="${product.getProductPrice()*(100 - product.getProductDiscount())/100}" >$225.00</span>
                                                                                 <span class="old-price" th:text="${product.getProductPrice()}" >$250.00</span>
                                                                             </div>
                                                                         </div>
                                                                         <div class="add-actions">
                                                                             <ul class="add-actions-link">
-                                                                                <li class="add-cart"><a href="#"><i class="ion-android-cart"></i> Add to cart</a></li>
+                                                                                <li class="add-cart"><a th:href="@{/product-details(id=${product.id})}"><i class="ion-android-cart"></i> View detail</a></li>
                                                                                 <li><a class="quick-view" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" href="#"><i class="ion-android-open"></i></a></li>
                                                                                 <li><a class="links-details" href="single-product.html"><i class="ion-clipboard"></i></a></li>
                                                                             </ul>
@@ -420,7 +420,7 @@
                                                                             <img class="secondary-image" th:if="${not #lists.isEmpty(product.productImage) and product.productImage.size() > 1}"
                                                                                  th:src="${product.productImage[1]}" alt="Secondary Image">
                                                                         </a>
-                                                                        <div class="label-product">-10% off</div>
+                                                                        <div class="label-product" th:text="'-'+${product.getProductDiscount()}+'% off'">-10% off</div>
                                                                     </div>
                                                                     <div class="product_desc">
                                                                         <div class="product_desc_info">
@@ -436,13 +436,13 @@
                                                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}" >Air Jordan XI Retro</a></h4>
                                                                             <div class="manufacturer"><a th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductShortDescription()}">Fashion Manufacturer</a></div>
                                                                             <div class="price-box">
-                                                                                <span class="new-price" th:text="${product.getProductPrice()}" >$225.00</span>
+                                                                                <span class="new-price" th:text="${product.getProductPrice()*(100 - product.getProductDiscount())/100}" >$225.00</span>
                                                                                 <span class="old-price" th:text="${product.getProductPrice()}" >$250.00</span>
                                                                             </div>
                                                                         </div>
                                                                         <div class="add-actions">
                                                                             <ul class="add-actions-link">
-                                                                                <li class="add-cart"><a href="#"><i class="ion-android-cart"></i> Add to cart</a></li>
+                                                                                <li class="add-cart"><a th:href="@{/product-details(id=${product.id})}"><i class="ion-android-cart"></i> View detail</a></li>
                                                                                 <li><a class="quick-view" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" href="#"><i class="ion-android-open"></i></a></li>
                                                                                 <li><a class="links-details" href="single-product.html"><i class="ion-clipboard"></i></a></li>
                                                                             </ul>
@@ -498,6 +498,106 @@
 <script th:src="@{/assets/js/plugins.js}"></script>
 <!-- main JS -->
 <script th:src="@{/assets/js/main.js}"></script>
+<!-- Policy Modal -->
+<div id="policyModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePolicyModal()">&times;</span>
+        <h2>Privacy Policy</h2>
+        <h3>1. Purpose</h3>
+        <p>This policy outlines the rules and guidelines for purchasing, returns, exchanges, and customer service at <strong>[Your Shoe Store Name]</strong>. It ensures a smooth shopping experience while maintaining fairness and transparency for both customers and the store.</p>
+
+        <h3>2. Scope</h3>
+        <p>This policy applies to all customers, employees, and business partners who interact with <strong>[Your Shoe Store Name]</strong>. It covers online and in-store purchases, shipping, returns, exchanges, and customer support.</p>
+
+        <h3>3. Roles and Responsibilities</h3>
+        <p><strong>Store Manager:</strong> Oversees policy enforcement and customer issue resolution.</p>
+        <p><strong>Sales Staff:</strong> Assists customers, ensures compliance with policies, and processes transactions.</p>
+        <p><strong>Customer Support:</strong> Handles inquiries, complaints, returns, and exchanges.</p>
+        <p><strong>Customers:</strong> Must adhere to store policies when making purchases, returns, or exchanges.</p>
+
+        <h3>4. Policy Guidelines</h3>
+
+        <h4>4.1 Ordering & Payment</h4>
+        <p>Orders can be placed online through our website or in-store.</p>
+        <p>We accept payments via <strong>credit/debit cards, PayPal, and cash (for in-store purchases)</strong>.</p>
+        <p>Orders must be paid in full before shipping or pickup.</p>
+        <p>Discounts and promotions cannot be combined unless stated otherwise.</p>
+
+        <h4>4.2 Shipping & Delivery</h4>
+        <p>Orders are processed within <strong>[X] business days</strong> after payment confirmation.</p>
+        <p>Delivery times vary based on location but typically range from <strong>[X-Y] days</strong>.</p>
+        <p>Customers will receive tracking details via email/SMS once the order is shipped.</p>
+        <p>We are not responsible for delays caused by third-party couriers.</p>
+
+        <h4>4.3 Returns & Exchanges</h4>
+        <p>Returns are accepted within <strong>[X] days</strong> of purchase if the product is unused, undamaged, and in original packaging.</p>
+        <p>Refunds are issued in the original payment method within <strong>[X] business days</strong> after approval.</p>
+        <p>Exchanges are allowed for sizing issues, but the customer must cover shipping costs.</p>
+        <p>Custom or final sale items cannot be returned or exchanged.</p>
+
+        <h4>4.4 Warranty & Defective Products</h4>
+        <p>We offer a <strong>[X]-day warranty</strong> against manufacturing defects.</p>
+        <p>If the product is defective, customers must provide proof of purchase and clear images of the defect.</p>
+        <p>Replacement or refund decisions will be made upon inspection.</p>
+
+        <h4>4.5 Customer Conduct & Store Rights</h4>
+        <p>Customers must treat staff with respect; abusive behavior will not be tolerated.</p>
+        <p>We reserve the right to refuse service to anyone violating store policies.</p>
+        <p>Fraudulent activities (e.g., chargebacks, fake returns) will be reported to authorities.</p>
+
+        <h4>4.6 Contact & Support</h4>
+        <p>For any issues, customers can reach us via <strong>[email/phone/live chat]</strong> during business hours.</p>
+        <p>Our support team will respond within <strong>[X] business hours</strong>.</p>
+    </div>
+</div>
+
+<!-- CSS for Modal -->
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 20px;
+        width: 50%;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    function openPolicyModal() {
+        document.getElementById("policyModal").style.display = "block";
+    }
+
+    function closePolicyModal() {
+        document.getElementById("policyModal").style.display = "none";
+    }
+
+    // Đóng modal nếu bấm ra ngoài vùng modal
+    window.onclick = function(event) {
+        var modal = document.getElementById("policyModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 
 <!-- Mirrored from htmldemo.net/juta/juta-v1/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:43 GMT -->
