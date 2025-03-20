@@ -222,16 +222,20 @@
         </div>
       </div>
       <div class="row">
-        <div class="product-active-3 owl-carousel" >
+        <div class="product-active-3 owl-carousel">
           <div class="col" th:each="otherProduct : ${listSameCategory}">
-            <!-- single-product-wrap start -->
             <div class="single-product-wrap">
               <div class="product-image">
-                <a href="single-product.html">
-                  <img class="primary-image" th:src="@{assets/img/product/3.jpg}" alt="">
-                  <img class="secondary-image" th:src="@{assets/img/product/4.jpg}" alt="">
+                <a th:href="@{/product-details(id=${otherProduct.id})}">
+                  <img class="primary-image"
+                       th:if="${not #lists.isEmpty(otherProduct.productImage)}"
+                       th:src="${otherProduct.productImage[0]}" alt="Primary Image">
+                  <img class="secondary-image"
+                       th:if="${not #lists.isEmpty(otherProduct.productImage) and otherProduct.productImage.size() > 1}"
+                       th:src="${otherProduct.productImage[1]}" alt="Secondary Image">
                 </a>
-                <div class="label-product" th:text="'- ' +${otherProduct.getDiscount()}+' %'">-10% off</div>
+                <div class="label-product"
+                     th:text="'- ' + ${otherProduct.productDiscount} + ' %'">-10% off</div>
               </div>
               <div class="product_desc">
                 <div class="product_desc_info">
@@ -244,28 +248,34 @@
                       <li class="no-star"><i class="fa fa-star"></i></li>
                     </ul>
                   </div>
-                  <h4><a class="product_name" href="single-product.html" th:text="${otherProduct.getProductName()}">Air Jordan XI Retro</a></h4>
-                  <div class="manufacturer"><a href="single-product.html" th:text="${otherProduct.getShortDescription()}">Fashion Manufacturer</a></div>
+                  <h4>
+                    <a class="product_name"
+                       th:href="@{/product-details(id=${otherProduct.id})}"
+                       th:text="${otherProduct.productName}">Air Jordan XI Retro</a>
+                  </h4>
+                  <div class="manufacturer">
+                    <a th:href="@{/product-details(id=${otherProduct.id})}"
+                       th:text="${otherProduct.getProductShortDescription()}">Fashion Manufacturer</a>
+                  </div>
                   <div class="price-box">
-                    <span class="new-price" th:text="${otherProduct.getPrice()}">$225.00</span>
-                    <span class="old-price" th:text="${otherProduct.getPrice()}">$250.00</span>
+                    <span class="new-price" th:text="${otherProduct.getProductPrice()}">$225.00</span>
+                    <span class="old-price" th:text="${otherProduct.getProductPrice()}">$250.00</span>
                   </div>
                 </div>
                 <div class="add-actions">
                   <ul class="add-actions-link">
                     <li class="add-cart"><a href="#"><i class="ion-android-cart"></i> Add to cart</a></li>
-                    <li><a class="quick-view" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" href="#"><i class="ion-android-open"></i></a></li>
-                    <li><a class="links-details" href="single-product.html"><i class="ion-clipboard"></i></a></li>
+                    <li><a class="quick-view" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" href="#">
+                      <i class="ion-android-open"></i></a></li>
+                    <li><a class="links-details" href="single-product.html">
+                      <i class="ion-clipboard"></i></a></li>
                   </ul>
                 </div>
               </div>
             </div>
-            <!-- single-product-wrap end -->
           </div>
         </div>
       </div>
-    </div>
-  </div>
   <!-- product-area end -->
 
 

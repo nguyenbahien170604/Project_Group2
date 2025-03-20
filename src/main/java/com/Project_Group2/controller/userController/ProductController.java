@@ -5,6 +5,7 @@ import com.Project_Group2.entity.Product;
 import com.Project_Group2.entity.ProductImage;
 import com.Project_Group2.entity.ProductVariant;
 import com.Project_Group2.repository.ProductRepository;
+import com.Project_Group2.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,11 @@ import java.util.List;
 @Controller
 public class ProductController {
     ProductRepository productRepository;
+    ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
+    public ProductController(ProductRepository productRepository, ProductService productService) {
         this.productRepository = productRepository;
+        this.productService = productService;
     }
 
     @GetMapping("/product-details")
@@ -27,10 +30,10 @@ public class ProductController {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         List<ProductImage> listProductImages = product.getImages();
         List<ProductVariant> listProductVariants = product.getVariants();
-        List<Product> listSameCategory = productRepository.findByCategoryAndProductIdNot(product.getCategory(), productId);
-
-        for (ProductImage productImage : listProductImages) {
-            System.out.println(productImage.getImageUrl());
+        //List<Product> listSameCategory = productRepository.findByCategoryAndProductIdNot(product.getCategory(), productId);
+        List<ProductDTO> listSameCategory = productService.getSameCategoryProducts(product.getCategory().getCategoryId(), productId);
+        for (ProductDTO productDTO : listSameCategory) {
+            System.out.println(productDTO);
         }
         ProductImage productImage1 = listProductImages.get(0);
         ProductImage productImage2 = listProductImages.get(1);

@@ -103,6 +103,7 @@ public class ProductService {
                 .map(this::mapToProductDTO) // Chuyển Product -> ProductDTO
                 .collect(Collectors.toList());
     }
+
     public List<ProductDTO> get6LatestProducts() {
         List<Product> latestProducts = productRepository.findTop6ByOrderByCreatedAtDesc();
         return latestProducts.stream()
@@ -110,6 +111,19 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<ProductDTO> getSameCategoryProducts(int categoryId, int productId) {
+        // Tìm category
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        // Tìm sản phẩm cùng danh mục, nhưng loại trừ productId hiện tại
+        List<Product> sameCategoryProducts = productRepository.findByCategoryCategoryIdAndProductIdNot(category.getCategoryId(), productId);
+
+        // Chuyển đổi từ Product -> ProductDTO
+        return sameCategoryProducts.stream()
+                .map(this::mapToProductDTO)
+                .collect(Collectors.toList());
+    }
     private ProductDTO mapToProductDTO(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getProductId());
