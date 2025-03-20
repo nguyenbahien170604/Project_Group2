@@ -2,12 +2,15 @@ package com.Project_Group2.controller.userController;
 
 import com.Project_Group2.dto.BlogDTO;
 import com.Project_Group2.dto.ProductDTO;
+import com.Project_Group2.entity.User;
 import com.Project_Group2.service.BlogService;
 import com.Project_Group2.service.ProductService;
 import com.Project_Group2.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -26,15 +29,17 @@ public class HomePageController {
     }
 
     @GetMapping("/")
-    public String getHomePage(Model model) {
+    public String getHomePage(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login"; // Nếu chưa đăng nhập, chuyển hướng về login
+        }
         List<ProductDTO> listProducts = productService.getAllProducts();
         model.addAttribute("listProducts", listProducts);
 
         List<ProductDTO> products1 = productService.getProductsByCategoryId(1);
         model.addAttribute("products1", products1);
-        for (ProductDTO a:products1){
-            System.out.println(a);
-        }
+
         List<ProductDTO> products2 = productService.getProductsByCategoryId(2);
         model.addAttribute("products2", products2);
 

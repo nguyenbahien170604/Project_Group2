@@ -66,6 +66,17 @@ public class User {
         this.role = role;
         this.products = products;
     }
+    public User(String username, String passwordHash, String email, String address, String phoneNumber, String avatarUrl) {
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.avatarUrl = avatarUrl;
+        this.createdAt = LocalDateTime.now(); // Gán thời gian mặc định
+        this.updatedAt = LocalDateTime.now();
+        this.isDeleted = false; // Mặc định là chưa bị xóa
+    }
 
     public User(int id, String username, String passwordHash, String email, String address, String phoneNumber, String avatarUrl, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean isDeleted, Role role, List<Product> products) {
         this.id = id;

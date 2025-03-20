@@ -13,20 +13,23 @@ import java.util.Optional;
 @Service
 public class CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
 
-    @Autowired
-    private CartDetailsRepository cartDetailsRepository;
+    private final CartDetailsRepository cartDetailsRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private ProductVariantRepository productVariantRepository;
+    private final ProductVariantRepository productVariantRepository;
+
+    public CartService(CartRepository cartRepository, CartDetailsRepository cartDetailsRepository, UserRepository userRepository, ProductRepository productRepository, ProductVariantRepository productVariantRepository) {
+        this.cartRepository = cartRepository;
+        this.cartDetailsRepository = cartDetailsRepository;
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.productVariantRepository = productVariantRepository;
+    }
 
     public void addToCart(int userId, int productId, String size, String color, int quantity) {
         // Lấy sản phẩm theo ID
@@ -48,9 +51,9 @@ public class CartService {
         }
 
         // Lấy giỏ hàng của user (giả định user đã có giỏ hàng)
-        Carts cart = cartRepository.findByUserId(userId).orElseGet(() -> {
+        Carts cart = cartRepository.findByUserId(1).orElseGet(() -> {
             Carts newCart = new Carts();
-            newCart.setUser(userRepository.findById(userId).get());
+            newCart.setUser(userRepository.findById(1).get());
             cartRepository.save(newCart);
             return newCart;
         });
