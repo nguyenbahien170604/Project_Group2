@@ -114,13 +114,14 @@
                                            th:text="${cartItem.productVariant.product.productName}"></a>
                                     </td>
                                     <td class="plantmore-product-price">
-                                        <span class="amount" th:text="'$' + ${cartItem.productVariant.product.price}"></span>
+<!--                                        <span class="amount" th:text="'$' + ${cartItem.productVariant.product.price}"></span>-->
+                                        <span class="amount" th:text="'$' + ${cartItem.priceProduct}"></span>
                                     </td>
                                     <td class="plantmore-product-quantity">
                                         <input type="number" th:value="${cartItem.quantity}" min="1">
                                     </td>
                                     <td class="product-subtotal">
-                                        <span class="amount" th:text="'$' + ${cartItem.quantity * cartItem.productVariant.product.price}"></span>
+                                        <span class="amount" th:text="'$' + ${cartItem.quantity * cartItem.priceProduct}"></span>
                                     </td>
                                 </tr>
                                 </tbody>

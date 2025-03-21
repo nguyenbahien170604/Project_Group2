@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +18,7 @@ public interface CartDetailsRepository extends JpaRepository<CartDetails, Intege
     List<CartDetails> findByCart(Carts cart);
     @Query("SELECT COUNT(DISTINCT cd.productVariant.variantId) FROM CartDetails cd WHERE cd.cart.cartId = :cartId")
     int countDistinctProductByCart(@Param("cartId") int cartId);
+
+    @Query("SELECT COALESCE(SUM(cd.priceProduct * cd.quantity), 0) FROM CartDetails cd WHERE cd.cart.cartId = :cartId")
+    BigDecimal findTotalAmountByCart(@Param("cartId") Integer cartId);
 }

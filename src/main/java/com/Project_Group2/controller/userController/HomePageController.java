@@ -3,6 +3,7 @@ package com.Project_Group2.controller.userController;
 import com.Project_Group2.dto.BlogDTO;
 import com.Project_Group2.dto.ProductDTO;
 import com.Project_Group2.entity.CartDetails;
+import com.Project_Group2.entity.Product;
 import com.Project_Group2.entity.User;
 import com.Project_Group2.service.BlogService;
 import com.Project_Group2.service.CartService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -93,13 +95,25 @@ public class HomePageController {
     public String getCartPage(Model model) {
         List<CartDetails> cartItems = cartService.getCartItems();
         BigDecimal total = BigDecimal.ZERO;
+
         for (CartDetails cartItem : cartItems) {
-            BigDecimal itemTotal = cartItem.getProductVariant().getProduct().getPrice()
-                    .multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+            Product product = cartItem.getProductVariant().getProduct();
+            BigDecimal price = product.getPrice();
+            BigDecimal discount = BigDecimal.valueOf(product.getDiscount());
+
+            // Tính giá sau giảm giá
+            BigDecimal discountedPrice = price.multiply(BigDecimal.valueOf(100).subtract(discount))
+                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+
+            // Tổng tiền của sản phẩm đó
+            BigDecimal itemTotal = discountedPrice.multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+
             total = total.add(itemTotal);
         }
+
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
+
         return "user/cart";
     }
 

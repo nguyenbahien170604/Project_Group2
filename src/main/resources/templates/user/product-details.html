@@ -68,7 +68,7 @@
                                         </ul>
                                     </div>
                                     <div class="price-box">
-                                        <span class="new-price" th:text="${product.getPrice()}">$225.00</span>
+                                        <span class="new-price" th:text="${product.getPrice()*(100 - product.getDiscount())/100}">$225.00</span>
                                         <span class="old-price" th:text="${product.getPrice()}">$250.00</span>
                                     </div>
                                     <p th:text="${product.getShortDescription()}">100% cotton double printed dress.

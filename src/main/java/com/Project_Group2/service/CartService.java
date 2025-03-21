@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -49,65 +50,73 @@ public class CartService {
     }
 
     public int addToCart(HttpSession session, int productId, String size, String color, int quantity) {
-       try {
-           User user = (User) session.getAttribute("loggedInUser");
-           if (user == null) {
-               throw new RuntimeException("User not logged in");
-           }
+        try {
+            // 1. Kiểm tra người dùng đăng nhập
+            User user = (User) session.getAttribute("loggedInUser");
+            if (user == null) {
+                throw new IllegalArgumentException("User not logged in");
+            }
 
-           Optional<Product> productOpt = productRepository.findById(productId);
-           if (!productOpt.isPresent()) {
-               throw new RuntimeException("Product not found");
-           }
-           Product product = productOpt.get();
-           System.out.println(" Product found: " + product.getProductName());
+            // 2. Lấy sản phẩm từ DB
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+            System.out.println("Product found: " + product.getProductName());
 
-           Optional<ProductVariant> variantOpt = productVariantRepository.findByProductAndSizeAndColor(product, size, color);
-           if (!variantOpt.isPresent()) {
-               throw new RuntimeException("Product variant not found");
-           }
-           ProductVariant variant = variantOpt.get();
-           System.out.println(" Variant found: Size - " + variant.getSize() + ", Color - " + variant.getColor());
+            // 3. Tìm biến thể của sản phẩm theo màu sắc và kích thước
+            ProductVariant variant = productVariantRepository.findByProductAndSizeAndColor(product, size, color)
+                    .orElseThrow(() -> new IllegalArgumentException("Product variant not found"));
+            System.out.println("Variant found: Size - " + variant.getSize() + ", Color - " + variant.getColor());
 
-           if (variant.getQuantityInStock() < quantity) {
-               throw new RuntimeException("Not enough stock available");
-           }
-           System.out.println(" Stock available: " + variant.getQuantityInStock());
+            // 4. Kiểm tra số lượng tồn kho
+            if (variant.getQuantityInStock() < quantity) {
+                throw new IllegalArgumentException("Not enough stock available");
+            }
+            System.out.println("Stock available: " + variant.getQuantityInStock());
 
-           Optional<Carts> cartOpt = cartRepository.findByUserId(user.getId());
-           Carts cart;
-           if (cartOpt.isPresent()) {
-               cart = cartOpt.get();
-           } else {
-               cart = new Carts();
-               cart.setUser(user);
-               cart.setTotalAmount(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
-               cart.setDeleted(false);
-               cartRepository.save(cart);
-           }
-           Optional<CartDetails> cartDetailOpt = cartDetailsRepository.findByCartAndProductVariant(cart, variant);
-           CartDetails cartDetail;
-           if (cartDetailOpt.isPresent()) {
-               cartDetail = cartDetailOpt.get();
-               cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
-               System.out.println(" Updated quantity: " + cartDetail.getQuantity());
-           } else {
-               cartDetail = new CartDetails();
-               cartDetail.setCart(cart);
-               cartDetail.setProductVariant(variant);
-               cartDetail.setQuantity(quantity);
-               cartDetail.setPriceProduct(cart.getTotalAmount());
-               System.out.println(" New CartDetail added: " + product.getProductName());
-           }
-           cartDetailsRepository.save(cartDetail);
-           System.out.println(" Cart updated successfully!");
-           int cartSize = cartDetailsRepository.countDistinctProductByCart(cart.getCartId());
-           session.setAttribute("cartSize", cartSize);
-           return cartDetailsRepository.countDistinctProductByCart(cart.getCartId());
-       }catch (Exception e) {
-           System.out.println(e.getMessage());
-       }
-       return 0;
+            // 5. Tính giá giảm giá
+            BigDecimal price = product.getPrice();
+            BigDecimal discount = BigDecimal.valueOf(100 - product.getDiscount());
+            BigDecimal discountedPrice = price.multiply(discount).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+
+            // 6. Lấy hoặc tạo giỏ hàng của user
+            Carts cart = cartRepository.findByUserId(user.getId()).orElseGet(() -> {
+                Carts newCart = new Carts();
+                newCart.setUser(user);
+                newCart.setTotalAmount(BigDecimal.ZERO);
+                newCart.setDeleted(false);
+                return cartRepository.save(newCart);
+            });
+
+            // 7. Kiểm tra sản phẩm đã tồn tại trong giỏ hàng hay chưa
+            CartDetails cartDetail = cartDetailsRepository.findByCartAndProductVariant(cart, variant).orElseGet(() -> {
+                CartDetails newCartDetail = new CartDetails();
+                newCartDetail.setCart(cart);
+                newCartDetail.setProductVariant(variant);
+                newCartDetail.setQuantity(0);
+                newCartDetail.setPriceProduct(discountedPrice);
+                return newCartDetail;
+            });
+
+            // 8. Cập nhật số lượng sản phẩm trong giỏ hàng
+            cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+            cartDetail.setPriceProduct(discountedPrice); // Đảm bảo giá luôn cập nhật đúng
+            cartDetailsRepository.save(cartDetail);
+
+            // 9. Cập nhật tổng tiền của giỏ hàng
+            BigDecimal totalAmount = cartDetailsRepository.findTotalAmountByCart(cart.getCartId());
+            cart.setTotalAmount(totalAmount);
+            cartRepository.save(cart);
+
+            // 10. Cập nhật số lượng sản phẩm trong giỏ hàng lên session
+            int cartSize = cartDetailsRepository.countDistinctProductByCart(cart.getCartId());
+            session.setAttribute("cartSize", cartSize);
+
+            System.out.println("Cart updated successfully!");
+            return cartSize;
+        } catch (Exception e) {
+            System.out.println("Error in addToCart: " + e.getMessage());
+        }
+        return 0;
     }
 
     public int removeCartItem(int cartDetailId) {
@@ -169,12 +178,21 @@ public class CartService {
 
             BigDecimal totalPrice = BigDecimal.ZERO;
             for (CartDetails cartItem : cartItems) {
-                BigDecimal itemTotal = cartItem.getProductVariant().getProduct().getPrice()
-                        .multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+                Product product = cartItem.getProductVariant().getProduct();
+                BigDecimal price = product.getPrice();
+                BigDecimal discount = BigDecimal.valueOf(product.getDiscount());
+
+                // Tính giá đã giảm
+                BigDecimal discountedPrice = price.multiply(BigDecimal.valueOf(100).subtract(discount))
+                        .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+
+                // Tổng tiền của sản phẩm
+                BigDecimal itemTotal = discountedPrice.multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+
                 totalPrice = totalPrice.add(itemTotal);
             }
 
-            OrderStatuses status = orderStatusRepository.findById(1)
+            OrderStatuses status = orderStatusRepository.findById(2)
                     .orElseThrow(() -> new RuntimeException("⚠️ Order status not found"));
 
             Orders newOrder = new Orders();
