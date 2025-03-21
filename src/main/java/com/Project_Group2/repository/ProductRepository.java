@@ -13,7 +13,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product> findByProductIdAndIsDeletedFalse(int productId);
     List<Product> findAllByIsDeletedFalse();
-    List<Product> findByCategoryAndProductIdNot(Category category, int productId);
     List<Product> findAllByCategory(Category category);
     List<Product> findAllByCategory_CategoryIdAndIsDeletedFalse(int categoryId);
     List<Product> findTop6ByOrderByCreatedAtDesc();

@@ -218,7 +218,7 @@ public class CartService {
 
                 ProductVariant variant = cartItem.getProductVariant();
                 if (variant.getQuantityInStock() < cartItem.getQuantity()) {
-                    throw new RuntimeException("⚠️ Not enough stock for product: " + variant.getProduct().getProductName());
+                    throw new RuntimeException(" Not enough stock for product: " + variant.getProduct().getProductName());
                 }
                 variant.setQuantityInStock(variant.getQuantityInStock() - cartItem.getQuantity());
                 productVariantRepository.save(variant);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
@@ -30,10 +31,22 @@ public class ProductController {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         List<ProductImage> listProductImages = product.getImages();
         List<ProductVariant> listProductVariants = product.getVariants();
-        //List<Product> listSameCategory = productRepository.findByCategoryAndProductIdNot(product.getCategory(), productId);
         List<ProductDTO> listSameCategory = productService.getSameCategoryProducts(product.getCategory().getCategoryId(), productId);
         ProductImage productImage1 = listProductImages.get(0);
         ProductImage productImage2 = listProductImages.get(1);
+        List<String> uniqueSizes = product.getVariants().stream()
+                .map(ProductVariant::getSize)
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<String> uniqueColors = product.getVariants().stream()
+                .map(ProductVariant::getColor)
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Thêm vào model
+        model.addAttribute("uniqueSizes", uniqueSizes);
+        model.addAttribute("uniqueColors", uniqueColors);
         model.addAttribute("product", product);
         model.addAttribute("productImage1", productImage1);
         model.addAttribute("productImage2", productImage2);

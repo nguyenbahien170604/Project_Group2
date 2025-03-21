@@ -2,13 +2,8 @@ package com.Project_Group2.controller.userController;
 
 import com.Project_Group2.dto.BlogDTO;
 import com.Project_Group2.dto.ProductDTO;
-import com.Project_Group2.entity.CartDetails;
-import com.Project_Group2.entity.Product;
-import com.Project_Group2.entity.User;
-import com.Project_Group2.service.BlogService;
-import com.Project_Group2.service.CartService;
-import com.Project_Group2.service.ProductService;
-import com.Project_Group2.service.UserService;
+import com.Project_Group2.entity.*;
+import com.Project_Group2.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +22,14 @@ public class HomePageController {
     private final UserService userService;
     private final BlogService blogService;
     private final CartService cartService;
+    private final SliderService sliderService;
 
-    public HomePageController(ProductService productService, UserService userService, BlogService blogService, CartService cartService) {
+    public HomePageController(ProductService productService, UserService userService, BlogService blogService, CartService cartService, SliderService sliderService) {
         this.productService = productService;
         this.userService = userService;
         this.blogService = blogService;
         this.cartService = cartService;
+        this.sliderService = sliderService;
     }
 
     @GetMapping("/")
@@ -54,6 +51,9 @@ public class HomePageController {
         model.addAttribute("products3", products3);
 
         List<ProductDTO> latestProducts = productService.get6LatestProducts();
+
+        List<Slider> top3Slider = sliderService.getTop3Slider();
+
         ProductDTO last1 = latestProducts.get(latestProducts.size()-1);
         ProductDTO last2 = latestProducts.get(latestProducts.size()-2);
         ProductDTO last3 = latestProducts.get(latestProducts.size()-3);
@@ -67,6 +67,7 @@ public class HomePageController {
         model.addAttribute("last5", last5);
         model.addAttribute("last6", last6);
         model.addAttribute("latestProducts", latestProducts);
+        model.addAttribute("top3Slider", top3Slider);
 
         return "user/homepage";
     }
@@ -81,7 +82,9 @@ public class HomePageController {
     @GetMapping("/blog")
     public String getBlogPage(Model model) {
         List<BlogDTO> blogDTOList = blogService.getAllBlogs();
+        List<Blog> Top4BlogList = blogService.get4Blog();
         model.addAttribute("blogDTOList", blogDTOList);
+        model.addAttribute("Top4BlogList",Top4BlogList);
         return "user/blog";
     }
 

@@ -76,18 +76,18 @@
                                     <div class="modal-size">
                                         <h4>Size</h4>
                                         <select name="size" id="size">
-                                            <option th:each="variant : ${product.getVariants()}"
-                                                    th:value="${variant.getSize()}"
-                                                    th:text="${variant.getSize()}">
+                                            <option th:each="size : ${uniqueSizes}"
+                                                    th:value="${size}"
+                                                    th:text="${size}">
                                             </option>
                                         </select>
                                     </div>
                                     <div class="modal-color">
                                         <h4>Color</h4>
                                         <select name="color" id="color" required>
-                                            <option th:each="variant : ${product.getVariants()}"
-                                                    th:value="${variant.color}"
-                                                    th:text="${variant.color}">
+                                            <option th:each="color : ${uniqueColors}"
+                                                    th:value="${color}"
+                                                    th:text="${color}">
                                             </option>
                                         </select>
                                     </div>
@@ -102,7 +102,7 @@
                                         <button class="add-to-cart" type="submit">Add to cart</button>
                                     </div>
                                     <div th:each="variant : ${product.getVariants()}">
-                                        <p th:text="'Quantity in stock of '+${variant.getColor()}+' is: '+${variant.getQuantityInStock()}"></p>
+                                        <small th:text="'Quantity in stock of '+${variant.getColor()}+' and '+${variant.getSize()}+' is: '+${variant.getQuantityInStock()}"></small>
                                     </div>
                                 </div>
                             </div>

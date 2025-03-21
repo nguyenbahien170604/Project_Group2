@@ -15,9 +15,10 @@
 
     <!-- slider-main-area start -->
     <div class="slider-main-area">
-        <div class="slider-active owl-carousel">
+        <div  class="slider-active owl-carousel">
             <!-- slider-wrapper start -->
-            <div class="slider-wrapper" th:style="|background-image: url(@{/assets/img/slider/home-1-01.jpg})|">
+            <div th:each="slider : ${top3Slider}">
+                <div class="slider-wrapper" th:style="'background-image: url(' + ${slider.getImageUrl()} + ');'">
                 <div class="container-fluid">
                     <div class="row justify-content-end">
                         <div class="col-lg-11 col-md-11">
@@ -162,11 +163,7 @@
                                         <div class="product_desc_info">
                                             <div class="rating-box">
                                                 <ul class="rating">
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li class="no-star"><i class="fa fa-star"></i></li>
-                                                    <li class="no-star"><i class="fa fa-star"></i></li>
+
                                                 </ul>
                                             </div>
                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}">Air Jordan XI Retro</a></h4>
@@ -201,7 +198,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="single-banner-box-2">
-                        <a href="#"><img th:src="@{assets/img/banner/6.jpg}" alt=""></a>
+                        <a href="#"><img th:src="@{assets/img/banner/home-3-1.jpg}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -251,11 +248,7 @@
                                                         <div class="product_desc_info">
                                                             <div class="rating-box">
                                                                 <ul class="rating">
-                                                                    <li><i class="fa fa-star"></i></li>
-                                                                    <li><i class="fa fa-star"></i></li>
-                                                                    <li><i class="fa fa-star"></i></li>
-                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
-                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
+
                                                                 </ul>
                                                             </div>
                                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}" >Air Jordan XI Retro</a></h4>
@@ -286,7 +279,7 @@
                 <div class="col-lg-3">
                     <!--single-banner-box start -->
                     <div class="single-banner-box">
-                        <a href="#"><img th:src="@{assets/img/banner/8.jpg}" alt=""></a>
+                        <a href="#"><img th:src="@{assets/img/banner/giay3.jpg}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -337,11 +330,7 @@
                                                                         <div class="product_desc_info">
                                                                             <div class="rating-box">
                                                                                 <ul class="rating">
-                                                                                    <li><i class="fa fa-star"></i></li>
-                                                                                    <li><i class="fa fa-star"></i></li>
-                                                                                    <li><i class="fa fa-star"></i></li>
-                                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
-                                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
+
                                                                                 </ul>
                                                                             </div>
                                                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}" >Air Jordan XI Retro</a></h4>
@@ -377,7 +366,7 @@
                 <div class="col-lg-3">
                     <!--single-banner-box start -->
                     <div class="single-banner-box">
-                        <a href="#"><img th:src="@{assets/img/banner/7.jpg}" alt=""></a>
+                        <a href="#"><img th:src="@{assets/img/banner/giay2.jpg}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -426,11 +415,6 @@
                                                                         <div class="product_desc_info">
                                                                             <div class="rating-box">
                                                                                 <ul class="rating">
-                                                                                    <li><i class="fa fa-star"></i></li>
-                                                                                    <li><i class="fa fa-star"></i></li>
-                                                                                    <li><i class="fa fa-star"></i></li>
-                                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
-                                                                                    <li class="no-star"><i class="fa fa-star"></i></li>
                                                                                 </ul>
                                                                             </div>
                                                                             <h4><a class="product_name" th:href="@{/product-details(id=${product.id})}" th:text="${product.getProductName()}" >Air Jordan XI Retro</a></h4>
@@ -466,7 +450,7 @@
                 <div class="col-lg-3">
                     <!--single-banner-box start -->
                     <div class="single-banner-box">
-                        <a href="#"><img th:src="@{assets/img/banner/7.jpg}" alt=""></a>
+                        <a href="#"><img th:src="@{assets/img/banner/giay1.jpg}" alt=""></a>
                     </div>
                 </div>
             </div>

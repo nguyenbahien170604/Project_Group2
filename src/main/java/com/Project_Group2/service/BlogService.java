@@ -27,6 +27,16 @@ public class BlogService {
         return blogs.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
+    public List<Blog> get4Blog(){
+        List<Blog> blogs = blogRepository.findTop4ByOrderByBlogIdDesc();
+        return blogs;
+    }
+
+    public List<Blog> get4BlogNotExist(int id){
+        List<Blog> blogs = blogRepository.findTop4ByBlogIdNotOrderByBlogIdDesc(id);
+        return blogs;
+    }
+
     // Lấy blog theo ID
     public BlogDTO getBlogById(int blogId) {
         Blog blog = blogRepository.findById(blogId)

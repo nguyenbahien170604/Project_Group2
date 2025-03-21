@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class BlogPageController {
 
@@ -21,6 +23,9 @@ public class BlogPageController {
     public String blogPageDetail(Model model, @RequestParam("id") int blogId) {
         BlogDTO blog = blogService.getBlogById(blogId);
         model.addAttribute("blog", blog);
+        List<Blog> top4blogs = blogService.get4BlogNotExist(blogId);
+
+        model.addAttribute("top4blogs", top4blogs);
         return "user/blog-details";
     }
 }

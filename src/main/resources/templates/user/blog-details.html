@@ -34,51 +34,19 @@
       <div class="row">
         <div class="col-lg-3 order-2 order-lg-1">
           <div class="single-categories-1 blog-search mt-95">
-            <h3 class="blog-categorie-title">Search</h3>
-            <form class="blog-search-form" action="#">
-              <div class="form-input">
-                <input type="text" placeholder="Search..." class="input-text">
-                <button class="blog-search-button" type="submit"><i class="fa fa-search"></i></button>
-              </div>
-            </form>
+            <h3 class="blog-categorie-title"></h3>
+
           </div>
           <div class="single-categories-1 recent-post">
             <h3 class="blog-categorie-title">recent posts</h3>
             <div class="all-recent-post">
-              <div class="single-recent-post">
+              <div th:each="blog : ${top4blogs}" class="single-recent-post">
                 <div class="recent-img">
-                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-1.jpg}"></a>
+                  <a th:href="@{/blog-details(id=${blog.getBlogId()})}"><img alt="blog-img" th:src="${blog.getImageUrl()}"></a>
                 </div>
                 <div class="recent-desc">
-                  <h6><a href="#">kult Furniture Blog</a></h6>
-                  <span>20 April, 2018</span>
-                </div>
-              </div>
-              <div class="single-recent-post">
-                <div class="recent-img">
-                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-2.jpg}"></a>
-                </div>
-                <div class="recent-desc">
-                  <h6><a href="#">top  modern Furniture Blog</a></h6>
-                  <span>18 April, 2018</span>
-                </div>
-              </div>
-              <div class="single-recent-post">
-                <div class="recent-img">
-                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-3.jpg}"></a>
-                </div>
-                <div class="recent-desc">
-                  <h6><a href="#">Painted Furniture Ideas </a></h6>
-                  <span>15 April, 2018</span>
-                </div>
-              </div>
-              <div class="single-recent-post">
-                <div class="recent-img">
-                  <a href="#"><img alt="blog-img" th:src="@{assets/img/blog/home-4.jpg}"></a>
-                </div>
-                <div class="recent-desc">
-                  <h6><a href="#">Painted Furniture Ideas </a></h6>
-                  <span>15 April, 2018</span>
+                  <h6><a th:href="@{/blog-details(id=${blog.getBlogId()})}" th:text="${blog.getTitle()}">kult Furniture Blog</a></h6>
+                  <span th:text="${blog.getCreatedAt()}">20 April, 2018</span>
                 </div>
               </div>
             </div>

@@ -16,9 +16,9 @@
                             <ul>
                                 <li class="drodown-show"><a href="#"> Setting <i class="fa fa-angle-down"></i></a>
                                     <ul class="open-dropdown setting">
-                                        <li><a href="my-account.html">My account</a></li>
-                                        <li><a th:href="@{/login}">Sign in</a></li>
-                                        <li><a th:href="@{/logout}">Log out</a></li>
+                                            <li th:if="${session.loggedInUser != null}"><a th:href="@{/account}">My account</a></li>
+                                            <li th:if="${session.loggedInUser != null}"><a th:href="@{/logout}">Log out</a></li>
+                                            <li th:if="${session.loggedInUser == null}"><a th:href="@{/login}">Sign in</a></li>
                                     </ul>
                                 </li>
                             </ul>

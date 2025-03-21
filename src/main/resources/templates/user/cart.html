@@ -94,6 +94,8 @@
                                     <th class="plantmore-product-remove">remove</th>
                                     <th class="plantmore-product-thumbnail">images</th>
                                     <th class="cart-product-name">Product</th>
+                                    <th class="plantmore-product-color">Color</th>
+                                    <th class="plantmore-product-size">Size</th>
                                     <th class="plantmore-product-price">Unit Price</th>
                                     <th class="plantmore-product-quantity">Quantity</th>
                                     <th class="plantmore-product-subtotal">Total</th>
@@ -112,6 +114,12 @@
                                     <td class="plantmore-product-name">
                                         <a th:href="@{/product-details(id=${cartItem.productVariant.product.productId})}"
                                            th:text="${cartItem.productVariant.product.productName}"></a>
+                                    </td>
+                                    <td class="plantmore-product-color">
+                                        <p type="text" th:text="${cartItem.productVariant.getColor()}" >
+                                    </td>
+                                    <td class="plantmore-product-size">
+                                        <p type="text" th:text="${cartItem.productVariant.getSize()}" >
                                     </td>
                                     <td class="plantmore-product-price">
 <!--                                        <span class="amount" th:text="'$' + ${cartItem.productVariant.product.price}"></span>-->
