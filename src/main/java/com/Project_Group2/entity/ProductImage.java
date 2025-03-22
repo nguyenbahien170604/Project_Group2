@@ -1,7 +1,11 @@
 package com.Project_Group2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Product_Images")
@@ -27,11 +31,17 @@ public class ProductImage {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @OneToMany(mappedBy = "productImage", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<OrderDetails> orderDetails = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
         updatedAt = new Date();
     }
+
+
 
     @PreUpdate
     protected void onUpdate() {

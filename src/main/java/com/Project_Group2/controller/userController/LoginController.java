@@ -81,22 +81,6 @@ public class LoginController {
             return "user/register";
         }
 
-//        String avatarPath = "";
-//        if (!avatar.isEmpty()) {
-//            try {
-//                String uploadDir = "uploads/avatar/";
-//                File dir = new File(uploadDir);
-//                if (!dir.exists()) {
-//                    dir.mkdirs();
-//                }
-//
-//                avatarPath = "/uploads/avatar/" + avatar.getOriginalFilename();
-//                avatar.transferTo(new File(uploadDir + avatar.getOriginalFilename()));
-//            } catch (IOException e) {
-//                model.addAttribute("error", "Failed to upload avatar!");
-//                return "user/register";
-//            }
-//        }
 
         Role userRole = roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Default role not found"));
         model.addAttribute("error", "Register successfully");

@@ -120,5 +120,4 @@ public class HomePageController {
         return "user/cart";
     }
 
-
 }

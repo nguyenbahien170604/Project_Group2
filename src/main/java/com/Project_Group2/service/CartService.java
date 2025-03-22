@@ -211,6 +211,8 @@ public class CartService {
                 OrderDetails orderDetail = new OrderDetails();
                 orderDetail.setOrder(newOrder);
                 orderDetail.setProduct(cartItem.getProductVariant().getProduct());
+                orderDetail.setProductVariant(cartItem.getProductVariant());
+                orderDetail.setProductImage(cartItem.getProductVariant().getProduct().getImages().get(0));
                 orderDetail.setQuantity(cartItem.getQuantity());
                 orderDetail.setPriceProduct(cartItem.getProductVariant().getProduct().getPrice());
                 orderDetailsRepository.save(orderDetail);

@@ -63,13 +63,15 @@
                                 <div class="product-info">
                                     <h2 th:text="${product.getProductName()}">Brand Name FREE RN 2018</h2>
                                     <input type="hidden" name="productId" th:value="${product.getProductId()}">
-                                    <div class="rating-box">
-                                        <ul class="rating">
-                                        </ul>
-                                    </div>
                                     <div class="price-box">
                                         <span class="new-price" th:text="${product.getPrice()*(100 - product.getDiscount())/100}">$225.00</span>
                                         <span class="old-price" th:text="${product.getPrice()}">$250.00</span>
+                                    </div>
+                                    <div >
+                                        <p th:text="'Brand :'+${product.brand.getBrandName()}"></p>
+                                    </div>
+                                    <div >
+                                        <p th:text="'Category :'+${product.category.getCategoryName()}"></p>
                                     </div>
                                     <p th:text="${product.getShortDescription()}">100% cotton double printed dress.
                                         Black and white striped top and orange high waisted skater skirt bottom.</p>

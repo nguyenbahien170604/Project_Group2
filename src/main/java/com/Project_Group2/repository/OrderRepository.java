@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Orders, Integer> {
-    // Lấy danh sách đơn hàng theo User (để hiển thị lịch sử mua hàng)
     List<Orders> findByUser(User user);
 }

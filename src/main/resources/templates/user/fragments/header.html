@@ -16,9 +16,12 @@
                             <ul>
                                 <li class="drodown-show"><a href="#"> Setting <i class="fa fa-angle-down"></i></a>
                                     <ul class="open-dropdown setting">
-                                            <li th:if="${session.loggedInUser != null}"><a th:href="@{/account}">My account</a></li>
-                                            <li th:if="${session.loggedInUser != null}"><a th:href="@{/logout}">Log out</a></li>
-                                            <li th:if="${session.loggedInUser == null}"><a th:href="@{/login}">Sign in</a></li>
+                                        <li th:if="${session.loggedInUser != null}"><a th:href="@{/account}">My
+                                            account</a></li>
+                                        <li th:if="${session.loggedInUser != null}"><a th:href="@{/logout}">Log out</a>
+                                        </li>
+                                        <li th:if="${session.loggedInUser == null}"><a th:href="@{/login}">Sign in</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -30,7 +33,6 @@
         </div>
     </div>
     <!-- header-top end -->
-
     <!-- header-mid-area start -->
     <div class="header-mid-area">
         <div class="container-fluid">
@@ -38,28 +40,38 @@
                 <div class="col-lg-3 col md-custom-12">
                     <!-- logo start -->
                     <div class="logo">
-                        <a th:href="@{/}"><img th:src="@{assets/img/logo/logo.png}" alt=""></a>
+                        <a th:href="@{/}"><img th:src="@{assets/img/logo/logo.png}"  alt=""></a>
                     </div>
                     <!-- logo end -->
                 </div>
                 <div class="col-lg-9 md-custom-12">
                     <!-- shopping-cart-box start -->
-                    <div class="shopping-cart-box">
-                        <ul>
-                            <li>
-                                <a th:href="@{/cart}">
-                <span class="item-cart-inner">
-                    <span class="item-cont" th:text="${session.cartSize == null ? 0 : session.cartSize}">0</span>
-                    My Cart
-                </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- shopping-cart-box end -->
+                    <th:block th:if="${session.loggedInUser != null}">
+                    <div class="order-cart-container">
+                        <!-- My Orders -->
+                        <div class="order-box">
+                            <a th:href="@{/orders}" class="order-link">
+            <span class="position-relative">
+                <i class="fa fa-shopping-bag"></i> My Orders
+            </span>
+                            </a>
+                        </div>
 
-                    <!-- searchbox start -->
-                    <!-- searchbox end -->
+                        <!-- My Cart -->
+                        <div class="shopping-cart-box">
+                            <ul>
+                                <li>
+                                    <a th:href="@{/cart}" class="cart-link">
+                    <span class="item-cart-inner">
+                        <span class="item-cont" th:text="${session.cartSize == null ? 0 : session.cartSize}">0</span>
+                        My Cart
+                    </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </th:block>
                 </div>
             </div>
         </div>
@@ -102,4 +114,42 @@
         </div>
     </div>
     <!-- header-bottom-area end -->
+    <style>
+        .order-cart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Căn phải theo cart */
+            gap: 5px; /* Khoảng cách giữa My Orders và My Cart */
+            margin-top: 20px;
+        }
+
+        .order-box {
+            font-size: 14px; /* Làm to chữ */
+            font-weight: bold;
+        }
+
+        .order-box i {
+            font-size: 30px; /* Làm icon to hơn */
+        }
+
+        .order-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shopping-cart-box {
+            font-size: 16px;
+        }
+    </style>
 </header>

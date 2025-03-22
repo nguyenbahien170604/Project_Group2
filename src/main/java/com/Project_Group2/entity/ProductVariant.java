@@ -1,7 +1,11 @@
 package com.Project_Group2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Product_Variants")
@@ -46,6 +50,10 @@ public class ProductVariant {
 
     @Column(name = "is_deleted", nullable = false, columnDefinition = "BIT DEFAULT 0")
     private Boolean isDeleted;
+
+    @OneToMany(mappedBy = "productVariant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<OrderDetails> orderDetails = new ArrayList<>();
 
     public ProductVariant() {
     }

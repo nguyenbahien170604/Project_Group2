@@ -1,8 +1,11 @@
 package com.Project_Group2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Order_Details")
@@ -21,26 +24,39 @@ public class OrderDetails {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "productVariant_id")
+    private ProductVariant productVariant;
+
+    @ManyToOne
+    @JoinColumn(name = "productImage_id")
+    private ProductImage productImage;
+
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
     @Column(name = "price_product", nullable = false, precision = 10, scale = 2)
     private BigDecimal priceProduct;
 
+
     public OrderDetails() {
     }
 
-    public OrderDetails(Orders order, int quantity, BigDecimal priceProduct, Product product) {
+    public OrderDetails(Orders order, Product product, ProductVariant productVariant, ProductImage productImage, int quantity, BigDecimal priceProduct) {
         this.order = order;
+        this.product = product;
+        this.productVariant = productVariant;
+        this.productImage = productImage;
         this.quantity = quantity;
         this.priceProduct = priceProduct;
-        this.product = product;
     }
 
-    public OrderDetails(int orderDetailId, Orders order, Product product, int quantity, BigDecimal priceProduct) {
+    public OrderDetails(int orderDetailId, Orders order, Product product, ProductVariant productVariant, ProductImage productImage, int quantity, BigDecimal priceProduct) {
         this.orderDetailId = orderDetailId;
         this.order = order;
         this.product = product;
+        this.productVariant = productVariant;
+        this.productImage = productImage;
         this.quantity = quantity;
         this.priceProduct = priceProduct;
     }
@@ -83,6 +99,22 @@ public class OrderDetails {
 
     public void setPriceProduct(BigDecimal priceProduct) {
         this.priceProduct = priceProduct;
+    }
+
+    public ProductVariant getProductVariant() {
+        return productVariant;
+    }
+
+    public void setProductVariant(ProductVariant productVariant) {
+        this.productVariant = productVariant;
+    }
+
+    public ProductImage getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(ProductImage productImage) {
+        this.productImage = productImage;
     }
 
     @Override
