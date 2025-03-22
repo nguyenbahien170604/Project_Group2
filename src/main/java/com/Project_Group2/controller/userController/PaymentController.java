@@ -58,6 +58,7 @@ public class PaymentController {
             order.setReceivedName(receivedName);
             order.setReceivedPhone(receivedPhone);
             order.setReceivedAddress(receivedAddress);
+            order.setPaid(false);
             order.setDeleted(false);
             order.setTotalPrice(total); // Tính tổng tiền từ giỏ hàng
             order.setStatus(orderStatusRepository.findOrderStatusesByStatusId(1));
@@ -82,6 +83,7 @@ public class PaymentController {
 
         if ("00".equals(responseCode)) { // 00 là mã giao dịch thành công
             order.setStatus(orderStatusRepository.findOrderStatusesByStatusId(1));
+            order.setPaid(true);
             List<CartDetails> listCartDetails = (List<CartDetails>)session.getAttribute("cartDetailVNPay");
             Carts carts = (Carts)session.getAttribute("cartVNPay");
             cartDetailsRepository.deleteAll(listCartDetails);

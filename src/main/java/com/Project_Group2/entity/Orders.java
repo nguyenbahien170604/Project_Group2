@@ -42,6 +42,8 @@ public class Orders {
     protected void onCreate() {
         createdAt = new Date();
     }
+    @Column(name = "is_paid" ,columnDefinition = "BIT DEFAULT 0")
+    private Boolean isPaid;
 
     @Column(name = "is_deleted", nullable = false, columnDefinition = "BIT DEFAULT 0")
     private Boolean isDeleted;
@@ -49,26 +51,28 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(User user, String receivedName, String receivedAddress, String receivedPhone, BigDecimal totalPrice, OrderStatuses status, Date createdAt, Boolean isDeleted) {
+    public Orders(User user, String receivedName, String receivedPhone, String receivedAddress, OrderStatuses status, BigDecimal totalPrice, Date createdAt, Boolean isPaid, Boolean isDeleted) {
         this.user = user;
         this.receivedName = receivedName;
-        this.receivedAddress = receivedAddress;
         this.receivedPhone = receivedPhone;
-        this.totalPrice = totalPrice;
+        this.receivedAddress = receivedAddress;
         this.status = status;
+        this.totalPrice = totalPrice;
         this.createdAt = createdAt;
+        this.isPaid = isPaid;
         this.isDeleted = isDeleted;
     }
 
-    public Orders(int orderId, User user, String receivedName, String receivedPhone, String receivedAddress, BigDecimal totalPrice, OrderStatuses status, Date createdAt, Boolean isDeleted) {
+    public Orders(int orderId, User user, String receivedName, String receivedPhone, String receivedAddress, OrderStatuses status, BigDecimal totalPrice, Date createdAt, Boolean isPaid, Boolean isDeleted) {
         this.orderId = orderId;
         this.user = user;
         this.receivedName = receivedName;
         this.receivedPhone = receivedPhone;
         this.receivedAddress = receivedAddress;
-        this.totalPrice = totalPrice;
         this.status = status;
+        this.totalPrice = totalPrice;
         this.createdAt = createdAt;
+        this.isPaid = isPaid;
         this.isDeleted = isDeleted;
     }
 
@@ -142,6 +146,14 @@ public class Orders {
 
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public Boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
     }
 
     @Override

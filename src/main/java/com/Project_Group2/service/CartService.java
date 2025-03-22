@@ -199,6 +199,7 @@ public class CartService {
             newOrder.setUser(user);
             newOrder.setReceivedName(receivedName);
             newOrder.setReceivedAddress(receivedAddress);
+            newOrder.setPaid(false);
             newOrder.setReceivedPhone(receivedPhone);
             newOrder.setTotalPrice(totalPrice);
             newOrder.setStatus(status);

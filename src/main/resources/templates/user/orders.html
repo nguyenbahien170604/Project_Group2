@@ -130,6 +130,7 @@
                                 <th>Phone number</th>
                                 <th>Total</th>
                                 <th>Booking date</th>
+                                <th>Is paid</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -141,13 +142,16 @@
                                 <td th:text="${order.getReceivedPhone()}"></td>
                                 <td th:text="${order.totalPrice}"></td>
                                 <td th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${order.getPaid() ? 'Paid' : 'Unpaid'}"></td>
                                 <td th:text="${order.status.statusName}"
                                     th:classappend="${order.status.statusName == 'Canceled' ? 'text-danger' : 'text-success'}">
                                 </td>
                                 <td>
                                     <a th:href="@{/orders/{orderId}(orderId=${order.orderId})}" class="btn btn-primary">View</a>
-                                    <a th:href="@{/orders/cancel/{orderId}(orderId=${order.orderId})}" class="btn btn-danger"
-                                       onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                                    <th:block th:if="${order.status.statusName != 'Canceled'}">
+                                        <a th:href="@{/orders/cancel/{orderId}(orderId=${order.orderId})}" class="btn btn-danger"
+                                           onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                                    </th:block>
                                 </td>
                             </tr>
                             </tbody>

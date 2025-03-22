@@ -77,7 +77,7 @@ public class CartController {
             return "redirect:/cart";
         }
 
-        return "user/order-success";
+        return "redirect:/";
     }
 
     @PostMapping("/checkout/vnpay")
