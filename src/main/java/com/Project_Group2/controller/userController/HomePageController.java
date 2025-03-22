@@ -95,9 +95,10 @@ public class HomePageController {
 
 
     @GetMapping("/cart")
-    public String getCartPage(Model model) {
+    public String getCartPage(HttpSession session ,Model model) {
         List<CartDetails> cartItems = cartService.getCartItems();
         BigDecimal total = BigDecimal.ZERO;
+        BigDecimal totalVnPay = BigDecimal.ZERO;
 
         for (CartDetails cartItem : cartItems) {
             Product product = cartItem.getProductVariant().getProduct();
@@ -113,10 +114,10 @@ public class HomePageController {
 
             total = total.add(itemTotal);
         }
-
+        totalVnPay = total;
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
-
+        session.setAttribute("totalVnPay", totalVnPay);
         return "user/cart";
     }
 

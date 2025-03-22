@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders, Integer> {
     List<Orders> findByUser(User user);
+    Orders findTop1ByOrderByOrderIdDesc();
 }

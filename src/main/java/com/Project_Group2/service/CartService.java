@@ -192,8 +192,8 @@ public class CartService {
                 totalPrice = totalPrice.add(itemTotal);
             }
 
-            OrderStatuses status = orderStatusRepository.findById(2)
-                    .orElseThrow(() -> new RuntimeException("⚠️ Order status not found"));
+            OrderStatuses status = orderStatusRepository.findById(1)
+                    .orElseThrow(() -> new RuntimeException("️ Order status not found"));
 
             Orders newOrder = new Orders();
             newOrder.setUser(user);
@@ -229,7 +229,6 @@ public class CartService {
 
             cartDetailsRepository.deleteAll(cartItems);
             cartRepository.delete(cart);
-            System.out.println(" Cart cleared after checkout");
             session.removeAttribute("cartSize");
             return true;
         } catch (NoSuchElementException e) {
