@@ -77,7 +77,7 @@ public class CartController {
             return "redirect:/cart";
         }
 
-        return "redirect:/";
+        return "user/order-success";
     }
 
     @PostMapping("/checkout/vnpay")
@@ -142,7 +142,7 @@ public class CartController {
                 orderDetail.setProductVariant(cartItem.getProductVariant());
                 orderDetail.setProductImage(cartItem.getProductVariant().getProduct().getImages().get(0));
                 orderDetail.setQuantity(cartItem.getQuantity());
-                orderDetail.setPriceProduct(cartItem.getProductVariant().getProduct().getPrice());
+                orderDetail.setPriceProduct(total);
                 orderDetailsRepository.save(orderDetail);
                 System.out.println(" Added to OrderDetails: " + cartItem.getProductVariant().getProduct().getProductName());
 

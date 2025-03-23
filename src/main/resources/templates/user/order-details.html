@@ -75,8 +75,8 @@
                 <td th:text="${detail.productVariant.getSize()}"></td>
                 <td th:text="${detail.productVariant.getColor()}"></td>
                 <td th:text="${detail.quantity}"></td>
-                <td th:text="'$' + ${detail.priceProduct * (100 - detail.product.getDiscount()) / 100}"></td>
-                <td th:text="'$' + (${detail.priceProduct * (100 - detail.product.getDiscount()) / 100} * ${detail.quantity})"></td>
+                <td th:text="${#numbers.formatDecimal(detail.getPriceProduct(), 0, 'COMMA', 2, 'POINT')+' VND'}"></td>
+                <td th:text="'$' + ${#numbers.formatDecimal(detail.getPriceProduct() * detail.getQuantity(), 0, 'COMMA',2, 'POINT')}"></td>
             </tr>
             </tbody>
         </table>

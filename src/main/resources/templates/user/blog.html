@@ -33,12 +33,14 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-3 order-2 order-lg-1">
-          <div class="single-categories-1 blog-search mt-95">
-            <h3 class="blog-categorie-title">Search</h3>
-            <form class="blog-search-form" action="#">
+          <div class="single-categories-1 blog-sort mt-95">
+            <h3 class="blog-categorie-title">Sort By</h3>
+            <form class="blog-sort-form" method="get" th:action="@{/blogSort}">
               <div class="form-input">
-                <input type="text" placeholder="Search..." class="input-text">
-                <button class="blog-search-button" type="submit"><i class="fa fa-search"></i></button>
+                <select name="sort" class="input-text" onchange="this.form.submit()">
+                  <option value="newest" th:selected="${sort == 'newest'}">Newest</option>
+                  <option value="oldest" th:selected="${sort == 'oldest'}">Oldest</option>
+                </select>
               </div>
             </form>
           </div>

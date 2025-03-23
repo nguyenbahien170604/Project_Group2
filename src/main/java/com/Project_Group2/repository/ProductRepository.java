@@ -17,4 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByCategory_CategoryIdAndIsDeletedFalse(int categoryId);
     List<Product> findTop6ByOrderByCreatedAtDesc();
     List<Product> findByCategoryCategoryIdAndProductIdNot(int categoryId, int productId);
+    List<Product> findByCategory_CategoryId(Integer categoryId);
+    List<Product> findByBrand_BrandId(Integer categoryId);
+
 }

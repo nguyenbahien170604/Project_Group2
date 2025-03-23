@@ -11,6 +11,7 @@ import com.Project_Group2.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,47 @@ public class ProductService {
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.findAllByIsDeletedFalse();
         return products.stream().map(this::mapToProductDTO).collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getSortedProducts(String sortBy) {
+        List<Product> products = productRepository.findAll();
+
+        // Thực hiện sắp xếp dựa trên giá trị `sortBy`
+        return products.stream()
+                .sorted(getComparator(sortBy))
+                .map(this::mapToProductDTO)
+                .collect(Collectors.toList());
+    }
+
+    private Comparator<Product> getComparator(String sortBy) {
+        switch (sortBy) {
+            case "name_asc":
+                return Comparator.comparing(Product::getProductName);
+            case "name_desc":
+                return Comparator.comparing(Product::getProductName).reversed();
+            case "price_asc":
+                return Comparator.comparing(Product ->
+                        Product.getPrice().multiply(BigDecimal.valueOf(100 - Product.getDiscount())).divide(BigDecimal.valueOf(100))
+                );
+            case "price_desc":
+                return Comparator.comparing(Product::getPrice).reversed();
+            default:
+                return Comparator.comparing(Product::getProductName);
+        }
+    }
+
+    public List<ProductDTO> getProductsByCategory(Integer categoryId) {
+        List<Product> products = productRepository.findByCategory_CategoryId(categoryId);
+        return products.stream()
+                .map(this::mapToProductDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsByBrand(Integer brandId) {
+        List<Product> products = productRepository.findByBrand_BrandId(brandId);
+        return products.stream()
+                .map(this::mapToProductDTO)
+                .collect(Collectors.toList());
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {

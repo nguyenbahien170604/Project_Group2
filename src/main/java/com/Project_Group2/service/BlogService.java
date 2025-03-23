@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class BlogService {
     private BlogRepository blogRepository;
 
+
     public BlogService(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
     }
@@ -43,6 +44,20 @@ public class BlogService {
                 .orElseThrow(() -> new RuntimeException("Blog not found"));
 
         return mapToDTO(blog);
+    }
+
+    public List<BlogDTO> getAllBlogsSortedByNewest() {
+        return blogRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(this::mapToDTO) // Gọi phương thức tự viết
+                .collect(Collectors.toList());
+    }
+
+    public List<BlogDTO> getAllBlogsSortedByOldest() {
+        return blogRepository.findAllByOrderByCreatedAtAsc()
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     // Thêm blog mới

@@ -139,13 +139,17 @@
                                         <p th:text="${cartItem.productVariant.getSize()}"></p>
                                     </td>
                                     <td class="plantmore-product-price">
-                                        <span class="amount" th:text="'$' + ${cartItem.priceProduct}"></span>
+    <span class="amount"
+          th:text="${#numbers.formatDecimal(cartItem.priceProduct, 0, 'COMMA', 2, 'POINT')+' VND'}">
+    </span>
                                     </td>
                                     <td class="plantmore-product-quantity">
                                         <input type="number" th:value="${cartItem.quantity}" min="1">
                                     </td>
                                     <td class="product-subtotal">
-                                        <span class="amount" th:text="'$' + ${cartItem.quantity * cartItem.priceProduct}"></span>
+    <span class="amount"
+          th:text=" ${#numbers.formatDecimal(cartItem.quantity * cartItem.priceProduct, 0, 'COMMA', 2, 'POINT')+' VND'}">
+    </span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -156,7 +160,7 @@
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        <li>Total <span th:text="${total}">$170.00</span></li>
+                                        <li>Total <span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')+' VND'}"></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -192,7 +196,7 @@
                             <input type="hidden" name="orderId">
                             <input type="hidden" name="amount" th:value="${total}">
 
-                            <button type="submit" class="btn btn-primary">Thanh toán với VNPAY</button>
+                            <button type="submit" class="btn btn-primary">Pay with VNPAY</button>
                         </form>
                     </div>
                 </div>

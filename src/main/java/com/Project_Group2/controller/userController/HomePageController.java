@@ -3,12 +3,15 @@ package com.Project_Group2.controller.userController;
 import com.Project_Group2.dto.BlogDTO;
 import com.Project_Group2.dto.ProductDTO;
 import com.Project_Group2.entity.*;
+import com.Project_Group2.repository.BrandRepository;
+import com.Project_Group2.repository.CategoryRepository;
 import com.Project_Group2.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,13 +26,17 @@ public class HomePageController {
     private final BlogService blogService;
     private final CartService cartService;
     private final SliderService sliderService;
+    private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
 
-    public HomePageController(ProductService productService, UserService userService, BlogService blogService, CartService cartService, SliderService sliderService) {
+    public HomePageController(ProductService productService, UserService userService, BlogService blogService, CartService cartService, SliderService sliderService, CategoryRepository categoryRepository, BrandRepository brandRepository) {
         this.productService = productService;
         this.userService = userService;
         this.blogService = blogService;
         this.cartService = cartService;
         this.sliderService = sliderService;
+        this.categoryRepository = categoryRepository;
+        this.brandRepository = brandRepository;
     }
 
     @GetMapping("/")
@@ -54,6 +61,10 @@ public class HomePageController {
 
         List<Slider> top3Slider = sliderService.getTop3Slider();
 
+        Slider slider1 = top3Slider.get(0);
+        Slider slider2 = top3Slider.get(1);
+        Slider slider3 = top3Slider.get(2);
+
         ProductDTO last1 = latestProducts.get(latestProducts.size()-1);
         ProductDTO last2 = latestProducts.get(latestProducts.size()-2);
         ProductDTO last3 = latestProducts.get(latestProducts.size()-3);
@@ -67,26 +78,33 @@ public class HomePageController {
         model.addAttribute("last5", last5);
         model.addAttribute("last6", last6);
         model.addAttribute("latestProducts", latestProducts);
-        model.addAttribute("top3Slider", top3Slider);
+        model.addAttribute("slider1", slider1);
+        model.addAttribute("slider2", slider2);
+        model.addAttribute("slider3", slider3);
 
         return "user/homepage";
     }
 
     @GetMapping("/shop")
     public String getShopPage(Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        List<Brand> brands = brandRepository.findAll();
         List<ProductDTO> listProducts = productService.getAllProducts();
         model.addAttribute("listProducts", listProducts);
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", brands);
         return "user/shop";
     }
 
     @GetMapping("/blog")
     public String getBlogPage(Model model) {
         List<BlogDTO> blogDTOList = blogService.getAllBlogs();
-        List<Blog> Top4BlogList = blogService.get4Blog();
+        List<Blog> top4BlogList = blogService.get4Blog();
         model.addAttribute("blogDTOList", blogDTOList);
-        model.addAttribute("Top4BlogList",Top4BlogList);
+        model.addAttribute("Top4BlogList",top4BlogList);
         return "user/blog";
     }
+
 
     @GetMapping("/contact")
     public String getContactPage(Model model) {

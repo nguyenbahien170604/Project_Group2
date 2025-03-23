@@ -1,9 +1,6 @@
 package com.Project_Group2.controller.userController;
 
-import com.Project_Group2.entity.CartDetails;
-import com.Project_Group2.entity.Carts;
-import com.Project_Group2.entity.Orders;
-import com.Project_Group2.entity.User;
+import com.Project_Group2.entity.*;
 import com.Project_Group2.repository.*;
 import com.Project_Group2.service.VNPayService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,14 +25,16 @@ public class PaymentController {
     private final UserRepository userRepository;
     private final CartDetailsRepository cartDetailsRepository;
     private final CartRepository cartRepository;
+    private final OrderDetailsRepository orderDetailsRepository;
 
-    public PaymentController(VNPayService vnPayService, OrderRepository orderRepository, OrderStatusRepository orderStatusRepository, UserRepository userRepository, CartDetailsRepository cartDetailsRepository, CartRepository cartRepository) {
+    public PaymentController(VNPayService vnPayService, OrderRepository orderRepository, OrderStatusRepository orderStatusRepository, UserRepository userRepository, CartDetailsRepository cartDetailsRepository, CartRepository cartRepository, OrderDetailsRepository orderDetailsRepository) {
         this.vnPayService = vnPayService;
         this.orderRepository = orderRepository;
         this.orderStatusRepository = orderStatusRepository;
         this.userRepository = userRepository;
         this.cartDetailsRepository = cartDetailsRepository;
         this.cartRepository = cartRepository;
+        this.orderDetailsRepository = orderDetailsRepository;
     }
 
     @GetMapping("/checkout/vnpay")
@@ -61,7 +60,7 @@ public class PaymentController {
             order.setPaid(false);
             order.setDeleted(false);
             order.setTotalPrice(total); // Tính tổng tiền từ giỏ hàng
-            order.setStatus(orderStatusRepository.findOrderStatusesByStatusId(1));
+            order.setStatus(orderStatusRepository.findOrderStatusesByStatusId(4));
             order.setCreatedAt(new Date());
             orderRepository.save(order);
             // Gọi VNPayService để tạo URL thanh toán
@@ -92,12 +91,16 @@ public class PaymentController {
             model.addAttribute("message", "Thanh toán thành công!");
         } else {
             order.setStatus(orderStatusRepository.findOrderStatusesByStatusId(4));
+            List<OrderDetails> listOrderDetails = orderDetailsRepository.findByOrder(order);
+            for (OrderDetails orderDetails : listOrderDetails) {
+                orderDetails.getProductVariant().setQuantityInStock(orderDetails.getProductVariant().getQuantityInStock() + orderDetails.getQuantity());
+            }
             model.addAttribute("message", "Thanh toán thất bại, vui lòng thử lại.");
         }
-
         orderRepository.save(order);
-        model.addAttribute("order", order);
-        return "user/order-success"; // Trang hiển thị kết quả thanh toán
+        model.addAttribute("order"
+       , order);
+        return "redirect:/"; // Trang hiển thị kết quả thanh toán
     }
 }
 

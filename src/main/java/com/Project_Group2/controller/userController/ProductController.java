@@ -1,9 +1,9 @@
 package com.Project_Group2.controller.userController;
 
 import com.Project_Group2.dto.ProductDTO;
-import com.Project_Group2.entity.Product;
-import com.Project_Group2.entity.ProductImage;
-import com.Project_Group2.entity.ProductVariant;
+import com.Project_Group2.entity.*;
+import com.Project_Group2.repository.BrandRepository;
+import com.Project_Group2.repository.CategoryRepository;
 import com.Project_Group2.repository.ProductRepository;
 import com.Project_Group2.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -17,12 +17,16 @@ import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
+    private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
     ProductRepository productRepository;
     ProductService productService;
 
-    public ProductController(ProductRepository productRepository, ProductService productService) {
+    public ProductController(ProductRepository productRepository, ProductService productService, CategoryRepository categoryRepository, BrandRepository brandRepository) {
         this.productRepository = productRepository;
         this.productService = productService;
+        this.categoryRepository = categoryRepository;
+        this.brandRepository = brandRepository;
     }
 
     @GetMapping("/product-details")
@@ -53,5 +57,53 @@ public class ProductController {
         model.addAttribute("listProductImages", listProductImages);
         model.addAttribute("listSameCategory", listSameCategory);
         return "user/product-details";
+    }
+
+    @GetMapping("/shopSort")
+    public String getProducts(Model model,
+                              @RequestParam(name = "sort", required = false, defaultValue = "name_asc") String sortBy) {
+        List<Category> categories = categoryRepository.findAll();
+        List<Brand> brands = brandRepository.findAll();
+        List<ProductDTO> listProducts = productService.getSortedProducts(sortBy);
+        model.addAttribute("listProducts", listProducts);
+        model.addAttribute("currentSort", sortBy);
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", brands);
+        return "user/shop";
+    }
+
+    @GetMapping("/shopCategory")
+    public String shopCategory(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        List<ProductDTO> listProducts;
+        List<Brand> brands = brandRepository.findAll();
+        if (categoryId != null) {
+            listProducts = productService.getProductsByCategory(categoryId);
+        } else {
+            listProducts = productService.getAllProducts();
+        }
+        model.addAttribute("brands", brands);
+        model.addAttribute("categories", categories);
+        model.addAttribute("listProducts", listProducts);
+
+        return "user/shop";
+    }
+
+    @GetMapping("/shopBrand")
+    public String shopBrand(@RequestParam(value = "brandId", required = false) Integer brandId, Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        List<ProductDTO> listProducts;
+        List<Brand> brands = brandRepository.findAll();
+
+        if (brandId != null) {
+            listProducts = productService.getProductsByBrand(brandId);
+        } else {
+            listProducts = productService.getAllProducts();
+        }
+        model.addAttribute("brands", brands);
+        model.addAttribute("categories", categories);
+        model.addAttribute("listProducts", listProducts);
+
+        return "user/shop";
     }
 }

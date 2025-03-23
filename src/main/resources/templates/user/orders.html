@@ -140,9 +140,9 @@
                                 <td th:text="${order.getReceivedName()}"></td>
                                 <td th:text="${order.getReceivedAddress()}"></td>
                                 <td th:text="${order.getReceivedPhone()}"></td>
-                                <td th:text="${order.totalPrice}"></td>
+                                <td th:text="${#numbers.formatDecimal(order.getTotalPrice(), 0, 'COMMA', 2, 'POINT')+' VND'}"></td>
                                 <td th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy')}"></td>
-                                <td th:text="${order.getPaid() ? 'Paid' : 'Unpaid'}"></td>
+                                <td th:text="${(order.getPaid()==null || !order.getPaid()) ? 'Unpaid' : 'Paid'}"></td>
                                 <td th:text="${order.status.statusName}"
                                     th:classappend="${order.status.statusName == 'Canceled' ? 'text-danger' : 'text-success'}">
                                 </td>

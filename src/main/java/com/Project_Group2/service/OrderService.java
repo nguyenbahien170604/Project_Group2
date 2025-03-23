@@ -50,7 +50,10 @@ public class OrderService {
         if (!"Preparation".equalsIgnoreCase(order.getStatus().getStatusName())) {
             throw new RuntimeException("Only Preparation orders can be canceled.");
         }
-
+        List<OrderDetails> listOrderDetails = orderDetailsRepository.findByOrder(order);
+        for (OrderDetails orderDetails : listOrderDetails) {
+            orderDetails.getProductVariant().setQuantityInStock(orderDetails.getProductVariant().getQuantityInStock() + orderDetails.getQuantity());
+        }
         order.setStatus(orderStatusRepository.findOrderStatusesByStatusId(4));
         orderRepository.save(order);
     }

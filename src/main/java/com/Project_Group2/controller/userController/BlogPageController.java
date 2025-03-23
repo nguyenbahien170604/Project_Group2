@@ -28,4 +28,19 @@ public class BlogPageController {
         model.addAttribute("top4blogs", top4blogs);
         return "user/blog-details";
     }
+
+    @GetMapping("/blogSort")
+    public String getBlogPageSort(@RequestParam(name = "sort", defaultValue = "newest") String sort, Model model) {
+        List<BlogDTO> blogDTOList;
+        List<Blog> top4BlogList = blogService.get4Blog();
+        if ("oldest".equals(sort)) {
+            blogDTOList = blogService.getAllBlogsSortedByOldest();
+        } else {
+            blogDTOList = blogService.getAllBlogsSortedByNewest();
+        }
+        model.addAttribute("Top4BlogList",top4BlogList);
+        model.addAttribute("blogDTOList", blogDTOList);
+        model.addAttribute("sort", sort); // Gửi giá trị sort về để hiển thị đúng option trong select
+        return "user/blog";
+    }
 }

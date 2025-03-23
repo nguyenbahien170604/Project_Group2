@@ -1,6 +1,75 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="en">
+<style>
+    .sidebar-categories-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
+    .sidebar-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+    }
+
+    .category-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .category-list li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .category-list li:last-child {
+        border-bottom: none;
+    }
+
+    .category-list li a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #007bff;
+        transition: color 0.3s ease;
+    }
+
+    .category-list li a:hover {
+        color: #0056b3;
+        font-weight: bold;
+    }
+    .brand-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .brand-list li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .brand-list li:last-child {
+        border-bottom: none;
+    }
+
+    .brand-list li a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #007bff;
+        transition: color 0.3s ease;
+    }
+
+    .brand-list li a:hover {
+        color: #0056b3;
+        font-weight: bold;
+    }
+</style>
 <!-- Mirrored from htmldemo.net/juta/juta-v1/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:49 GMT -->
 <div th:replace="user/fragments/head :: head"></div>
 <body>
@@ -33,22 +102,23 @@
             <div class="row">
                 <div class="col-lg-3 order-2 order-lg-1">
                     <!--sidebar-categores-box start  -->
-                    <div class="sidebar-categores-box mt-95">
-                        <!-- category-sub-menu start -->
-                        <div class="category-sub-menu">
-                            <ul>
-                                <li class="has-sub"><a href="# ">Sport shoes</a>
-                                </li>
-                                <li class="has-sub"><a href="#">Running shoes</a>
-                                </li>
-                                <li class="has-sub"><a href="#">Fashion shoes</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- category-sub-menu end -->
+                    <div class="sidebar-categories-box mt-95">
+                        <h3 class="sidebar-title">Categories</h3>
+                        <ul class="category-list">
+                            <li th:each="category : ${categories}">
+                                <a th:href="@{/shopCategory(categoryId=${category.categoryId})}"
+                                   th:text="${category.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <h3 class="sidebar-title mt-20">Categories</h3>
+                        <ul class="brand-list">
+                            <li th:each="brand : ${brands}">
+                                <a th:href="@{/shopBrand(brandId=${brand.brandId})}"
+                                   th:text="${brand.brandName}"></a>
+                            </li>
+                        </ul>
                     </div>
-                    <!--sidebar-categores-box end  -->
-                    <!--sidebar-categores-box start  -->
+
                     <div class="sidebar-categores-box">
                         <div class="sidebar-title">
                             <h2>Filter By</h2>
@@ -58,27 +128,6 @@
                         <!-- btn-clear-all end -->
                         <!-- filter-sub-area start -->
                         <div class="filter-sub-area">
-                            <h5 class="filter-sub-titel">Price</h5>
-                            <div class="price-checkbox">
-                                <form action="#">
-                                    <ul>
-                                        <li><input type="radio" name="price-filter" checked=""><a href="#">$10.00 -
-                                            $11.00 (1)</a></li>
-                                        <li><input type="radio" name="price-filter"><a href="#">$14.00 - $15.00 (2)</a>
-                                        </li>
-                                        <li><input type="radio" name="price-filter"><a href="#">$16.00 - $17.00 (2)</a>
-                                        </li>
-                                        <li><input type="radio" name="price-filter"><a href="#">$18.00 - $19.00 (1)</a>
-                                        </li>
-                                        <li><input type="radio" name="price-filter"><a href="#"> $24.00 - $28.00 (5)</a>
-                                        </li>
-                                        <li><input type="radio" name="price-filter"><a href="#"> $30.00 - $32.00 (1)</a>
-                                        </li>
-                                        <li><input type="radio" name="price-filter"><a href="#"> $50.00 - $53.00
-                                            (2) </a></li>
-                                    </ul>
-                                </form>
-                            </div>
                         </div>
                         <!-- filter-sub-area end -->
                         <!-- filter-sub-area start -->
@@ -136,13 +185,14 @@
                         <div class="product-select-box">
                             <div class="product-short">
                                 <p>Sort By:</p>
-                                <select class="nice-select">
-                                    <option value="trending">Relevance</option>
-                                    <option value="sales">Name (A - Z)</option>
-                                    <option value="sales">Name (Z - A)</option>
-                                    <option value="rating">Price (Low &gt; High)</option>
-                                    <option value="rating">Price (High &gt; Low)</option>
-                                </select>
+                                <form id="sortForm" method="get" th:action="@{/shopSort}">
+                                    <select class="nice-select" name="sort" onchange="document.getElementById('sortForm').submit();">
+                                        <option value="name_asc" th:selected="${currentSort == 'name_asc'}">Name (A - Z)</option>
+                                        <option value="name_desc" th:selected="${currentSort == 'name_desc'}">Name (Z - A)</option>
+                                        <option value="price_asc" th:selected="${currentSort == 'price_asc'}">Price (Low &gt; High)</option>
+                                        <option value="price_desc" th:selected="${currentSort == 'price_desc'}">Price (High &gt; Low)</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                         <!-- product-select-box end -->
@@ -179,8 +229,12 @@
                                                         <h4><a class="product_name" th:href="@{/product-details(id=${product.getId()})}" th:text="${product.getProductName()}"></a></h4>
                                                         <div class="manufacturer"><a th:href="@{/product-details(id=${product.getId()})}" th:text="${product.getProductShortDescription()}"></a></div>
                                                         <div class="price-box">
-                                                            <span class="new-price" th:text="${product.getProductPrice()*(100 - product.getProductDiscount())/100}"></span>
-                                                            <span class="old-price" th:text="${product.getProductPrice()}"></span>
+    <span class="new-price"
+          th:text="${#numbers.formatDecimal(product.getProductPrice() * (100 - product.getProductDiscount()) / 100, 0, 'COMMA', 2, 'POINT')} + ' $'">
+    </span>
+                                                            <span class="old-price"
+                                                                  th:text="${#numbers.formatDecimal(product.getProductPrice(), 0, 'COMMA', 2, 'POINT')} + ' $'">
+    </span>
                                                         </div>
                                                     </div>
                                                     <div class="add-actions">
