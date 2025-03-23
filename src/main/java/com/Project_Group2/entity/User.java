@@ -30,7 +30,7 @@ public class User {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
-    @Column(name = "avatar_url", length = 255)
+    @Column(name = "avatar_url",nullable = true, length = 255)
     private String avatarUrl;
 
     @Column(name = "created_at", nullable = false, updatable = false)

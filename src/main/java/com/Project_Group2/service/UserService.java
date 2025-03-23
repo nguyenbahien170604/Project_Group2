@@ -5,6 +5,7 @@ import com.Project_Group2.entity.Role;
 import com.Project_Group2.entity.User;
 import com.Project_Group2.repository.RoleRepository;
 import com.Project_Group2.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,24 @@ public class UserService {
         user.setRole(defaultRole);
 
         return userRepository.save(user);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public void updateUserInformation(Integer id, String username, String phoneNumber, String address) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(username);
+        user.setPhoneNumber(phoneNumber);
+        user.setAddress(address);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void updatePassword(User user, String newPassword) {
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
