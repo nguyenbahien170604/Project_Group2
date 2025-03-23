@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="container mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Add New Product</h1>
+    <form class="bg-white p-6 rounded shadow-md">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Product Information Column -->
+            <div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Product Name</label>
+                    <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full"
+                           placeholder="Enter product name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Description</label>
+                    <textarea class="border border-gray-300 rounded px-4 py-2 w-full"
+                              placeholder="Enter product description"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Short Description</label>
+                    <textarea class="border border-gray-300 rounded px-4 py-2 w-full"
+                              placeholder="Enter short description"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Discount</label>
+                    <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full"
+                           placeholder="Enter discount">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Price</label>
+                    <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full"
+                           placeholder="Enter price">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Brand</label>
+                    <select class="border border-gray-300 rounded px-4 py-2 w-full">
+                        <option value="">Select brand</option>
+                        <option value="Nike">Nike</option>
+                        <option value="Adidas">Adidas</option>
+                        <option value="Puma">Puma</option>
+                        <option value="Reebok">Reebok</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Category</label>
+                    <select class="border border-gray-300 rounded px-4 py-2 w-full">
+                        <option value="">Select category</option>
+                        <option value="running shoes">Running Shoes</option>
+                        <option value="sport shoes">Sport Shoes</option>
+                        <option value="casual shoes">Casual Shoes</option>
+                        <option value="formal shoes">Formal Shoes</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Classification Column -->
+            <div>
+                <label class="block text-gray-700 mb-2">Classify</label>
+                <div id="classify-section">
+                    <div class="classify-item mb-4 p-4 border border-gray-300 rounded">
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Color</label>
+                            <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full"
+                                   placeholder="Enter color">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Images</label>
+                            <input type="file" class="border border-gray-300 rounded px-4 py-2 w-full" multiple>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Size</label>
+                            <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full"
+                                   placeholder="Enter size">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Quantity</label>
+                            <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full"
+                                   placeholder="Enter quantity">
+                        </div>
+                        <button type="button" class="bg-red-500 text-white px-4 py-2 rounded"
+                                onclick="removeClassify(this)">Remove Classify
+                        </button>
+                    </div>
+                </div>
+                <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded mt-2" onclick="addClassify()">Add
+                    Another Classify
+                </button>
+            </div>
+        </div>
+        <div class="flex justify-end mt-6">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    let classifyIndex = 1;
+
+    function addClassify() {
+        const classifySection = document.getElementById('classify-section');
+        const classifyItem = document.createElement('div');
+        classifyItem.classList.add('classify-item', 'mb-4', 'p-4', 'border', 'border-gray-300', 'rounded');
+        classifyItem.innerHTML = `
+                <div class="mb-4">
+                    <label class="block text-gray-700">Color</label>
+                    <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full" placeholder="Enter color">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Images</label>
+                    <input type="file" class="border border-gray-300 rounded px-4 py-2 w-full" multiple>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Size</label>
+                    <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full" placeholder="Enter size">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Quantity</label>
+                    <input type="text" class="border border-gray-300 rounded px-4 py-2 w-full" placeholder="Enter quantity">
+                </div>
+                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded" onclick="removeClassify(this)">Remove Classify</button>
+            `;
+        classifySection.appendChild(classifyItem);
+        classifyIndex++;
+    }
+
+    function removeClassify(button) {
+        const classifyItem = button.parentElement;
+        classifyItem.remove();
+    }
+</script>
+</body>
+</html>

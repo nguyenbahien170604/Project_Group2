@@ -25,12 +25,12 @@ public class CustomerService {
         return userRepository.findAllCustomer(2,pageable);
     }
     public Page<User> searchCustomersByName(String keyword, Pageable pageable) {
-        return userRepository.findByUsernameLike(keyword, pageable);
+        return userRepository.findByUsernameContainingIgnoreCase(keyword, pageable);
     }
 
 
     public Page<User> searchCustomersByEmail(String keyword, Pageable pageable) {
-        return userRepository.findByEmailLike(keyword, pageable);
+        return userRepository.findByEmailContainingIgnoreCase(keyword, pageable);
     }
 //    public List<User> getAllCustomers() {
 //        return userRepository.findAllById(2);

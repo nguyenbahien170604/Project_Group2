@@ -32,7 +32,7 @@ public class BlogController {
     @GetMapping("")
     public String listBlogs(Model model,
                             @RequestParam(defaultValue = "1") int page,
-                            @RequestParam(defaultValue = "6") int size,
+                            @RequestParam(defaultValue = "2") int size,
                             @RequestParam(required = false) String keyword) {
 
         Page<Blog> blogPage;

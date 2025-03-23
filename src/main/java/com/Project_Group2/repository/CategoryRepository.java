@@ -11,5 +11,6 @@ import java.util.List;
 
 @Service
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    Category findByCategoryId(int id);
 
 }

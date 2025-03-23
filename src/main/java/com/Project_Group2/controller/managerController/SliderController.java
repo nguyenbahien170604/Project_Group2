@@ -25,8 +25,8 @@ public class SliderController {
     private ProductService productService;
 
     @GetMapping
-    public String listSliders(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "5") int size,
+    public String listSliders(@RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "2") int size,
                               Model model) {
         Page<Slider> sliderPage = sliderService.getSlidersWithPagination(page, size);
         model.addAttribute("sliderPage", sliderPage);
