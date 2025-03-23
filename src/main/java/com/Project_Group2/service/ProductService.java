@@ -184,6 +184,14 @@ public class ProductService {
                 .map(this::mapToProductDTO)
                 .collect(Collectors.toList());
     }
+    public List<ProductDTO> searchProducts(String keyword) {
+        List<Product> products = productRepository.findByProductNameContainingAndIsDeletedFalse(keyword);
+
+        return products.stream()
+                .map(this::mapToProductDTO)
+                .collect(Collectors.toList());
+    }
+
     private ProductDTO mapToProductDTO(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getProductId());
@@ -207,4 +215,5 @@ public class ProductService {
 
         return dto;
     }
+
 }

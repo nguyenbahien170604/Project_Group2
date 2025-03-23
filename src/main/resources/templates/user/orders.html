@@ -78,7 +78,6 @@
     .btn-custom-cancel:hover {
         background-color: #a71d2a;
     }
-    <style>
      .text-danger {
          color: red;
          font-weight: bold;
@@ -88,7 +87,6 @@
         color: green;
         font-weight: bold;
     }
-</style>
 </style>
 <!-- Mirrored from htmldemo.net/juta/juta-v1/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:20 GMT -->
 <div th:replace="user/fragments/head :: head"></div>
@@ -115,7 +113,36 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
+    <div class="row mb-3">
+        <div class="col-md-2">
+            <label class="form-label"><strong>Filter by Status:</strong></label>
+            <select id="statusFilter" class="form-select" onchange="filterOrders()">
+                <option value="">All</option>
+                <option th:each="status : ${statuses}" th:value="${status.statusId}" th:text="${status.statusName}"
+                        th:selected="${selectedStatus != null and selectedStatus == status.statusId}">
+                </option>
+            </select>
+        </div>
 
+        <!-- Bộ lọc theo Payment Status -->
+        <div class="col-md-2">
+            <label class="form-label"><strong>Filter by Payment Status:</strong></label>
+            <select id="paymentFilter" class="form-select" onchange="filterOrders()">
+                <option value="">All</option>
+                <option value="true" th:selected="${selectedPaymentStatus != null and selectedPaymentStatus == true}">Paid</option>
+                <option value="false" th:selected="${selectedPaymentStatus != null and selectedPaymentStatus == false}">Unpaid</option>
+            </select>
+        </div>
+
+        <!-- Bộ lọc theo Newest - Oldest -->
+        <div class="col-md-2">
+            <label class="form-label"><strong>Sort By:</strong></label>
+            <select id="sortByFilter" class="form-select" onchange="filterOrders()">
+                <option value="newest" th:selected="${selectedSortBy == 'newest'}">Newest</option>
+                <option value="oldest" th:selected="${selectedSortBy == 'oldest'}">Oldest</option>
+            </select>
+        </div>
+    </div>
     <!-- content-wraper start -->
     <div class="content-wraper mt-95">
         <div class="container-fluid">
@@ -176,6 +203,31 @@
 <script th:src="@{assets/js/plugins.js}"></script>
 <!-- main JS -->
 <script th:src="@{assets/js/main.js}"></script>
+<script>
+    function filterOrders() {
+        let selectedStatus = document.getElementById("statusFilter").value;
+        let selectedPayment = document.getElementById("paymentFilter").value;
+        let selectedSortBy = document.getElementById("sortByFilter").value;
+
+        let queryString = "";
+
+        if (selectedStatus) {
+            queryString += "status=" + selectedStatus;
+        }
+
+        if (selectedPayment) {
+            if (queryString) queryString += "&";
+            queryString += "isPaid=" + selectedPayment;
+        }
+
+        if (selectedSortBy) {
+            if (queryString) queryString += "&";
+            queryString += "sortBy=" + selectedSortBy;
+        }
+
+        window.location.href = "/orders?" + queryString;
+    }
+</script>
 </body>
 
 <!-- Mirrored from htmldemo.net/juta/juta-v1/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:31 GMT -->

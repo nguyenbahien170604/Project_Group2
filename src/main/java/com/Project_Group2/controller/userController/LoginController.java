@@ -46,8 +46,11 @@ public class LoginController {
             model.addAttribute("error", "Invalid email or password!");
             return "user/login";
         }
-
-        session.setAttribute("loggedInUser", user); // Lưu user vào session
+        if(user.getRole().getId() == 2) {
+            session.setAttribute("loggedInUser", user);
+        }else if(user.getRole().getId() == 3) {
+            session.setAttribute("currentUser", user);
+        }
         return "redirect:/";
     }
 

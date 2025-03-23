@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Slider</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col">
+            <h2>Quản lý Slider</h2>
+        </div>
+        <div class="col text-end">
+            <a th:href="@{/sliders/create}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Thêm mới slider
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Hình ảnh</th>
+                        <th>Tiêu đề</th>
+                        <th>Mô tả</th>
+                        <th>Sản phẩm</th>
+                        <th>Thứ tự</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="slider : ${sliderPage.getContent()}">
+                        <td th:text="${slider.sliderId}"></td>
+                        <td>
+                            <img th:if="${slider.imageUrl}" th:src="${slider.imageUrl}" alt="Slider image" class="img-thumbnail" style="max-height: 100px; max-width: 150px;">
+                            <span th:unless="${slider.imageUrl}" class="badge bg-warning text-dark">Không có hình</span>
+                        </td>
+                        <td th:text="${slider.title}"></td>
+                        <td>
+                            <span th:text="${#strings.abbreviate(slider.description, 50)}"></span>
+                        </td>
+                        <td th:text="${slider.product.productName}"></td>
+                        <td th:text="${slider.displayOrder}"></td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a th:href="@{/sliders/edit/{id}(id=${slider.sliderId})}" class="btn btn-primary">
+                                    <i class="bi bi-pencil-square"></i> Sửa
+                                </a>
+                                <a th:href="@{/sliders/delete/{id}(id=${slider.sliderId})}"
+                                   class="btn btn-danger"
+                                   onclick="return confirm('Bạn có chắc muốn xóa slider này?')">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${sliderPage.isEmpty()}">
+                        <td colspan="7" class="text-center">Không có slider nào</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Phân trang -->
+            <div th:if="${sliderPage.totalPages > 0}" class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <a class="page-link" th:href="@{/sliders(page=0,size=${sliderPage.size})}">Đầu</a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                            <a class="page-link" th:href="@{/sliders(page=${currentPage - 1},size=${sliderPage.size})}">Trước</a>
+                        </li>
+
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, sliderPage.totalPages - 1)}"
+                            th:classappend="${currentPage == i} ? 'active' : ''">
+                            <a class="page-link" th:href="@{/sliders(page=${i},size=${sliderPage.size})}" th:text="${i + 1}"></a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${currentPage == sliderPage.totalPages - 1} ? 'disabled' : ''">
+                            <a class="page-link" th:href="@{/sliders(page=${currentPage + 1},size=${sliderPage.size})}">Sau</a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == sliderPage.totalPages - 1} ? 'disabled' : ''">
+                            <a class="page-link" th:href="@{/sliders(page=${sliderPage.totalPages - 1},size=${sliderPage.size})}">Cuối</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```

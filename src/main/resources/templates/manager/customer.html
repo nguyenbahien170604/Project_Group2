@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Danh sách khách hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+    <h1 class="mb-4">Danh sách khách hàng</h1>
+
+    <!-- Tìm kiếm khách hàng -->
+    <div class="mb-3">
+        <form th:action="@{/admin/customers/search}" method="get" class="row g-2">
+            <div class="col-auto">
+                <select name="searchType" class="form-select">
+                    <option value="name" th:selected="${searchType == 'name'}">Tìm theo tên</option>
+                    <option value="email" th:selected="${searchType == 'email'}">Tìm theo email</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input type="text" name="keyword" class="form-control" th:value="${keyword}" placeholder="Nhập từ khóa tìm kiếm...">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-search"></i> Tìm kiếm
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bảng danh sách khách hàng -->
+    <div th:if="${customers != null and !customers.isEmpty()}" class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-primary">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>phone</th>
+                <th>Address</th>
+                <th>Create At</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer, stat : ${customers}">
+                <td th:text="${stat.count}"></td>
+                <td>
+                    <img th:if="${customer.avatarUrl != null}"
+                         th:src="${customer.avatarUrl}"
+                         width="30" height="30"
+                         class="rounded-circle me-2">
+                    <span th:text="${customer.username}"></span>
+                </td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.phoneNumber != null ? customer.phoneNumber : 'Không có'}"></td>
+                <td th:text="${customer.address != null ? customer.address : 'Không có'}"></td>
+                <td th:text="${#temporals.format(customer.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${customer.getDeleted()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Thông báo không có kết quả -->
+    <div class="alert alert-warning text-center" th:if="${customers == null or customers.isEmpty()}">
+        <p>Không tìm thấy khách hàng nào.</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết đơn hàng</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<!-- Header -->
+
+
+<div class="container my-5">
+  <div class="row">
+    <!-- Sidebar -->
+
+
+    <!-- Main content -->
+    <div class="col-md-9">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0"><i class="fas fa-receipt me-2"></i>Chi tiết đơn hàng #<span th:text="${order.orderId}"></span></h4>
+          <a th:href="@{/orders/history}" class="btn btn-sm btn-light">
+            <i class="fas fa-arrow-left me-1"></i> Quay lại
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <h5 class="text-muted mb-3">Thông tin đơn hàng</h5>
+              <p><strong>Mã đơn hàng:</strong> #<span th:text="${order.orderId}"></span></p>
+              <p><strong>Ngày đặt:</strong> <span th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy HH:mm')}"></span></p>
+              <p><strong>Trạng thái:</strong>
+                <span th:class="${'badge ' +
+                                        (order.status.statusName == 'Đang xử lý' ? 'bg-warning' :
+                                        (order.status.statusName == 'Đã xác nhận' ? 'bg-info' :
+                                        (order.status.statusName == 'Đang giao hàng' ? 'bg-primary' :
+                                        (order.status.statusName == 'Đã giao hàng' ? 'bg-success' :
+                                        (order.status.statusName == 'Đã hủy' ? 'bg-danger' : 'bg-secondary')))))}">
+                                        <span th:text="${order.status.statusName}"></span>
+                                    </span>
+              </p>
+              <p><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span></p>
+            </div>
+            <div class="col-md-6">
+              <h5 class="text-muted mb-3">Thông tin nhận hàng</h5>
+              <p><strong>Người nhận:</strong> <span th:text="${order.receivedName}"></span></p>
+              <p><strong>Số điện thoại:</strong> <span th:text="${order.receivedPhone}"></span></p>
+              <p><strong>Địa chỉ:</strong> <span th:text="${order.receivedAddress}"></span></p>
+            </div>
+          </div>
+
+          <h5 class="text-muted mb-3">Sản phẩm đã mua</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+              <tr>
+                <th style="width: 60px">STT</th>
+                <th>Sản phẩm</th>
+                <th style="width: 100px">Đơn giá</th>
+                <th style="width: 80px">Số lượng</th>
+                <th style="width: 120px">Thành tiền</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="detail, status : ${orderDetails}">
+                <td class="text-center" th:text="${status.count}"></td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img th:if="${detail.product.images != null && !detail.product.images.isEmpty()}"
+                         th:src="${detail.product.images[0].imageUrl}"
+                         class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                    <img th:unless="${detail.product.images != null && !detail.product.images.isEmpty()}"
+                         src="/images/no-image.png"
+                         class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                    <span th:text="${detail.product.productName}"></span>
+                  </div>
+                </td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(detail.priceProduct, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+                <td class="text-center" th:text="${detail.quantity}"></td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(detail.priceProduct.multiply(new java.math.BigDecimal(detail.quantity)), 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr class="fw-bold">
+                <td colspan="4" class="text-end">Tổng cộng:</td>
+                <td class="text-end" th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

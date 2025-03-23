@@ -1,60 +1,69 @@
 package com.Project_Group2.dto;
 
 public class SliderDTO {
-    private String sliderTitle;
-    private String sliderDescription;
-    private String sliderImage;
-    private String productName;
+    private int sliderId;
+    private int productId;
+    private String imageUrl;
+    private String title;
+    private String description;
+    private int displayOrder;
 
     public SliderDTO() {
     }
 
-    public SliderDTO(String sliderTitle, String sliderDescription, String sliderImage, String productName) {
-        this.sliderTitle = sliderTitle;
-        this.sliderDescription = sliderDescription;
-        this.sliderImage = sliderImage;
-        this.productName = productName;
+    public SliderDTO(int productId, String imageUrl, String title, String description, int displayOrder) {
+        this.productId = productId;
+        this.imageUrl = imageUrl;
+        this.title = title;
+        this.description = description;
+        this.displayOrder = displayOrder;
     }
 
-    public String getSliderTitle() {
-        return sliderTitle;
+    public int getSliderId() {
+        return sliderId;
     }
 
-    public void setSliderTitle(String sliderTitle) {
-        this.sliderTitle = sliderTitle;
+    public void setSliderId(int sliderId) {
+        this.sliderId = sliderId;
     }
 
-    public String getSliderDescription() {
-        return sliderDescription;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setSliderDescription(String sliderDescription) {
-        this.sliderDescription = sliderDescription;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public String getSliderImage() {
-        return sliderImage;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setSliderImage(String sliderImage) {
-        this.sliderImage = sliderImage;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "SliderDTO{" +
-                "sliderTitle='" + sliderTitle + '\'' +
-                ", sliderDescription='" + sliderDescription + '\'' +
-                ", sliderImage='" + sliderImage + '\'' +
-                ", productName='" + productName + '\'' +
-                '}';
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(int displayOrder) {
+        this.displayOrder = displayOrder;
     }
 }

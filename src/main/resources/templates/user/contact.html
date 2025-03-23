@@ -35,31 +35,31 @@
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
                     <div class="contact-form-inner">
                         <h2>TELL US YOUR PROJECT</h2>
-                        <form id="contact-form" method="POST" action="https://htmldemo.net/juta/juta-v1/email.php">
+                        <form id="contact-form" method="POST" th:action="@{/send-email}">
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                                    <input type="text" placeholder="First name*" name="name">
+                                    <input type="text" placeholder="First name*" name="name" required>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-                                    <input type="text"  placeholder="Last name*" name="lastname">
+                                    <input type="text" placeholder="Last name*" name="lastname" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                                    <input type="email"  placeholder="Email*" name="email">
+                                    <input type="email" placeholder="Email*" name="email" required>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-                                    <input type="text" placeholder="Subject*" name="subject">
+                                    <input type="text" placeholder="Subject*" name="subject" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <textarea placeholder="Message *" name="message"></textarea>
+                                    <textarea placeholder="Message *" name="message" required></textarea>
                                 </div>
                             </div>
                             <div class="contact-submit-btn">
                                 <button class="submit-btn" type="submit">Send Email</button>
-                                <p class="form-messege"></p>
+                                <p class="form-messege" th:if="${successMessage}" th:text="${successMessage}" style="color:green;"></p>
                             </div>
                         </form>
                     </div>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử mua hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<div class="container w-100">
+    <div class="row w-100 mt-5 vh-100">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-history me-2"></i>Order List</h4>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(orderHistory)}" class="text-center py-5">
+                        <i class="fas fa-shopping-bag fa-4x text-muted mb-3"></i>
+                        <h5>Bạn chưa có đơn hàng nào</h5>
+                        <a th:href="@{/products}" class="btn btn-primary mt-3">Mua sắm ngay</a>
+                    </div>
+
+                    <div th:unless="${#lists.isEmpty(orderHistory)}" class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone number</th>
+                                <th>Total</th>
+                                <th>Booking Date</th>
+                                <th>Status</th>
+                                <th>Detail</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orderHistory}">
+                                <td th:text="${order.getOrderId()}"></td>
+                                <td th:text="${order.getReceivedName()}"></td>
+                                <td th:text="${order.getReceivedAddress()}"></td>
+                                <th th:text="${order.getReceivedPhone()}"></th>
+                                <td th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+
+                                <td th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
+                                <td>
+                                    <form th:action="@{/orders/update-status}" method="post">
+                                        <input type="hidden" name="orderId" th:value="${order.orderId}"/>
+                                        <select name="statusId" class="form-select form-select-sm" onchange="this.form.submit()">
+                                            <option th:each="status : ${orderStatuses}"
+                                                    th:value="${status.statusId}"
+                                                    th:text="${status.statusName}"
+                                                    th:selected="${status.statusId == order.status.statusId}">
+                                            </option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    <a th:href="@{'/orders/details/' + ${order.orderId}}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i> Xem
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <nav th:class="mt-2">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item mx-1" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/orders/history(page=${currentPage - 1}, size=5)}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>
+
+                    <li class="page-item mx-1" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/orders/history(page=${i}, size=5)}" th:text="${i + 1}"></a>
+                    </li>
+
+                    <li class="page-item mx-1" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/orders/history(page=${currentPage + 1}, size=5)}" aria-label="Next">
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

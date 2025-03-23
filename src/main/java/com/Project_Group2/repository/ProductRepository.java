@@ -33,4 +33,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             @Param("categories") List<Integer> categories,
             @Param("brands") List<Integer> brands
     );
+
+    List<Product> findByProductNameContainingAndIsDeletedFalse(String keyword);
 }

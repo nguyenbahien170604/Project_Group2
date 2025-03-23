@@ -2,20 +2,29 @@ package com.Project_Group2.service;
 
 import com.Project_Group2.dto.BlogDTO;
 import com.Project_Group2.entity.Blog;
+import com.Project_Group2.entity.User;
 import com.Project_Group2.repository.BlogRepository;
+import com.Project_Group2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class BlogService {
+    private final UserRepository userRepository;
     private BlogRepository blogRepository;
 
 
-    public BlogService(BlogRepository blogRepository) {
+    public BlogService(BlogRepository blogRepository, UserRepository userRepository) {
         this.blogRepository = blogRepository;
+        this.userRepository = userRepository;
     }
 
     // Lấy tất cả blog (chỉ lấy những blog chưa bị xóa)
@@ -60,40 +69,77 @@ public class BlogService {
                 .collect(Collectors.toList());
     }
 
-    // Thêm blog mới
-    public BlogDTO createBlog(BlogDTO blogDTO) {
+    // Get all blogs with pagination
+    public Page<Blog> getAllBlogsWithPagination(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createdAt").descending());
+        return blogRepository.findAllActiveBlogs(pageable);
+    }
+
+    public Blog getBlogByIdBlog(int id) {
+        return blogRepository.findActiveBlogById(id);
+    }
+
+
+    // Save a new blog
+    public Blog saveBlog(BlogDTO blogDTO) {
+        //User user = userRepository.findByUsername(blogDTO.getBlogUserName());
+        User user = userRepository.findById(9).orElseThrow(() -> new RuntimeException("User not found"));
+
         Blog blog = new Blog();
+        blog.setUser(user);
         blog.setTitle(blogDTO.getBlogTitle());
-        blog.setShortDescription(blogDTO.getBlogShortDescription());
         blog.setContent(blogDTO.getBlogContent());
+        blog.setShortDescription(blogDTO.getBlogShortDescription());
         blog.setImageUrl(blogDTO.getBlogImage());
-        blog.setDeleted(false); // Blog mặc định chưa bị xóa
+        blog.setCreatedAt(new Date());
+        blog.setUpdatedAt(new Date());
+        blog.setDeleted(false);
 
-        Blog savedBlog = blogRepository.save(blog);
-        return mapToDTO(savedBlog);
+        return blogRepository.save(blog);
     }
 
-    // Cập nhật blog
-    public BlogDTO updateBlog(int blogId, BlogDTO blogDTO) {
-        Blog blog = blogRepository.findById(blogId)
-                .orElseThrow(() -> new RuntimeException("Blog not found"));
+    // Update an existing blog
+    public Blog updateBlog(BlogDTO blogDTO, int blogId) {
+        Blog existingBlog = blogRepository.findById(blogId).orElseThrow(() ->
+                new RuntimeException("Blog not found with id: " + blogId));
 
-        blog.setTitle(blogDTO.getBlogTitle());
-        blog.setShortDescription(blogDTO.getBlogShortDescription());
-        blog.setContent(blogDTO.getBlogContent());
-        blog.setImageUrl(blogDTO.getBlogImage());
+        existingBlog.setTitle(blogDTO.getBlogTitle());
+        existingBlog.setContent(blogDTO.getBlogContent());
+        existingBlog.setShortDescription(blogDTO.getBlogShortDescription());
+        existingBlog.setImageUrl(blogDTO.getBlogImage());
+        existingBlog.setUpdatedAt(new Date());
 
-        Blog updatedBlog = blogRepository.save(blog);
-        return mapToDTO(updatedBlog);
+        return blogRepository.save(existingBlog);
     }
 
-    // Xóa blog (Đánh dấu isDeleted = true)
-    public void deleteBlog(int blogId) {
-        Blog blog = blogRepository.findById(blogId)
-                .orElseThrow(() -> new RuntimeException("Blog not found"));
-
+    // Delete blog (soft delete)
+    public void deleteBlog(int id) {
+        Blog blog = blogRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Blog not found with id: " + id));
         blog.setDeleted(true);
         blogRepository.save(blog);
+    }
+
+    // Search blogs
+    public Page<Blog> searchBlogs(String keyword, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return blogRepository.searchBlogs(keyword, pageable);
+    }
+
+    // Get blogs by user id
+    public List<Blog> getBlogsByUserId(int userId) {
+        return blogRepository.findByUserId(userId);
+    }
+    public BlogDTO convertToDTO(Blog blog) {
+        BlogDTO dto = new BlogDTO();
+        dto.setId(blog.getBlogId());
+        dto.setBlogTitle(blog.getTitle());
+        dto.setBlogUserName(blog.getUser().getUsername());
+        dto.setBlogShortDescription(blog.getShortDescription());
+        dto.setBlogContent(blog.getContent());
+        dto.setBlogImage(blog.getImageUrl());
+        dto.setCreatedAt(blog.getCreatedAt());
+        return dto;
     }
 
     // Chuyển từ Entity -> DTO
