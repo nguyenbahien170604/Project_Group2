@@ -1,21 +1,50 @@
 package com.Project_Group2.service;
 
+import com.Project_Group2.dto.AddProductDTO;
+import com.Project_Group2.dto.ClassifyDTO;
 import com.Project_Group2.dto.ProductDTO;
 import com.Project_Group2.dto.ProductVariantDTO;
-import com.Project_Group2.entity.Category;
-import com.Project_Group2.entity.Product;
-import com.Project_Group2.entity.ProductImage;
-import com.Project_Group2.entity.ProductVariant;
+import com.Project_Group2.entity.*;
 import com.Project_Group2.repository.CategoryRepository;
+import com.Project_Group2.repository.ProductImageRepository;
 import com.Project_Group2.repository.ProductRepository;
+import com.Project_Group2.repository.ProductVariantRepository;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private ProductImageRepository productImageRepository;
+
+    @Autowired
+    private ProductVariantRepository productVariantRepository;
+
+    @Autowired
+    private HttpSession session;
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -133,6 +162,7 @@ public class ProductService {
         product.setDeleted(true);  // Xóa mềm (Soft delete)
         productRepository.save(product);
     }
+
     public Map<String, List<ProductDTO>> getProductsByCategory() {
         // Lấy danh sách tất cả danh mục (giả sử có CategoryService)
         List<Category> categories = categoryRepository.findAll();
@@ -184,6 +214,7 @@ public class ProductService {
                 .map(this::mapToProductDTO)
                 .collect(Collectors.toList());
     }
+
     public List<ProductDTO> searchProducts(String keyword) {
         List<Product> products = productRepository.findByProductNameContainingAndIsDeletedFalse(keyword);
 
@@ -215,5 +246,110 @@ public class ProductService {
 
         return dto;
     }
+
+
+    public Page<Product> getAllProduct(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
+    }
+
+    public Page<Product> searchProducts(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return productRepository.findAll(pageable);
+        }
+
+        return productRepository.searchProducts(keyword, pageable);
+    }
+
+    public Product findProductById(int productId) {
+        return productRepository.findByProductId(productId);
+    }
+
+    public Product addProduct(AddProductDTO addProductDTO,
+                              RedirectAttributes redirectAttributes) {
+        boolean hasError = false;
+
+        if (productRepository.findByProductName(addProductDTO.getName()) != null) {
+            redirectAttributes.addFlashAttribute("error", "Product name already exists!");
+            hasError = true;
+        }
+
+        if (hasError) {
+            return null;
+        }
+
+        Product product = new Product();
+        product.setProductName(addProductDTO.getName());
+        product.setDescription(addProductDTO.getDescription());
+        product.setShortDescription(addProductDTO.getShortDescription());
+        product.setPrice(addProductDTO.getPrice());
+        product.setDiscount(addProductDTO.getDiscount());
+        product.setDeleted(false);
+
+        User user = (User) session.getAttribute("loggedInUser");
+        product.setUserId(user);
+
+        Brand brand = brandService.findById(addProductDTO.getBrandId());
+        product.setBrand(brand);
+
+        Category category = categoryService.findById(addProductDTO.getCategoryId());
+        product.setCategory(category);
+
+        product = productRepository.save(product);
+
+        List<ProductImage> productImages = new ArrayList<>();
+        List<ProductVariant> productVariants = new ArrayList<>();
+
+        if (addProductDTO.getClassifies() != null) {
+            for (ClassifyDTO classify : addProductDTO.getClassifies()) {
+
+                List<String> imageUrls = saveImages(classify.getImages());
+                for (String imageUrl : imageUrls) {
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setImageUrl(imageUrl);
+                    productImages.add(productImage);
+                }
+
+                for (int i = 0; i < classify.getSize().size(); i++) {
+                    ProductVariant productVariant = new ProductVariant();
+                    productVariant.setProduct(product);
+                    productVariant.setColor(classify.getColor().get(i));
+                    productVariant.setSize(classify.getSize().get(i));
+                    productVariant.setQuantityInStock(classify.getQuantity().get(i));
+                    productVariant.setDeleted(false);
+                    productVariants.add(productVariant);
+                }
+            }
+        }
+
+        productImageRepository.saveAll(productImages);
+        productVariantRepository.saveAll(productVariants);
+
+        return productRepository.save(product);
+    }
+
+    private static final String UPLOAD_DIR = "src/main/resources/static/assets/img/product/";
+
+    private List<String> saveImages(List<MultipartFile> images) {
+        List<String> imageUrls = new ArrayList<>();
+        for (MultipartFile file : images) {
+            try {
+                String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path filePath = Paths.get(UPLOAD_DIR, fileName);
+
+                Files.createDirectories(filePath.getParent());
+                Files.write(filePath, file.getBytes());
+
+                imageUrls.add("assets/img/product/" + fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return imageUrls;
+    }
+
 
 }

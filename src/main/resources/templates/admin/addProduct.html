@@ -1,0 +1,144 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>
+        Add New Product
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+<div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <div th:replace="~{admin/fragments/header :: header}"></div>
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="container mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-bold">Add New Product</h1>
+                    <a onclick="window.location.href='/productList'"
+                       class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Product List
+                    </a>
+                </div>
+                <form th:action="@{/addProduct}" method="post" enctype="multipart/form-data"
+                      class="bg-white p-6 rounded shadow-md">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Product Information Column -->
+                        <div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Product Name</label>
+                                <input type="text" id="nameProduct" name="name"
+                                       class="border border-gray-300 rounded px-4 py-2 w-full"
+                                       placeholder="Enter product name">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Description</label>
+                                <textarea name="description" id="descriptionProduct"
+                                          class="border border-gray-300 rounded px-4 py-2 w-full"
+                                          placeholder="Enter product description"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Short Description</label>
+                                <textarea name="shortDescription" id="shortDescriptionProduct"
+                                          class="border border-gray-300 rounded px-4 py-2 w-full"
+                                          placeholder="Enter short description"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Discount</label>
+                                <input type="text" name="discount" id="discountProduct"
+                                       class="border border-gray-300 rounded px-4 py-2 w-full"
+                                       placeholder="Enter discount">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Price</label>
+                                <input type="text" name="price" id="priceProduct"
+                                       class="border border-gray-300 rounded px-4 py-2 w-full"
+                                       placeholder="Enter price">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Brand</label>
+                                <label>
+                                    <select name="brandId" id="brandIdProduct"
+                                            class="border border-gray-300 rounded px-4 py-2 w-full">
+                                        <option value="">Select brand</option>
+                                        <option th:each="brand : ${brands}"
+                                                th:value="${brand.getBrandId()}"
+                                                th:text="${brand.getBrandName()}">
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Category</label>
+                                <label>
+                                    <select name="categoryId" id="categoryIdProduct"
+                                            class="border border-gray-300 rounded px-4 py-2 w-full">
+                                        <option value="">Select category</option>
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.getCategoryId()}"
+                                                th:text="${category.getCategoryName()}">
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
+
+                        </div>
+                        <!-- Classification Column -->
+                        <div>
+                            <label class="block text-gray-700 mb-2">Classify</label>
+                            <div id="classify-section">
+                                <div class="classify-item mb-4 p-4 border border-gray-300 rounded">
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700">Color</label>
+                                        <input type="text" name="classifies[0].color"
+                                               class="border border-gray-300 rounded px-4 py-2 w-full"
+                                               placeholder="Enter color">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700">Images</label>
+                                        <input type="file" name="classifies[0].images"
+                                               class="border border-gray-300 rounded px-4 py-2 w-full"
+                                               multiple>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700">Size</label>
+                                        <input type="text" name="classifies[0].size"
+                                               class="border border-gray-300 rounded px-4 py-2 w-full"
+                                               placeholder="Enter size">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700">Quantity</label>
+                                        <input type="text" name="classifies[0].quantity"
+                                               class="border border-gray-300 rounded px-4 py-2 w-full"
+                                               placeholder="Enter quantity">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                                    onclick="addClassify()">Add Another Classify
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-6">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <div th:replace="~{admin/fragments/noti :: noti}"></div>
+</div>
+<div th:replace="~{admin/fragments/script :: script}"></div>
+</body>
+</html>

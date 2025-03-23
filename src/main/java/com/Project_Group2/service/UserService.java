@@ -1,5 +1,6 @@
 package com.Project_Group2.service;
 
+import com.Project_Group2.dto.ManagerDTO;
 import com.Project_Group2.dto.UserDTO;
 import com.Project_Group2.entity.Role;
 import com.Project_Group2.entity.User;
@@ -8,8 +9,12 @@ import com.Project_Group2.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -87,4 +92,100 @@ public class UserService {
             session.setAttribute("loggedInUser", updatedUser);
         }
     }
+
+    public Page<User> getAllManagers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findUserByRole_Id(3, pageable);
+    }
+
+    public User addManager(ManagerDTO managerDTO,
+                           RedirectAttributes redirectAttributes) {
+
+        boolean hasError = false;
+
+        if (userRepository.findUserByUsername(managerDTO.getUsername()) != null) {
+            redirectAttributes.addFlashAttribute("error", "Username already exists!");
+            hasError = true;
+        }
+
+        if (userRepository.findUserByEmail(managerDTO.getEmail()) != null) {
+            redirectAttributes.addFlashAttribute("error", "Email already exists!");
+            hasError = true;
+        }
+
+        if (userRepository.findUserByPhoneNumber(managerDTO.getPhone()) != null) {
+            redirectAttributes.addFlashAttribute("error", "Phone number already exists!");
+            hasError = true;
+        }
+
+        if (hasError) {
+            return null;
+        }
+
+        User user = new User();
+        user.setUsername(managerDTO.getUsername());
+        user.setPasswordHash(passwordEncoder.encode(managerDTO.getPassword()));
+        user.setEmail(managerDTO.getEmail());
+        user.setPhoneNumber(managerDTO.getPhone());
+
+        Role defaultRole = roleRepository.findById(3)
+                .orElseThrow(() -> new RuntimeException("Default role not found!"));
+        user.setRole(defaultRole);
+
+        return userRepository.save(user);
+    }
+
+    public User findUserById(int id) {
+        return userRepository.findUserById(id);
+    }
+
+    public User editManager(int id, ManagerDTO managerDTO, RedirectAttributes redirectAttributes) {
+        boolean hasError = false;
+        User currentManager = userRepository.findUserById(id);
+
+        if (currentManager == null) {
+            redirectAttributes.addFlashAttribute("error", "Manager does not exist");
+            return null;
+        }
+
+        if (userRepository.findUserByUsername(managerDTO.getUsername()) != null &&
+                !currentManager.getUsername().equals(managerDTO.getUsername())) {
+            redirectAttributes.addFlashAttribute("error", "Username already exists");
+            hasError = true;
+        }
+
+        if (userRepository.findUserByPhoneNumber(managerDTO.getPhone()) != null &&
+                !currentManager.getPhoneNumber().equals(managerDTO.getPhone())) {
+            redirectAttributes.addFlashAttribute("error", "Phone already exists");
+            hasError = true;
+        }
+
+        if (userRepository.findUserByEmail(managerDTO.getEmail()) != null &&
+                !currentManager.getEmail().equals(managerDTO.getEmail())) {
+            redirectAttributes.addFlashAttribute("error", "Email already exists");
+            hasError = true;
+        }
+
+        if (hasError) {
+            return null;
+        }
+
+        currentManager.setUsername(managerDTO.getUsername());
+        currentManager.setPasswordHash(passwordEncoder.encode(managerDTO.getPassword()));
+        currentManager.setEmail(managerDTO.getEmail());
+        currentManager.setPhoneNumber(managerDTO.getPhone());
+        currentManager.setDeleted(managerDTO.isDeleted());
+        return userRepository.save(currentManager);
+    }
+
+    public Page<User> searchManagers(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return userRepository.findAll(pageable);
+        }
+
+        return userRepository.searchManagers(keyword, pageable);
+    }
+
 }

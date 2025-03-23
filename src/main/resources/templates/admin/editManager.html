@@ -1,0 +1,96 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>
+        Edit Manager
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+<div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <div th:replace="~{admin/fragments/header :: header}"></div>
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="container mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-bold">Edit Manager</h1>
+                    <a onclick="window.location.href='/managerList'"
+                       class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Manager List
+                    </a>
+                </div>
+                <div class="bg-white shadow-md rounded p-6">
+                    <form th:action="@{/editManager}" method="post">
+                        <input type="hidden" th:name="id" th:value="${manager.id}"/>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                                Username
+                            </label>
+                            <input type="text" id="username" name="username"
+                                   class="w-full p-2 border border-gray-300 rounded" placeholder="Enter username"
+                                   th:value="${manager.username}"/>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                                Password
+                            </label>
+                            <div class="relative">
+                                <input type="password" id="password" name="password"
+                                       class="w-full p-2 border border-gray-300 rounded pr-10"
+                                       placeholder="Enter password" th:value="${manager.passwordHash}"/>
+                                <button type="button" onclick="togglePassword('password', 'toggleIcon')"
+                                        class="absolute inset-y-0 right-0 px-3 py-2 text-gray-600">
+                                    <i id="toggleIcon" class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+                                Phone
+                            </label>
+                            <input type="tel" id="phone" name="phone" class="w-full p-2 border border-gray-300 rounded"
+                                   placeholder="Enter phone number" th:value="${manager.phoneNumber}"/>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                                Email
+                            </label>
+                            <input type="email" id="email" name="email"
+                                   class="w-full p-2 border border-gray-300 rounded" placeholder="Enter email"
+                                   th:value="${manager.email}"/>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="deleted">
+                                Status
+                            </label>
+                            <select id="deleted" name="deleted" class="w-full p-2 border border-gray-300 rounded">
+                                <option value="false" th:selected="${!manager.deleted}">Active</option>
+                                <option value="true" th:selected="${manager.deleted}">Deleted</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                <i class="fas fa-save mr-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div th:replace="~{admin/fragments/noti :: noti}"></div>
+</div>
+<div th:replace="~{admin/fragments/script :: script}"></div>
+</body>
+</html>

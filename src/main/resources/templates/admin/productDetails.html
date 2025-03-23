@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>
+        Admin Dashboard - Shoe Store
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+<div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <div th:replace="~{admin/fragments/header :: header}"></div>
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="container mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-semibold">
+                        Product Details
+                    </h1>
+                    <button onclick="window.location.href='/productList'"
+                            class="bg-blue-500 text-white px-4 py-2 rounded flex items-center">
+                        <i class="fas fa-arrow-left mr-2">
+                        </i>
+                        Back to Product List
+                    </button>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex flex-col md:flex-row justify-between">
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-semibold mb-4" th:text="${product.productName}">
+                            </h2>
+                            <p class="text-gray-700 mb-4" th:text="${product.description}">
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 text-right">
+                            <h2 class="text-3xl font-semibold mb-4"
+                                th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}">
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto bg-white rounded-lg shadow mt-6">
+                        <table class="min-w-full bg-white">
+                            <thead>
+                            <tr>
+                                <th class="py-2 px-4 border p-2">
+                                    Image
+                                </th>
+                                <th class="py-2 px-4 border p-2">
+                                    Color
+                                </th>
+                                <th class="py-2 px-4 border p-2">
+                                    Size
+                                </th>
+                                <th class="py-2 px-4 border p-2">
+                                    Quantity
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="variant, iterStat : ${product.getVariants()}">
+                                <tr>
+                                    <td class="py-2 px-4 border p-2">
+                                        <img alt="Product image" class="w-24 h-24 object-cover rounded-lg"
+                                             th:src="${'/' + product.getImages()[iterStat.index % product.getImages().size()].getImageUrl()}"/>
+                                    </td>
+                                    <td class="py-2 px-4 border p-2" th:text="${variant.getColor()}"></td>
+                                    <td class="py-2 px-4 border p-2" th:text="${variant.getSize()}"></td>
+                                    <td class="py-2 px-4 border p-2" th:text="${variant.getQuantityInStock()}"></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div th:replace="~{admin/fragments/noti :: noti}"></div>
+</div>
+<div th:replace="~{admin/fragments/script :: script}"></div>
+</body>
+</html>

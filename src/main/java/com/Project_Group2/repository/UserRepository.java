@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +23,23 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Page<User> findByUsernameLike(String username, Pageable pageable);
 
     User findByUsername(String blogUserName);
+
+    Page<User> findUserByRole_Id(int role_id, Pageable pageable);
+
+    User findUserByUsername(String username);
+
+    User findUserByEmail(String email);
+
+    User findUserByPhoneNumber(String phone);
+
+    User findUserById(int id);
+
+    @Query("SELECT u FROM User u WHERE u.role.id = 3 AND " +
+            "(LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(u.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(CASE WHEN u.isDeleted = false THEN 'active' ELSE 'deleted' END) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR CAST(u.createdAt AS string) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    Page<User> searchManagers(@Param("keyword") String keyword, Pageable pageable);
+
 }

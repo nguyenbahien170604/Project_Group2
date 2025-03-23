@@ -1,0 +1,27 @@
+<aside th:fragment="sidebar" class="w-64 bg-white shadow-md">
+    <nav class="px-4 py-6">
+        <ul class="space-y-4">
+            <li>
+                <a class="flex items-center text-gray-700 hover:text-gray-900" th:href="@{/managerList}">
+                    <i class="fas fa-users mr-3">
+                    </i>
+                    Manager List
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center text-gray-700 hover:text-gray-900" th:href="@{/productList}">
+                    <i class="fas fa-boxes mr-3">
+                    </i>
+                    Product List
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center text-gray-700 hover:text-gray-900" th:href="@{/contactList}">
+                    <i class="fas fa-envelope mr-3">
+                    </i>
+                    Contact List
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>

@@ -1,0 +1,19 @@
+<div th:fragment="noti">
+    <div th:if="${success}"
+         class="alert-fixed fixed top-5 right-5 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-2 animate-fadeIn">
+        <i class="fas fa-check-circle"></i>
+        <span th:text="${success}"></span>
+        <button onclick="this.parentElement.remove()" class="ml-4 text-white">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div th:if="${error}"
+         class="alert-fixed fixed top-5 right-5 bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-2 animate-fadeIn">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}"></span>
+        <button onclick="this.parentElement.remove()" class="ml-4 text-white">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
