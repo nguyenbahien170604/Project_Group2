@@ -12,15 +12,16 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}") // Lấy email gửi đi từ cấu hình
+    @Value("${spring.mail.username}") // Email gửi đi từ cấu hình
     private String senderEmail;
 
-    public void sendEmail( String to, String subject, String message) {
+    public void sendEmail(String fromEmail, String to, String subject, String message) {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(to);
         email.setSubject(subject);
         email.setText(message);
-        email.setFrom(senderEmail);
+        email.setFrom(senderEmail); // Gửi từ hệ thống
+        email.setReplyTo(fromEmail); // Khi admin nhấn "Reply", nó sẽ gửi đến email người dùng
         mailSender.send(email);
     }
 }

@@ -59,7 +59,11 @@
                             </div>
                             <div class="contact-submit-btn">
                                 <button class="submit-btn" type="submit">Send Email</button>
+                                <!-- Thông báo khi gửi email thành công -->
                                 <p class="form-messege" th:if="${successMessage}" th:text="${successMessage}" style="color:green;"></p>
+
+                                <!-- Thông báo lỗi nếu không tìm thấy admin -->
+                                <p class="form-messege" th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
                             </div>
                         </form>
                     </div>

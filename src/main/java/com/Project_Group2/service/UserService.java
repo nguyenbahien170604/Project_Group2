@@ -5,6 +5,7 @@ import com.Project_Group2.entity.Role;
 import com.Project_Group2.entity.User;
 import com.Project_Group2.repository.RoleRepository;
 import com.Project_Group2.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,5 +75,16 @@ public class UserService {
     public void updatePassword(User user, String newPassword) {
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    public void saveUserImg(HttpSession session,User user) {
+        User updatedUser = userRepository.findById(user.getId()).orElse(null);
+        if (updatedUser != null) {
+            updatedUser.setAvatarUrl(user.getAvatarUrl());
+            userRepository.save(updatedUser);
+
+            // Cập nhật lại user trong session
+            session.setAttribute("loggedInUser", updatedUser);
+        }
     }
 }

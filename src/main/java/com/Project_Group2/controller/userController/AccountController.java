@@ -12,9 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.UUID;
 
 @Controller
 public class AccountController {
@@ -23,6 +30,7 @@ public class AccountController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private static final String UPLOAD_DIR = "src/main/resources/static/assets/img/avatar/";
 
     public AccountController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
@@ -110,6 +118,34 @@ public class AccountController {
 
         model.addAttribute("success", "Password updated successfully!");
         return "user/change-password";
+    }
+
+    @PostMapping("/upload-avatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile file, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            // Handle image upload if provided
+            if (!file.isEmpty()) {
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path fileNameAndPath = Paths.get(UPLOAD_DIR, filename);
+                Files.createDirectories(fileNameAndPath.getParent());
+                Files.write(fileNameAndPath, file.getBytes());
+                user.setAvatarUrl("/assets/img/avatar/" + filename);
+            }
+
+            userService.saveUserImg(session,user);
+            redirectAttributes.addFlashAttribute("message", "Blog created successfully!");
+
+            return "redirect:/account";
+
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to upload image: " + e.getMessage());
+            return "redirect:/change-information";
+        }
     }
 
 }

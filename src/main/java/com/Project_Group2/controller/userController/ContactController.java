@@ -1,5 +1,6 @@
 package com.Project_Group2.controller.userController;
 
+
 import com.Project_Group2.entity.User;
 import com.Project_Group2.repository.UserRepository;
 import com.Project_Group2.service.EmailService;
@@ -16,6 +17,7 @@ public class ContactController {
 
     @Autowired
     private EmailService emailService;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -23,22 +25,25 @@ public class ContactController {
     public String sendEmail(
             @RequestParam("name") String firstName,
             @RequestParam("lastname") String lastName,
-            @RequestParam("email") String senderEmail,
+            @RequestParam("email") String senderEmail, // Email người gửi
             @RequestParam("subject") String subject,
             @RequestParam("message") String message,
             Model model) {
 
-        List<User> list = userRepository.findByRole_Id(4L);
-        if (list.isEmpty()) {
+        // Lấy danh sách admin có role_id = 4
+        List<User> admins = userRepository.findByRole_Id(4L);
+        if (admins.isEmpty()) {
             model.addAttribute("errorMessage", "Admin email not found!");
             return "user/contact";
         }
-        User admin = list.get(0);
+        User admin = admins.get(0);
 
-        String fullMessage = "Sender: " + firstName + " " + lastName + "\nEmail: " + senderEmail + "\n\nMessage:\n" + message;
+        // Nội dung email
+        String fullMessage = "Sender: " + firstName + " " + lastName + "\n" +
+                "Email: " + senderEmail + "\n\nMessage:\n" + message;
 
-        // Gửi email từ hệ thống nhưng "Reply-To" là email người dùng nhập
-        emailService.sendEmail(admin.getEmail(), subject, fullMessage);
+        // Gửi email từ hệ thống nhưng "Reply-To" là email người dùng nhập vào
+        emailService.sendEmail(senderEmail, admin.getEmail(), subject, fullMessage);
 
         model.addAttribute("successMessage", "Your message has been sent successfully!");
         return "user/contact";
