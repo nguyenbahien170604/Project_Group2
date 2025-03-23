@@ -1,5 +1,6 @@
 package com.Project_Group2.controller.userController;
 
+import com.Project_Group2.dto.FilterRequest;
 import com.Project_Group2.dto.ProductDTO;
 import com.Project_Group2.entity.*;
 import com.Project_Group2.repository.BrandRepository;
@@ -8,10 +9,9 @@ import com.Project_Group2.repository.ProductRepository;
 import com.Project_Group2.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,4 +106,42 @@ public class ProductController {
 
         return "user/shop";
     }
+
+    @GetMapping("/shopFilter")
+    public String shopFilter(
+            @RequestParam(value = "sizes", required = false) List<String> sizes,
+            @RequestParam(value = "colors", required = false) List<String> colors,
+            @RequestParam(value = "categories", required = false) List<Integer> categories,
+            @RequestParam(value = "brands", required = false) List<Integer> brands,
+            Model model) {
+
+        // Xử lý khi danh sách null hoặc rỗng
+        sizes = (sizes == null || sizes.isEmpty()) ? null : sizes;
+        colors = (colors == null || colors.isEmpty()) ? null : colors;
+        categories = (categories == null || categories.isEmpty()) ? null : categories;
+        brands = (brands == null || brands.isEmpty()) ? null : brands;
+
+        // Debug: In giá trị truyền vào để kiểm tra
+        System.out.println("Sizes: " + sizes);
+        System.out.println("Colors: " + colors);
+        System.out.println("Categories: " + categories);
+        System.out.println("Brands: " + brands);
+
+        // Lọc sản phẩm
+        List<ProductDTO> filteredProducts = productService.filterProducts(sizes, colors, categories, brands);
+
+        // Đưa dữ liệu vào Model
+        model.addAttribute("listProducts", filteredProducts);
+        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("brands", brandRepository.findAll());
+
+        // Giữ trạng thái đã chọn
+        model.addAttribute("sizesSelected", sizes);
+        model.addAttribute("colorsSelected", colors);
+        model.addAttribute("categoriesSelected", categories);
+        model.addAttribute("brandsSelected", brands);
+
+        return "user/shop";
+    }
 }
+

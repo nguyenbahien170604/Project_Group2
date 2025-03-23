@@ -11,10 +11,7 @@ import com.Project_Group2.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,6 +75,27 @@ public class ProductService {
         return products.stream()
                 .map(this::mapToProductDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> filterProducts(List<String> sizes, List<String> colors, List<Integer> categories, List<Integer> brands) {
+        if ((sizes == null || sizes.isEmpty()) &&
+                (colors == null || colors.isEmpty()) &&
+                (categories == null || categories.isEmpty()) &&
+                (brands == null || brands.isEmpty())) {
+            return productRepository.findAll()
+                    .stream()
+                    .map(this::mapToProductDTO)
+                    .collect(Collectors.toList());
+        }
+
+        // Chuyển danh sách rỗng thành NULL để tránh lỗi SQL Server
+        sizes = (sizes == null || sizes.isEmpty()) ? null : sizes;
+        colors = (colors == null || colors.isEmpty()) ? null : colors;
+        categories = (categories == null || categories.isEmpty()) ? null : categories;
+        brands = (brands == null || brands.isEmpty()) ? null : brands;
+
+        List<Product> products = productRepository.findByFilters(sizes, colors, categories, brands);
+        return products.stream().map(this::mapToProductDTO).collect(Collectors.toList());
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {

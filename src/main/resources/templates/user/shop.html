@@ -110,7 +110,7 @@
                                    th:text="${category.categoryName}"></a>
                             </li>
                         </ul>
-                        <h3 class="sidebar-title mt-20">Categories</h3>
+                        <h3 class="sidebar-title mt-20">Brands</h3>
                         <ul class="brand-list">
                             <li th:each="brand : ${brands}">
                                 <a th:href="@{/shopBrand(brandId=${brand.brandId})}"
@@ -123,45 +123,88 @@
                         <div class="sidebar-title">
                             <h2>Filter By</h2>
                         </div>
-                        <!-- btn-clear-all start -->
-                        <button class="btn-clear-all">Clear all</button>
-                        <!-- btn-clear-all end -->
-                        <!-- filter-sub-area start -->
-                        <div class="filter-sub-area">
-                        </div>
-                        <!-- filter-sub-area end -->
-                        <!-- filter-sub-area start -->
+
+                        <!-- Button Clear All -->
+                        <button class="btn-clear-all" onclick="clearAllFilters()">Clear all</button>
+
+                        <!-- Filter by Size -->
                         <div class="filter-sub-area">
                             <h5 class="filter-sub-titel">Size</h5>
                             <div class="size-checkbox">
-                                <form action="#">
-                                    <ul>
-                                        <li><input type="checkbox" name="product-size"><a href="#">S (1)</a></li>
-                                        <li><input type="checkbox" name="product-size"><a href="#">M (4)</a></li>
-                                        <li><input type="checkbox" name="product-size"><a href="#">L (2)</a></li>
-                                    </ul>
-                                </form>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" name="size" value="40" class="filter-option"
+                                               th:checked="${sizesSelected != null and #lists.contains(sizesSelected, '40')}">
+                                        <label>40</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="size" value="41" class="filter-option"
+                                               th:checked="${sizesSelected != null and #lists.contains(sizesSelected, '41')}">
+                                        <label>41</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="size" value="42" class="filter-option"
+                                               th:checked="${sizesSelected != null and #lists.contains(sizesSelected, '42')}">
+                                        <label>42</label>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <!-- filter-sub-area end -->
-                        <!-- filter-sub-area start -->
+
+                        <!-- Filter by Color -->
                         <div class="filter-sub-area">
                             <h5 class="filter-sub-titel">Color</h5>
-                            <div class="color-categoriy">
-                                <form action="#">
-                                    <ul>
-                                        <li><span class="white"></span><a href="#">White (1)</a></li>
-                                        <li><span class="black"></span><a href="#">Black (1)</a></li>
-                                        <li><span class="Orange"></span><a href="#">Orange (3) </a></li>
-                                        <li><span class="Blue"></span><a href="#">Blue (2) </a></li>
-                                    </ul>
-                                </form>
+                            <div class="color-category">
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" name="color" value="White" class="filter-option"
+                                               th:checked="${colorsSelected != null and #lists.contains(colorsSelected, 'White')}">
+                                        <label>White</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="color" value="Black" class="filter-option"
+                                               th:checked="${colorsSelected != null and #lists.contains(colorsSelected, 'Black')}">
+                                        <label>Black</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="color" value="Blue" class="filter-option"
+                                               th:checked="${colorsSelected != null and #lists.contains(colorsSelected, 'Blue')}">
+                                        <label>Blue</label>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <!-- filter-sub-area end -->
-                        <!-- filter-sub-area start -->
-                        <!-- filter-sub-area end -->
+
+                        <!-- Filter by Category -->
+                        <div class="filter-sub-area">
+                            <h5 class="filter-sub-titel">Category</h5>
+                            <div class="category-filter">
+                                <ul>
+                                    <li th:each="category : ${categories}">
+                                        <input type="checkbox" name="category" th:value="${category.categoryId}" class="filter-option"
+                                               th:checked="${categoriesSelected != null and #lists.contains(categoriesSelected, category.categoryId)}">
+                                        <label th:text="${category.categoryName}"></label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Filter by Brand -->
+                        <div class="filter-sub-area">
+                            <h5 class="filter-sub-titel">Brand</h5>
+                            <div class="brand-filter">
+                                <ul>
+                                    <li th:each="brand : ${brands}">
+                                        <input type="checkbox" name="brand" th:value="${brand.brandId}" class="filter-option"
+                                               th:checked="${brandsSelected != null and #lists.contains(brandsSelected, brand.brandId)}">
+                                        <label th:text="${brand.brandName}"></label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-2" onclick="applyFilters()">Apply Filter</button>
                     </div>
+
                     <!--sidebar-categores-box end  -->
 
                     <!-- shop-banner start -->
@@ -539,6 +582,44 @@
 <script th:src="@{/assets/js/plugins.js}"></script>
 <!-- main JS -->
 <script th:src="@{/assets/js/main.js}"></script>
+<script>
+    let debounceTimer; // Biến để lưu timer
+    function clearAllFilters() {
+        window.location.href = "/shopFilter"; 
+    }
+    function applyFilters() {
+        let selectedFilters = {
+            sizes: [],
+            colors: [],
+            categories: [],
+            brands: []
+        };
+
+        document.querySelectorAll('input[name="size"]:checked').forEach(el => {
+            selectedFilters.sizes.push(el.value);
+        });
+
+        document.querySelectorAll('input[name="color"]:checked').forEach(el => {
+            selectedFilters.colors.push(el.value);
+        });
+
+        document.querySelectorAll('input[name="category"]:checked').forEach(el => {
+            selectedFilters.categories.push(parseInt(el.value));
+        });
+
+        document.querySelectorAll('input[name="brand"]:checked').forEach(el => {
+            selectedFilters.brands.push(parseInt(el.value));
+        });
+
+        let queryString = Object.keys(selectedFilters)
+            .filter(key => selectedFilters[key].length > 0)
+            .map(key => selectedFilters[key].map(value => `${key}=${value}`).join("&"))
+            .join("&");
+
+        // Chỉ gửi request khi người dùng nhấn nút "Apply"
+        window.location.href = `/shopFilter?${queryString}`;
+    }
+</script>
 </body>
 
 <!-- Mirrored from htmldemo.net/juta/juta-v1/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Feb 2025 08:19:49 GMT -->
