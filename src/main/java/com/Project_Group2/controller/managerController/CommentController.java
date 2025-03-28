@@ -23,7 +23,7 @@ public class CommentController {
     public String showAllComments(Model model,
                                   @RequestParam(required = false) String keyword,
                                   @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "1") int size) {
+                                  @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Comment> commentPage;
 

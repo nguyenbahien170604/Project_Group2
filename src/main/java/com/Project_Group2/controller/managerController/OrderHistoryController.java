@@ -34,12 +34,20 @@ public class OrderHistoryController {
     }
 
     @GetMapping("/history")
-    public String viewOrderHistory(@RequestParam(defaultValue = "0") int page,
+    public String viewOrderHistory(@RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "5") int size,
+                                   @RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String phone,
                                    Model model, HttpSession session) {
 
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Orders> orderHistoryPage = orderService.getUserOrderHistory(pageable);
+        Page<Orders> orderHistoryPage;
+        if (name != null && !name.isEmpty() || phone != null && !phone.isEmpty()) {
+            orderHistoryPage = orderService.getUserOrderHistory(name, phone, page, size);
+            model.addAttribute("name", name);
+            model.addAttribute("phone", phone);
+        } else {
+            orderHistoryPage = orderService.getAllBlogsWithPagination(page, size);
+        }
         List<Orders> orderList = orderHistoryPage.getContent();
 
         List<OrderStatuses> orderStatuses = orderService.getAllOrderStatuses();

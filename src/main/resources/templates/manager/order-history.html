@@ -61,9 +61,33 @@
                 <div class="w-full mt-5 min-h-screen">
                     <div class="w-full">
                         <div class="bg-white rounded-lg shadow">
-                            <div class="bg-blue-600 text-white p-4 rounded-t-lg flex items-center">
-                                <h4 class="text-lg font-medium m-0"><i class="fas fa-history mr-2"></i>Order List</h4>
+                            <div class="bg-white text-Black p-4 rounded-t-lg flex items-center">
+                                <h3 class="text-lg font-medium m-0"><i class="fas fa-history mr-2"></i>Order List</h3>
                             </div>
+                            <form th:action="@{/orders/history}" method="get" class="flex flex-wrap items-center gap-2 mb-6 ml-3">
+                                <!-- Ô nhập từ khóa -->
+                                <div class="relative flex-1 max-w-sm">
+                                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <input type="text" name="keyword" th:value="${name}"
+                                           placeholder="Tìm kiếm theo từ khóa..."
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
+                                </div>
+
+                                <!-- Ô nhập tiêu đề -->
+                                <div class="relative flex-1 max-w-sm">
+                                    <i class="fas fa-heading absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <input type="text" name="title" th:value="${phone}"
+                                           placeholder="Tìm kiếm theo tiêu đề..."
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
+                                </div>
+
+                                <!-- Nút tìm kiếm -->
+                                <button type="submit"
+                                        class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
+                                    Tìm kiếm
+                                </button>
+                            </form>
+
                             <div class="p-4">
                                 <div th:if="${#lists.isEmpty(orderHistory)}" class="text-center py-12">
                                     <i class="fas fa-shopping-bag text-5xl text-gray-400 mb-3"></i>
@@ -79,8 +103,8 @@
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone number</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail</th>
                                         </tr>
@@ -91,7 +115,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap" th:text="${order.getReceivedName()}"></td>
                                             <td class="px-6 py-4 whitespace-nowrap" th:text="${order.getReceivedAddress()}"></td>
                                             <td class="px-6 py-4 whitespace-nowrap" th:text="${order.getReceivedPhone()}"></td>
-                                            <td class="px-6 py-4 whitespace-nowrap" th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                                            <td class="px-6 py-4 whitespace-nowrap" th:text="${#dates.format(order.createdAt, 'dd/MM/yyyy')}"></td>
                                             <td class="px-6 py-4 whitespace-nowrap" th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <form th:action="@{/orders/update-status}" method="post">

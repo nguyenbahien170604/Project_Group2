@@ -32,13 +32,15 @@ public class BlogController {
     @GetMapping("")
     public String listBlogs(Model model,
                             @RequestParam(defaultValue = "1") int page,
-                            @RequestParam(defaultValue = "2") int size,
+                            @RequestParam(defaultValue = "5") int size,
+                            @RequestParam(required = false) String title,
                             @RequestParam(required = false) String keyword) {
 
         Page<Blog> blogPage;
-        if (keyword != null && !keyword.isEmpty()) {
-            blogPage = blogService.searchBlogs(keyword, page, size);
+        if (keyword != null && !keyword.isEmpty() || title != null && !title.isEmpty()) {
+            blogPage = blogService.searchBlogs(title, keyword, page, size);
             model.addAttribute("keyword", keyword);
+            model.addAttribute("title", title);
         } else {
             blogPage = blogService.getAllBlogsWithPagination(page, size);
         }
@@ -82,10 +84,6 @@ public class BlogController {
                            HttpSession session,
                            RedirectAttributes redirectAttributes) {
 
-//        User currentUser = (User) session.getAttribute("loggedInUser");
-//        if (currentUser == null) {
-//            return "redirect:/login?error=Session+expired+please+login+again";
-//        }
 
         try {
             // Handle image upload if provided
@@ -94,7 +92,7 @@ public class BlogController {
                 Path fileNameAndPath = Paths.get(UPLOAD_DIR, filename);
                 Files.createDirectories(fileNameAndPath.getParent());
                 Files.write(fileNameAndPath, imageFile.getBytes());
-                blogDTO.setBlogImage("/assets/img/blog/" + filename);
+                blogDTO.setBlogImage("assets/img/blog/" + filename);
             }
 
             blogService.saveBlog(blogDTO);
@@ -111,10 +109,10 @@ public class BlogController {
     // Show form to edit a blog
     @GetMapping("/edit/{id}")
     public String showEditBlogForm(@PathVariable("id") int id, Model model, HttpSession session) {
-        User currentUser = (User) session.getAttribute("currentUser");
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
+//        User currentUser = (User) session.getAttribute("currentUser");
+//        if (currentUser == null) {
+//            return "redirect:/login";
+//        }
 
         Blog blog = blogService.getBlogByIdBlog(id);
         if (blog == null) {
@@ -139,10 +137,10 @@ public class BlogController {
                              HttpSession session,
                              RedirectAttributes redirectAttributes) {
 
-        User currentUser = (User) session.getAttribute("currentUser");
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
+//        User currentUser = (User) session.getAttribute("currentUser");
+//        if (currentUser == null) {
+//            return "redirect:/login";
+//        }
 
         Blog existingBlog = blogService.getBlogByIdBlog(id);
         if (existingBlog == null) {
@@ -161,7 +159,7 @@ public class BlogController {
                 Path fileNameAndPath = Paths.get(UPLOAD_DIR, filename);
                 Files.createDirectories(fileNameAndPath.getParent());
                 Files.write(fileNameAndPath, imageFile.getBytes());
-                blogDTO.setBlogImage("/assets/img/blog/" + filename);
+                blogDTO.setBlogImage("assets/img/blog/" + filename);
             } else {
                 // Keep the existing image
                 blogDTO.setBlogImage(existingBlog.getImageUrl());
@@ -184,10 +182,10 @@ public class BlogController {
                              HttpSession session,
                              RedirectAttributes redirectAttributes) {
 
-        User currentUser = (User) session.getAttribute("currentUser");
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
+//        User currentUser = (User) session.getAttribute("currentUser");
+//        if (currentUser == null) {
+//            return "redirect:/login";
+//        }
 
         Blog blog = blogService.getBlogByIdBlog(id);
         if (blog == null) {

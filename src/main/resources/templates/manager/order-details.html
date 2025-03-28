@@ -69,10 +69,10 @@
                 <td>
                   <div class="d-flex align-items-center">
                     <img th:if="${detail.product.images != null && !detail.product.images.isEmpty()}"
-                         th:src="${detail.product.images[0].imageUrl}"
+                         th:src="'/'+${detail.product.images[0].imageUrl}"
                          class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
                     <img th:unless="${detail.product.images != null && !detail.product.images.isEmpty()}"
-                         src="/images/no-image.png"
+                         th:src="'/'+ ${detail.product.images[1].imageUrl}"
                          class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;">
                     <span th:text="${detail.product.productName}"></span>
                   </div>

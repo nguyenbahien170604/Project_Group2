@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,8 +24,13 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
     List<Blog> findByUserId(int userId);
 
     // Search blogs by title or content
-    @Query("SELECT b FROM Blog b WHERE b.isDeleted = false AND (b.title LIKE %?1% OR b.content LIKE %?1% OR b.shortDescription LIKE %?1%)")
-    Page<Blog> searchBlogs(String keyword, Pageable pageable);
+    @Query("SELECT b FROM Blog b WHERE b.isDeleted = false " +
+            "AND (COALESCE(:title, '') = '' OR b.title LIKE CONCAT('%', :title, '%')) " +
+            "AND (COALESCE(:content, '') = '' OR b.content LIKE CONCAT('%', :content, '%')) ")
+    Page<Blog> searchBlogs(@Param("title") String title,
+                           @Param("content") String content,
+                           Pageable pageable);
+
 
     // Find a single blog by id
     @Query("SELECT b FROM Blog b WHERE b.blogId = ?1 AND b.isDeleted = false")

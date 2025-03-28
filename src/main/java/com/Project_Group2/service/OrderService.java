@@ -1,16 +1,15 @@
 package com.Project_Group2.service;
 
-import com.Project_Group2.entity.OrderDetails;
-import com.Project_Group2.entity.OrderStatuses;
-import com.Project_Group2.entity.Orders;
-import com.Project_Group2.entity.User;
+import com.Project_Group2.entity.*;
 import com.Project_Group2.repository.OrderDetailsRepository;
 import com.Project_Group2.repository.OrderRepository;
 import com.Project_Group2.repository.OrderStatusRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -64,8 +63,13 @@ public class OrderService {
     }
 
 
-    public Page<Orders> getUserOrderHistory(Pageable pageable) {
-        return orderRepository.findAllOrderHistory(pageable);
+    public Page<Orders> getUserOrderHistory(String name, String phone, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return orderRepository.findAllOrderHistory(name, phone, pageable);
+    }
+    public Page<Orders> getAllBlogsWithPagination(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo , pageSize, Sort.by("createdAt").descending());
+        return orderRepository.findAllActiveOrder(pageable);
     }
     public Page<Orders> getUserOrderHistory(User user, Pageable pageable) {
         return orderRepository.findByUserAndIsDeletedFalseOrderByCreatedAtDesc(user, pageable);

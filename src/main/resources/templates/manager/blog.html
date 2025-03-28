@@ -70,14 +70,26 @@
                         </a>
                     </div>
 
-                    <form th:action="@{/blogs}" method="get" class="flex mb-6">
+                    <form th:action="@{/blogs}" method="get" class="flex flex-wrap items-center gap-2 mb-6">
+                        <!-- Ô nhập từ khóa -->
                         <div class="relative flex-1 max-w-sm">
-                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" name="keyword" th:value="${keyword}"
-                                   placeholder="Tìm kiếm blog..."
-                                   class="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
+                                   placeholder="Tìm kiếm theo từ nộ dung"
+                                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
                         </div>
-                        <button type="submit" class="btn ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+
+                        <!-- Ô nhập tiêu đề -->
+                        <div class="relative flex-1 max-w-sm">
+                            <i class="fas fa-heading absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" name="title" th:value="${title}"
+                                   placeholder="Tìm kiếm theo tiêu đề."
+                                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
+                        </div>
+
+                        <!-- Nút tìm kiếm -->
+                        <button type="submit"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
                             Tìm kiếm
                         </button>
                     </form>
@@ -100,16 +112,16 @@
                                     <td class="py-3 px-4 text-gray-800" th:text="${blog.getBlogId()}"></td>
                                     <td class="py-3 px-4 gray-200 font-medium text-gray-800" th:text="${blog.title}"></td>
                                     <td class="py-3 px-4 ">
-                                        <img th:src="@{${blog.getImageUrl()}}" alt="Blog Image" class="blog-image shadow">
+                                        <img th:src="'/'+${blog.getImageUrl()}" alt="Blog Image" class="blog-image shadow">
                                     </td>
                                     <td class="py-3 px-4 text-gray-600 truncate-content" th:text="${#strings.abbreviate(blog.content, 100)}"></td>
                                     <td class="py-3 px-4 text-gray-700" th:text="${blog.user.getUsername()}"></td>
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex items-center justify-center space-x-2">
-                                            <a th:href="@{/blogs/{id}(id=${blog.getBlogId()})}"
-                                               class="btn bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 inline-flex items-center">
-                                                <i class="fas fa-eye mr-1"></i> Xem
-                                            </a>
+<!--                                            <a th:href="@{/blogs/{id}(id=${blog.getBlogId()})}"-->
+<!--                                               class="btn bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 inline-flex items-center">-->
+<!--                                                <i class="fas fa-eye mr-1"></i> Xem-->
+<!--                                            </a>-->
                                             <a th:href="@{/blogs/edit/{id}(id=${blog.getBlogId()})}"
                                                class="btn bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 inline-flex items-center">
                                                 <i class="fas fa-edit mr-1"></i> Sửa

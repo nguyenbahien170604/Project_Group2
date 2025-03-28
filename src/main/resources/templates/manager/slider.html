@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -68,17 +68,27 @@
                         </a>
                     </div>
 
-                    <form th:action="@{/blogs}" method="get" class="flex mb-6">
-                        <div class="relative flex-1 max-w-sm">
-                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                            <input type="text" name="keyword" th:value="${keyword}"
-                                   placeholder="Search"
-                                   class="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
-                        </div>
-                        <button type="submit"
-                                class="btn ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                            Search
-                        </button>
+                    <form th:action="@{/sliders}" method="get" class="flex flex-wrap items-center gap-2 mb-6">
+                            <div class="relative flex-1 max-w-sm">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" name="keyword" th:value="${keyword}"
+                                       placeholder="Tìm kiếm theo sản phẩm"
+                                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
+                            </div>
+
+                            <!-- Ô nhập tiêu đề -->
+                            <div class="relative flex-1 max-w-sm">
+                                <i class="fas fa-heading absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" name="title" th:value="${title}"
+                                       placeholder="Tìm kiếm theo tiêu đề"
+                                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent">
+                            </div>
+
+                            <!-- Nút tìm kiếm -->
+                            <button type="submit"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition">
+                                Tìm kiếm
+                            </button>
                     </form>
 
                     <div class="overflow-x-auto bg-white rounded-lg">
@@ -149,7 +159,7 @@
                 <!-- Phân trang -->
                 <nav th:if="${sliderPage.totalPages > 0}" class="flex justify-center mt-6 mb-6">
                     <ul class="flex space-x-1">
-                        <li th:class="${currentPage > 0} ? '' : 'pointer-events-none opacity-50'">
+                        <li th:class="${currentPage > 1} ? '' : 'pointer-events-none opacity-50'">
                             <a class="btn px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 text-gray-700"
                                th:href="@{/sliders(page=${currentPage - 1},size=${sliderPage.size})}">
                                 <i class="fas fa-angle-left"></i>
@@ -159,8 +169,8 @@
                         <li th:each="i : ${#numbers.sequence(0, sliderPage.totalPages - 1)}"
                             th:if="${i > currentPage - 3 && i < currentPage + 3}">
                             <a class="btn px-4 py-2 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-                               th:classappend="${currentPage == i} ? 'active bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700'"
-                               th:href="@{/sliders(page=${i},size=${sliderPage.size})}"
+                               th:classappend="${currentPage == i+1} ? 'active bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700'"
+                               th:href="@{/sliders(page=${i+1},size=${sliderPage.size})}"
                                th:text="${i + 1}"></a>
                         </li>
 

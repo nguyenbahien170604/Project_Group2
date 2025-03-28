@@ -2,6 +2,7 @@ package com.Project_Group2.controller.managerController;
 
 import com.Project_Group2.dto.ProductDTO;
 import com.Project_Group2.dto.SliderDTO;
+import com.Project_Group2.entity.Blog;
 import com.Project_Group2.entity.Slider;
 import com.Project_Group2.service.ProductService;
 import com.Project_Group2.service.SliderService;
@@ -26,9 +27,18 @@ public class SliderController {
 
     @GetMapping
     public String listSliders(@RequestParam(defaultValue = "1") int page,
-                              @RequestParam(defaultValue = "2") int size,
+                              @RequestParam(defaultValue = "5") int size,
+                              @RequestParam(required = false) String title,
+                              @RequestParam(required = false) String keyword,
                               Model model) {
-        Page<Slider> sliderPage = sliderService.getSlidersWithPagination(page, size);
+        Page<Slider> sliderPage;
+        if (keyword != null && !keyword.isEmpty() || title == null || title.trim().isEmpty()) {
+            sliderPage = sliderService.getSlidersWithPagination(title, keyword, page, size);
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("title", title);
+        } else {
+            sliderPage = sliderService.getAllBlogsWithPagination(page, size);
+        }
         model.addAttribute("sliderPage", sliderPage);
         model.addAttribute("currentPage", page);
         return "manager/slider";

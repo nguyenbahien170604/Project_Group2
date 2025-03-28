@@ -121,9 +121,9 @@ public class BlogService {
     }
 
     // Search blogs
-    public Page<Blog> searchBlogs(String keyword, int pageNo, int pageSize) {
+    public Page<Blog> searchBlogs(String title, String keyword, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return blogRepository.searchBlogs(keyword, pageable);
+        return blogRepository.searchBlogs(title, keyword, pageable);
     }
 
     // Get blogs by user id

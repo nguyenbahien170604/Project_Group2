@@ -1,6 +1,7 @@
 package com.Project_Group2.service;
 
 import com.Project_Group2.dto.SliderDTO;
+import com.Project_Group2.entity.Blog;
 import com.Project_Group2.entity.Product;
 import com.Project_Group2.entity.Slider;
 import com.Project_Group2.repository.ProductRepository;
@@ -8,6 +9,8 @@ import com.Project_Group2.repository.SliderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,10 +33,14 @@ public class SliderService {
         return sliderRepository.findTop3ByOrderBySliderIdDesc();
     }
 
-    public Page<Slider> getSlidersWithPagination(int page, int size) {
-        return sliderRepository.findByIsDeletedFalse(PageRequest.of(page, size));
+    public Page<Slider> getSlidersWithPagination(String title, String productName,int page, int size) {
+        return sliderRepository.findByIsDeletedFalse(title, productName, PageRequest.of(page-1, size));
     }
 
+    public Page<Slider> getAllBlogsWithPagination(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo , pageSize, Sort.by("createdAt").descending());
+        return sliderRepository.findAllActiveSlider(pageable);
+    }
     public Optional<Slider> getSliderById(int id) {
         return sliderRepository.findById(id);
     }

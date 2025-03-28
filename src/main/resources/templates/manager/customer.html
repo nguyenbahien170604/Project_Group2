@@ -105,9 +105,9 @@
                                 <th class="py-3 px-4 border-b border-gray-200 font-medium text-gray-700 text-left">
                                     Create At
                                 </th>
-                                <th class="py-3 px-4 border-b border-gray-200 font-medium text-gray-700 text-left">
-                                    Action
-                                </th>
+<!--                                <th class="py-3 px-4 border-b border-gray-200 font-medium text-gray-700 text-left">-->
+<!--                                    Action-->
+<!--                                </th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -118,8 +118,8 @@
                                     <td class="py-3 px-4 text-gray-800" th:text="${customer.email}"></td>
                                     <td class="py-3 px-4 text-gray-800" th:text="${customer.phoneNumber != null ? customer.phoneNumber : 'Không có'}"></td>
                                     <td class="py-3 px-4 text-gray-800" th:text="${customer.address != null ? customer.address : 'Không có'}"></td>
-                                    <td class="py-3 px-4 text-gray-800" th:text="${#temporals.format(customer.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
-                                    <td class="py-3 px-4 text-gray-800" th:text="${customer.getDeleted()}"></td>
+                                    <td class="py-3 px-4 text-gray-800" th:text="${#temporals.format(customer.createdAt, 'dd-MM-yyyy')}"></td>
+<!--                                    <td class="py-3 px-4 text-gray-800" th:text="${customer.getDeleted()}"></td>-->
                                 </tr>
                             </th:block>
                             <!-- Trường hợp không có blog nào -->
@@ -133,15 +133,13 @@
                         </table>
                     </div>
                 </div>
-
-                <!-- Phân trang -->
-                <nav th:if="${customers.totalPages > 0}" class="flex justify-center mt-6 mb-6">
+                <nav class="flex justify-center mt-6 mb-6">
                     <ul class="flex space-x-1">
-                        <!-- Nút trang trước -->
+                        <!-- Nút First/Previous -->
                         <li th:class="${customers.first} ? 'pointer-events-none opacity-50' : ''">
                             <a class="btn px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 text-gray-700"
-                               th:href="@{${#httpServletRequest.requestURI}(page=${customers.number - 1}, size=${customers.size}, searchType=${searchType}, keyword=${keyword})}">
-                                <i class="fas fa-angle-left"></i>
+                               th:href="@{/manager/customers/(page=0, size=${customers.size}, keyword=${keyword}, searchType=${searchType})}">
+                                «
                             </a>
                         </li>
 
@@ -150,15 +148,15 @@
                             th:if="${i > customers.number - 3 && i < customers.number + 3}">
                             <a class="btn px-4 py-2 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                                th:classappend="${i == customers.number} ? 'active bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700'"
-                               th:href="@{${#httpServletRequest.requestURI}(page=${i}, size=${customers.size}, searchType=${searchType}, keyword=${keyword})}"
+                               th:href="@{/manager/customers/(page=${i}, size=${customers.size}, keyword=${keyword}, searchType=${searchType})}"
                                th:text="${i + 1}"></a>
                         </li>
 
-                        <!-- Nút trang sau -->
+                        <!-- Nút Last/Next -->
                         <li th:class="${customers.last} ? 'pointer-events-none opacity-50' : ''">
                             <a class="btn px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 text-gray-700"
-                               th:href="@{${#httpServletRequest.requestURI}(page=${customers.number + 1}, size=${customers.size}, searchType=${searchType}, keyword=${keyword})}">
-                                <i class="fas fa-angle-right"></i>
+                               th:href="@{/manager/customers/(page=${customers.totalPages - 1}, size=${customers.size}, keyword=${keyword}, searchType=${searchType})}">
+                                »
                             </a>
                         </li>
                     </ul>
